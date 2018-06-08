@@ -1,0 +1,197 @@
+version: 2.1
+
+docker_setup: &docker_setup
+  docker:
+    - image: circleci/android:api-28
+
+aliases:
+  - &restore_cache
+    restore_cache:
+      keys:
+        - v2-dependencies-{{ checksum "build.gradle" }}
+        - v2-dependencies-
+  - &save_cache
+    save_cache:
+      paths:
+        - ~/.gradle
+      key: v2-dependencies-{{ checksum "build.gradle" }}
+
+commands:
+  initialize:
+    description: "Checks out code, restores caches, bootstraps the build environment"
+    steps:
+      - checkout
+      - run:
+          name: Bootstrap environment
+          command: pipeline-scripts/bootstrap_env
+      - run:
+          name: Configure Gradle
+          command: configure_gradle
+      - *restore_cache
+
+  run_instrumentation_tests:
+    description: "Run tests in test lab"
+    parameters:
+      test_runner_class:
+        type: string
+        default: com.jeppeman.jetpackplayground.video.MockApplicationTestRunner
+    steps:
+      - initialize
+      - attach_workspace:
+          at: .
+      - run:
+          name: Run instrumentation tests
+          command: |
+            apk_file=app/build/outputs/bundle/debug/app.aab
+            test_apk_file=features/video/build/outputs/apk/androidTest/debug/video-debug-androidTest.apk
+
+            pixel_api28="model=sailfish,version=28"
+
+#            run_tests_in_testlab --apk-file "${apk_file}" \
+#                                 --test-apk-file "${test_apk_file}" \
+#                                 --project android-jetpack-playground \
+#                                 --use-orchestrator true \
+#                                 --device "${pixel_api28}" \
+#                                 --test-runner-class << parameters.test_runner_class >>
+jobs:
+  build_apk_and_bundle:
+    <<: *docker_setup
+    resource_class: medium
+    steps:
+      - initialize
+      - run:
+          name: Build bundle
+          command: ./gradlew assembleDebug bundleRelease
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - video/build/outputs/bundle/debug/*.aab
+            - app/build/outputs/bundle/release/*.aab
+      - *save_cache
+
+  build_test_apk:
+    <<: *docker_setup
+    resource_class: medium
+    steps:
+      - initialize
+      - run:
+          name: Build test apk
+          command: ./gradlew assembleAndroidTest
+      - persist_to_workspace:
+          root: .
+          paths:
+            - features/video/build/outputs/apk/androidTest/debug/*.apk
+      - *save_cache
+
+  lint:
+    <<: *docker_setup
+    resource_class: medium
+    steps:
+      - initialize
+      - run:
+          name: Run Lint
+          command: ./gradlew lint
+      - *save_cache
+
+  run_unit_tests:
+    <<: *docker_setup
+    resource_class: medium
+    steps:
+      - initialize
+      - run:
+          name: Run Tests
+          command: ./gradlew test
+      - *save_cache
+
+  run_instrumentation_tests:
+    <<: *docker_setup
+    steps:
+      - run_instrumentation_tests:
+          test_runner_class: com.jeppeman.jetpackplayground.video.MockApplicationTestRunner
+      - *save_cache
+
+  run_instrumentation_tests_end_to_end:
+    <<: *docker_setup
+    steps:
+      - run_instrumentation_tests:
+          test_runner_class: androidx.test.runner.AndroidJUnitRunner
+      - *save_cache
+
+  release:
+    <<: *docker_setup
+    steps:
+      - initialize
+      - attach_workspace:
+          at: .
+      - run:
+          name: Publish to GitHub
+          command: |
+            bundle_path=app/build/outputs/bundle/release/app.aab
+
+#            github_releases_upload --file-path ${bundle_path} \
+#                                   --repo-name android-jetpack-playground \
+#                                   --version ${CIRCLE_TAG} \
+#                                   --git-commit ${CIRCLE_SHA1} \
+#                                   --apk-name "jetpackplayground-${CIRCLE_TAG}-debug.aar"
+      - *save_cache
+
+workflows:
+  version: 2
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - build_apk_and_bundle:
+          context: Android
+
+      - build_test_apk:
+          context: Android
+
+      - lint:
+          context: Android
+
+      - run_unit_tests:
+          context: Android
+
+      - run_instrumentation_tests_end_to_end:
+          context: Android
+          requires:
+            - build_apk_and_bundle
+            - build_test_apk
+
+  build_test_and_deploy:
+    jobs:
+      - build_apk_and_bundle:
+          context: Android
+
+      - build_test_apk:
+          context: Android
+
+      - lint:
+          context: Android
+
+      - run_unit_tests:
+          context: Android
+
+      - run_instrumentation_tests:
+          context: Android
+          requires:
+            - build_apk_and_bundle
+            - build_test_apk
+
+      - release:
+          context: Android
+          requires:
+            - lint
+            - run_unit_tests
+            - run_instrumentation_tests
+          filters:
+            branches:
+              only:
+                - master

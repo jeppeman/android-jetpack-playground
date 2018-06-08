@@ -1,0 +1,8 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+
+deps[project.name] = [
+        implementation: [
+                deps.kotlin.stdlib
+        ]
+]

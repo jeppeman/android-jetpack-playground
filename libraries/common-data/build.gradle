@@ -1,0 +1,17 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+deps[project.name] = [
+        api : [
+                deps.kotlin.stdlib,
+                deps.okhttp.okhttp,
+                deps.okhttp.logging,
+                deps.dagger.core
+        ],
+        kapt: [
+                deps.dagger.compiler,
+                deps.dagger.android_compiler
+        ]
+]

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -e
+
+mkdir -p ~/.gradle
+
+props="org.gradle.daemon=false\n\
+org.gradle.workers.max=2\n\
+kotlin.incremental=false\n\
+kotlin.compiler.execution.strategy=in-process\n\
+org.gradle.jvmargs=-Xmx3g\n\
+KEYSTORE_PATH=${KEYSTORE_PATH}\n\
+KEYSTORE_PASSWORD=${KEYSTORE_PASSWORD}\n\
+KEY_ALIAS=${KEY_ALIAS}\n\
+KEY_PASSWORD=${KEY_PASSWORD}\n"
+
+printf ${props} > ~/.gradle/gradle.properties

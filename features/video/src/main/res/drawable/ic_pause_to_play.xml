@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector xmlns:android="http://schemas.android.com/apk/res/android"
+            android:width="32dp"
+            android:height="32dp"
+            android:viewportWidth="32"
+            android:viewportHeight="32">
+
+            <group
+                android:name="container"
+                android:pivotX="16"
+                android:pivotY="16"
+                android:rotation="-90">
+                <path
+                    android:name="upper"
+                    android:fillColor="#FFFFFFFF"
+                    android:pathData="M6.688,8 L6.688,13.313 25.312,13.313 25.312,8z" />
+
+                <path
+                    android:name="lower"
+                    android:fillColor="#FFFFFFFF"
+                    android:pathData="M6.688,18.687 L6.688,24 25.312,24 25.312,18.687z" />
+            </group>
+        </vector>
+    </aapt:attr>
+    <target android:name="container">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="300"
+                    android:propertyName="rotation"
+                    android:valueFrom="-90"
+                    android:valueTo="0"
+                    android:valueType="floatType" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="upper">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="300"
+                    android:propertyName="pathData"
+                    android:valueFrom="M6.688,8 L6.688,13.313 25.312,13.313 25.312,8z"
+                    android:valueTo="M10.688,6.688 L10.688,16 25.5,16 25.5,16z"
+                    android:valueType="pathType" />
+            </set>
+        </aapt:attr>
+    </target>
+
+    <target android:name="lower">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="300"
+                    android:propertyName="pathData"
+                    android:valueFrom="M6.688,18.687 L6.688,24 25.312,24 25.312,18.687z"
+                    android:valueTo="M10.688,16 L10.688,25.312 25.5,16 25.5,16z"
+                    android:valueType="pathType" />
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>

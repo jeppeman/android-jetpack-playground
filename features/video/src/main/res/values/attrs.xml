@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ArcView">
+        <attr name="startAngle" format="float" />
+        <attr name="sweepAngle" format="float" />
+        <attr name="strokeWidth" format="dimension" />
+        <attr name="strokeColor" format="color" />
+        <attr name="tailLength" format="dimension" />
+        <attr name="noseLength" format="dimension"/>
+        <attr name="loadingEndAngle" format="float" />
+        <attr name="loadingEndRotation" format="float" />
+    </declare-styleable>
+</resources>

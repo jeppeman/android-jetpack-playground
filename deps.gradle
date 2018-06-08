@@ -1,0 +1,175 @@
+def versions = [
+        kotlin            : '1.3.50',
+        coroutines        : '1.3.2',
+        appcompat         : '1.1.0',
+        annotations       : '1.1.0',
+        androidplugin     : '3.4.1',
+        okhttp            : '4.2.1',
+        lifecycle         : '2.1.0',
+        mockito           : '3.1.0',
+        mockitokotlin     : '2.1.0',
+        robolectric       : '4.3.1',
+        junit             : '1.1.1',
+        truth             : '1.1.0',
+        espresso          : '3.2.0',
+        runner            : '1.2.0',
+        uiautomator       : '2.2.0',
+        versionsplugin    : '0.25.0',
+        navigation        : '1.0.0',
+        material          : '1.1.0-beta01',
+        recyclerview      : '1.0.0',
+        constraintlayout  : '2.0.0-beta2',
+        glide             : '4.10.0',
+        dagger            : '2.24',
+        core              : '1.1.0',
+        moshi             : '1.8.0',
+        fragment          : '1.1.0',
+        fragment_ktx      : '1.1.0',
+        fragment_testing  : '1.1.0',
+        test_core         : '1.2.0',
+        test_runner       : '1.2.0',
+        test_rules        : '1.2.0',
+        navigation_testing: '1.0.0-alpha08',
+        arch_core_testing : '2.1.0',
+        javax_inject      : '1',
+        retrofit          : '2.6.1',
+        timber            : '4.7.1',
+        play              : '1.6.3',
+        exoplayer         : '2.10.6'
+]
+
+ext.versions = versions
+
+def deps = [:]
+
+deps.kotlin = [
+        stdlib: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
+]
+
+deps.appcompat = [
+        appcompat: "androidx.appcompat:appcompat:$versions.appcompat"
+]
+
+deps.annotations = [
+        annotations: "androidx.annotation:annotation:$versions.annotations"
+]
+
+deps.constraintlayout = [
+        constraintlayout: "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
+]
+
+deps.navigation = [
+        fragment: "android.arch.navigation:navigation-fragment-ktx:$versions.navigation",
+        ui      : "android.arch.navigation:navigation-ui-ktx:$versions.navigation",
+        runtime : "android.arch.navigation:navigation-runtime:$versions.navigation"
+]
+
+deps.lifecycle = [
+        livedata    : "androidx.lifecycle:lifecycle-livedata-core:$versions.lifecycle",
+        viewmodel   : "androidx.lifecycle:lifecycle-viewmodel:$versions.lifecycle",
+        viewmodelext: "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
+]
+
+deps.okhttp = [
+        okhttp       : "com.squareup.okhttp3:okhttp:$versions.okhttp",
+        urlconnection: "com.squareup.okhttp3:okhttp-urlconnection:$versions.okhttp",
+        logging      : "com.squareup.okhttp3:logging-interceptor:$versions.okhttp",
+        mockwebserver: "com.squareup.okhttp3:mockwebserver:$versions.okhttp",
+        idling       : "com.jakewharton.espresso:okhttp3-idling-resource:1.0.0"
+]
+
+deps.mockito = [
+        core   : "org.mockito:mockito-core:$versions.mockito",
+        android: "org.mockito:mockito-android:$versions.mockito",
+        kotlin : "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockitokotlin",
+]
+
+deps.test = [
+        junit     : "androidx.test.ext:junit:$versions.junit",
+        truth     : "androidx.test.ext:truth:$versions.truth",
+        runner    : "androidx.test:runner:$versions.test_runner",
+        rules     : "androidx.test:rules:$versions.test_rules",
+        navigation: "android.arch.navigation:navigation-testing:$versions.navigation_testing",
+        arch      : "android.arch.core:core-testing:$versions.arch_core_testing",
+        core      : "androidx.test:core:$versions.test_core",
+        fragment  : "androidx.fragment:fragment-testing:$versions.fragment_testing"
+]
+
+deps.espresso = [
+        core   : "androidx.test.espresso:espresso-core:$versions.espresso",
+        contrib: "androidx.test.espresso:espresso-contrib:$versions.espresso",
+        intents: "androidx.test.espresso:espresso-intents:$versions.espresso",
+        idling : "androidx.test.espresso:espresso-idling-resource:$versions.espresso"
+]
+
+deps.robolectric = [
+        robolectric: "org.robolectric:robolectric:$versions.robolectric"
+]
+
+deps.orchestrator = [
+        orchestrator: "androidx.test:orchestrator:$versions.orchestrator"
+]
+
+deps.coroutines = [
+        core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines",
+        android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines",
+        test   : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines"
+]
+
+deps.core = [
+        ktx: "androidx.core:core-ktx:$versions.core"
+]
+
+deps.dagger = [
+        core            : "com.google.dagger:dagger:$versions.dagger",
+        android         : "com.google.dagger:dagger-android:$versions.dagger",
+        support         : "com.google.dagger:dagger-android-support:$versions.dagger",
+        compiler        : "com.google.dagger:dagger-compiler:$versions.dagger",
+        android_compiler: "com.google.dagger:dagger-android-processor:$versions.dagger"
+]
+
+deps.material = [
+        material: "com.google.android.material:material:$versions.material"
+]
+
+deps.moshi = [
+        moshi: "com.squareup.moshi:moshi-kotlin:$versions.moshi"
+]
+
+deps.fragment = [
+        fragment: "androidx.fragment:fragment:$versions.fragment",
+        ktx     : "androidx.fragment:fragment-ktx:$versions.fragment_ktx"
+]
+
+deps.timber = [
+        timber: "com.jakewharton.timber:timber:$versions.timber",
+]
+
+deps.glide = [
+        core    : "com.github.bumptech.glide:glide:$versions.glide",
+        compiler: "com.github.bumptech.glide:compiler:$versions.glide",
+]
+
+deps.cardview = [
+        cardview: "androidx.cardview:cardview:$versions.cardview"
+]
+
+deps.retrofit = [
+        retrofit       : "com.squareup.retrofit2:retrofit:$versions.retrofit",
+        moshi_converter: "com.squareup.retrofit2:converter-moshi:$versions.retrofit",
+]
+
+deps.javax = [
+        inject: "javax.inject:javax.inject:$versions.javax_inject"
+]
+
+deps.play = [
+        core: "com.google.android.play:core:$versions.play"
+]
+
+deps.exoplayer = [
+        core: "com.google.android.exoplayer:exoplayer-core:$versions.exoplayer",
+        ui  : "com.google.android.exoplayer:exoplayer-ui:$versions.exoplayer"
+]
+
+ext.deps = deps

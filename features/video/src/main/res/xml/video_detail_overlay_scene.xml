@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        app:constraintSetEnd="@+id/end"
+        app:constraintSetStart="@+id/start"
+        app:duration="800">
+
+        <KeyFrameSet>
+            <!-- Begin Volume pop -->
+            <KeyAttribute
+                android:scaleX="0"
+                android:scaleY="0"
+                app:framePosition="15"
+                app:motionTarget="@+id/fullScreenVolume" />
+
+            <KeyAttribute
+                android:scaleX="1.3"
+                android:scaleY="1.3"
+                app:framePosition="20"
+                app:motionTarget="@+id/fullScreenVolume" />
+
+            <KeyAttribute
+                android:scaleX="1"
+                android:scaleY="1"
+                app:framePosition="25"
+                app:motionTarget="@+id/fullScreenVolume" />
+
+            <!-- End Volume pop, Begin fast forward pop -->
+
+            <KeyAttribute
+                android:scaleX="0"
+                android:scaleY="0"
+                app:framePosition="30"
+                app:motionTarget="@+id/fullScreenFastForward" />
+
+            <KeyAttribute
+                android:scaleX="1.3"
+                android:scaleY="1.3"
+                app:framePosition="35"
+                app:motionTarget="@+id/fullScreenFastForward" />
+
+            <KeyAttribute
+                android:scaleX="1"
+                android:scaleY="1"
+                app:framePosition="40"
+                app:motionTarget="@+id/fullScreenFastForward" />
+
+            <!-- End fast forward pop, begin play pop -->
+
+            <KeyAttribute
+                android:scaleX="0"
+                android:scaleY="0"
+                app:framePosition="45"
+                app:motionTarget="@+id/fullScreenPlay" />
+
+            <KeyAttribute
+                android:scaleX="1.3"
+                android:scaleY="1.3"
+                app:framePosition="50"
+                app:motionTarget="@+id/fullScreenPlay" />
+
+            <KeyAttribute
+                android:scaleX="1"
+                android:scaleY="1"
+                app:framePosition="55"
+                app:motionTarget="@+id/fullScreenPlay" />
+
+            <!-- End main pop, begin rewind pop -->
+
+            <KeyAttribute
+                android:scaleX="0"
+                android:scaleY="0"
+                app:framePosition="65"
+                app:motionTarget="@+id/fullScreenRewind" />
+
+            <KeyAttribute
+                android:scaleX="1.3"
+                android:scaleY="1.3"
+                app:framePosition="70"
+                app:motionTarget="@+id/fullScreenRewind" />
+
+            <KeyAttribute
+                android:scaleX="1"
+                android:scaleY="1"
+                app:framePosition="75"
+                app:motionTarget="@+id/fullScreenRewind" />
+
+            <!-- End rewind pop, begin close pop -->
+
+            <KeyAttribute
+                android:scaleX="0"
+                android:scaleY="0"
+                app:framePosition="85"
+                app:motionTarget="@+id/fullScreenClose" />
+
+            <KeyAttribute
+                android:scaleX="1.3"
+                android:scaleY="1.3"
+                app:framePosition="90"
+                app:motionTarget="@+id/fullScreenClose" />
+
+            <KeyAttribute
+                android:scaleX="1"
+                android:scaleY="1"
+                app:framePosition="95"
+                app:motionTarget="@+id/fullScreenClose" />
+
+        </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/overlayBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="@drawable/video_overlay_background" />
+
+        <Constraint
+            android:id="@+id/videoProgress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:paddingTop="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_medium"
+            app:layout_constraintBottom_toBottomOf="@+id/bottomGuide"
+            app:layout_constraintEnd_toEndOf="@+id/videoLengthText"
+            app:layout_constraintStart_toEndOf="@+id/videoLengthText"
+            app:layout_constraintTop_toTopOf="@+id/bottomGuide" />
+
+        <Constraint
+            android:id="@+id/fullScreenClose"
+            android:layout_width="@dimen/video_detail_button_small"
+            android:layout_height="@dimen/video_detail_button_small"
+            android:background="@drawable/video_overlay_button_background"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:src="@drawable/ic_close"
+            app:layout_constraintBottom_toTopOf="@+id/videoProgress"
+            app:layout_constraintEnd_toStartOf="@+id/fullScreenRewind"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fullScreenPlay" />
+
+        <Constraint
+            android:id="@+id/fullScreenPlay"
+            android:layout_width="@dimen/video_detail_button_large"
+            android:layout_height="@dimen/video_detail_button_large"
+            android:background="@drawable/video_overlay_button_background"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:src="@drawable/ic_play_to_pause"
+            app:layout_constraintBottom_toTopOf="@+id/videoProgress"
+            app:layout_constraintEnd_toStartOf="@+id/fullScreenFastForward"
+            app:layout_constraintStart_toEndOf="@+id/fullScreenRewind" />
+
+        <Constraint
+            android:id="@+id/fullScreenRewind"
+            android:layout_width="@dimen/video_detail_button_small"
+            android:layout_height="@dimen/video_detail_button_small"
+            android:background="@drawable/video_overlay_button_background"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:src="@drawable/ic_skip_previous"
+            app:layout_constraintBottom_toTopOf="@+id/videoProgress"
+            app:layout_constraintEnd_toStartOf="@+id/fullScreenPlay"
+            app:layout_constraintStart_toEndOf="@+id/fullScreenClose"
+            app:layout_constraintTop_toTopOf="@+id/fullScreenPlay" />
+
+        <Constraint
+            android:id="@+id/fullScreenFastForward"
+            android:layout_width="@dimen/video_detail_button_small"
+            android:layout_height="@dimen/video_detail_button_small"
+            android:background="@drawable/video_overlay_button_background"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:src="@drawable/ic_skip_next"
+            app:layout_constraintBottom_toTopOf="@+id/videoProgress"
+            app:layout_constraintEnd_toStartOf="@+id/fullScreenVolume"
+            app:layout_constraintStart_toEndOf="@+id/fullScreenPlay"
+            app:layout_constraintTop_toTopOf="@+id/fullScreenPlay" />
+
+        <Constraint
+            android:id="@+id/fullScreenVolume"
+            android:layout_width="@dimen/video_detail_button_small"
+            android:layout_height="@dimen/video_detail_button_small"
+            android:background="@drawable/video_overlay_button_background"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:src="@drawable/ic_volume_on_to_off"
+            app:layout_constraintBottom_toTopOf="@+id/videoProgress"
+            app:layout_constraintEnd_toEndOf="@+id/overlayEndGuide"
+            app:layout_constraintStart_toEndOf="@+id/fullScreenFastForward"
+            app:layout_constraintTop_toTopOf="@+id/fullScreenPlay" />
+
+        <Constraint
+            android:id="@+id/bottomGuide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.9" />
+
+        <Constraint
+            android:id="@+id/currentProgressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:alpha="0"
+            app:layout_constraintBottom_toBottomOf="@+id/videoProgress"
+            app:layout_constraintEnd_toStartOf="@+id/videoProgress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/videoProgress" />
+
+        <Constraint
+            android:id="@+id/videoLengthText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:alpha="0"
+            app:layout_constraintBottom_toBottomOf="@+id/videoProgress"
+            app:layout_constraintEnd_toEndOf="@+id/overlayEndGuide"
+            app:layout_constraintTop_toTopOf="@+id/videoProgress" />
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/overlayBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/video_overlay_background" />
+
+        <Constraint
+            android:id="@+id/videoProgress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_medium"
+            app:layout_constraintBottom_toBottomOf="@+id/bottomGuide"
+            app:layout_constraintEnd_toStartOf="@+id/videoLengthText"
+            app:layout_constraintStart_toEndOf="@+id/currentProgressText"
+            app:layout_constraintTop_toTopOf="@+id/bottomGuide" />
+
+        <Constraint
+            android:id="@+id/fullScreenClose"
+            android:layout_width="@dimen/video_detail_button_small"
+            android:layout_height="@dimen/video_detail_button_small"
+            android:background="@drawable/video_overlay_button_background"
+            android:src="@drawable/ic_close"
+            app:layout_constraintBottom_toTopOf="@+id/videoProgress"
+            app:layout_constraintEnd_toStartOf="@+id/fullScreenRewind"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fullScreenPlay" />
+
+        <Constraint
+            android:id="@+id/fullScreenPlay"
+            android:layout_width="@dimen/video_detail_button_large"
+            android:layout_height="@dimen/video_detail_button_large"
+            android:background="@drawable/video_overlay_button_background"
+            android:src="@drawable/ic_play_to_pause"
+            app:layout_constraintBottom_toTopOf="@+id/videoProgress"
+            app:layout_constraintEnd_toStartOf="@+id/fullScreenFastForward"
+            app:layout_constraintStart_toEndOf="@+id/fullScreenRewind" />
+
+        <Constraint
+            android:id="@+id/fullScreenRewind"
+            android:layout_width="@dimen/video_detail_button_small"
+            android:layout_height="@dimen/video_detail_button_small"
+            android:background="@drawable/video_overlay_button_background"
+            android:src="@drawable/ic_skip_previous"
+            app:layout_constraintBottom_toTopOf="@+id/videoProgress"
+            app:layout_constraintEnd_toStartOf="@+id/fullScreenPlay"
+            app:layout_constraintStart_toEndOf="@+id/fullScreenClose"
+            app:layout_constraintTop_toTopOf="@+id/fullScreenPlay" />
+
+        <Constraint
+            android:id="@+id/fullScreenFastForward"
+            android:layout_width="@dimen/video_detail_button_small"
+            android:layout_height="@dimen/video_detail_button_small"
+            android:background="@drawable/video_overlay_button_background"
+            android:src="@drawable/ic_skip_next"
+            app:layout_constraintBottom_toTopOf="@+id/videoProgress"
+            app:layout_constraintEnd_toStartOf="@+id/fullScreenVolume"
+            app:layout_constraintStart_toEndOf="@+id/fullScreenPlay"
+            app:layout_constraintTop_toTopOf="@+id/fullScreenPlay" />
+
+        <Constraint
+            android:id="@+id/fullScreenVolume"
+            android:layout_width="@dimen/video_detail_button_small"
+            android:layout_height="@dimen/video_detail_button_small"
+            android:background="@drawable/video_overlay_button_background"
+            android:src="@drawable/ic_volume_on_to_off"
+            app:layout_constraintBottom_toTopOf="@+id/videoProgress"
+            app:layout_constraintEnd_toEndOf="@+id/overlayEndGuide"
+            app:layout_constraintStart_toEndOf="@+id/fullScreenFastForward"
+            app:layout_constraintTop_toTopOf="@+id/fullScreenPlay" />
+
+        <Constraint
+            android:id="@+id/bottomGuide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.9" />
+
+        <Constraint
+            android:id="@+id/currentProgressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            app:layout_constraintBottom_toBottomOf="@+id/videoProgress"
+            app:layout_constraintEnd_toStartOf="@+id/videoProgress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/videoProgress" />
+
+        <Constraint
+            android:id="@+id/videoLengthText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_medium"
+            app:layout_constraintBottom_toBottomOf="@+id/videoProgress"
+            app:layout_constraintEnd_toEndOf="@+id/overlayEndGuide"
+            app:layout_constraintStart_toEndOf="@+id/videoProgress"
+            app:layout_constraintTop_toTopOf="@+id/videoProgress" />
+
+    </ConstraintSet>
+
+</MotionScene>

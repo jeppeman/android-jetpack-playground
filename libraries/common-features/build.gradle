@@ -1,0 +1,13 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+deps[project.name] = [
+        implementation: [
+                deps.appcompat.appcompat,
+                deps.kotlin.stdlib,
+                deps.play.core,
+                deps.okhttp.okhttp,
+                deps.coroutines.core
+        ]
+]

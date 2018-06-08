@@ -1,0 +1,7 @@
+include ':app',
+        ':features:video',
+        ':features:home',
+        ':libraries:common-presentation',
+        ':libraries:common-domain',
+        ':libraries:common-data',
+        ':libraries:common-features'

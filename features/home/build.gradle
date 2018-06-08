@@ -1,0 +1,45 @@
+apply plugin: 'com.android.dynamic-feature'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+deps[project.name] = [
+        implementation           : [
+                project(':app')
+        ],
+        kapt                     : [
+                deps.dagger.compiler,
+                deps.dagger.android_compiler
+        ],
+        testImplementation       : [
+                deps.test.junit,
+                deps.test.truth,
+                deps.test.runner,
+                deps.test.rules,
+                deps.test.navigation,
+                deps.test.arch,
+                deps.robolectric.robolectric,
+                deps.coroutines.test,
+                deps.mockito.core,
+                deps.mockito.kotlin,
+                deps.espresso.core,
+                deps.espresso.contrib,
+                deps.espresso.intents,
+                deps.espresso.idling
+        ],
+        androidTestImplementation: [
+                deps.test.junit,
+                deps.test.truth,
+                deps.test.runner,
+                deps.test.rules,
+                deps.test.navigation,
+                deps.mockito.core,
+                deps.mockito.kotlin,
+                deps.mockito.android,
+                deps.espresso.core,
+                deps.espresso.contrib,
+                deps.espresso.intents,
+                deps.espresso.idling,
+                project(':app')
+        ]
+]

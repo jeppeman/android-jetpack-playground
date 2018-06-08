@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">JetpackPlayground</string>
+    <string name="install_dialog_title">Feature: %s</string>
+    <string name="install_dialog_step_downloading">Downloading…</string>
+    <string name="install_dialog_installing">Installing…</string>
+    <string name="install_dialog_failed">Failed to install, error: %s</string>
+    <string name="install_dialog_installed">Installed successfully</string>
+</resources>

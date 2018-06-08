@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+
+        <vector
+            android:width="32dp"
+            android:height="34.46154dp"
+            android:viewportWidth="40"
+            android:viewportHeight="40">
+            <path
+                android:fillColor="@color/bottom_navigation_item_drawable"
+                android:pathData="M29,25.5v7.5c0,0.547 -0.453,1 -1,1h-6v-6h-4v6h-6c-0.547,0 -1,-0.453 -1,-1v-7.5c0,-0.031 0.016,-0.063 0.016,-0.094l8.984,-7.406 8.984,7.406c0.016,0.031 0.016,0.063 0.016,0.094zM32.484,24.422l-0.969,1.156c-0.078,0.094 -0.203,0.156 -0.328,0.172h-0.047c-0.125,0 -0.234,-0.031 -0.328,-0.109l-10.813,-9.016 -10.813,9.016c-0.109,0.078 -0.234,0.125 -0.375,0.109 -0.125,-0.016 -0.25,-0.078 -0.328,-0.172l-0.969,-1.156c-0.172,-0.203 -0.141,-0.531 0.063,-0.703l11.234,-9.359c0.656,-0.547 1.719,-0.547 2.375,0l3.813,3.187v-3.047c0,-0.281 0.219,-0.5 0.5,-0.5h3c0.281,0 0.5,0.219 0.5,0.5v6.375l3.422,2.844c0.203,0.172 0.234,0.5 0.063,0.703z" />
+            <path
+                android:name="first"
+                android:fillColor="@color/bottom_navigation_item_drawable"
+                android:pathData="
+                    M 25.9, 16
+                    a 0.1,0.1 0 1,0 0.2,0
+                    a 0.1,0.1 0 1,0 -0.2,0
+                    " />
+            <path
+                android:name="second"
+                android:fillColor="@color/bottom_navigation_item_drawable"
+                android:pathData="
+                    M 25.9, 16
+                    a 0.1,0.1 0 1,0 0.2,0
+                    a 0.1,0.1 0 1,0 -0.2,0
+                    " />
+            <path
+                android:name="third"
+                android:fillColor="@color/bottom_navigation_item_drawable"
+                android:pathData="
+                    M 25.9, 16
+                    a 0.1,0.1 0 1,0 0.2,0
+                    a 0.1,0.1 0 1,0 -0.2,0
+                    " />
+            <path
+                android:name="fourth"
+                android:fillColor="@color/bottom_navigation_item_drawable"
+                android:pathData="
+                    M 25.9, 16
+                    a 0.1,0.1 0 1,0 0.2,0
+                    a 0.1,0.1 0 1,0 -0.2,0
+                    " />
+            <path
+                android:name="fifth"
+                android:fillColor="@color/bottom_navigation_item_drawable"
+                android:pathData="
+                    M 25.9, 16
+                    a 0.1,0.1 0 1,0 0.2,0
+                    a 0.1,0.1 0 1,0 -0.2,0
+                    " />
+        </vector>
+    </aapt:attr>
+    <target android:name="first">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:valueFrom="
+                    M 25.9, 16
+                    a 0.1,0.1 0 1,0 0.2,0
+                    a 0.1,0.1 0 1,0 -0.2,0
+                    "
+                    android:valueTo="
+                    M 25.9, 12
+                    a 1,1 0 1,0 2,0
+                    a 1,1 0 1,0 -2,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:valueFrom="1"
+                    android:valueTo="0.8"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="600"
+                    android:valueFrom="
+                    M 25.9, 12
+                    a 1,1 0 1,0 2,0
+                    a 1,1 0 1,0 -2,0
+                    "
+                    android:valueTo="
+                    M 26.5, 9.1
+                    a 1.5,1.5 0 1,0 3,0
+                    a 1.5,1.5 0 1,0 -3,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="600"
+                    android:valueFrom="0.8"
+                    android:valueTo="0.6"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="1200"
+                    android:valueFrom="
+                    M 26.5, 9.1
+                    a 1.5,1.5 0 1,0 3,0
+                    a 1.5,1.5 0 1,0 -3,0
+                    "
+                    android:valueTo="
+                    M 27.9, 6.9
+                    a 2,2 0 1,0 4,0
+                    a 2,2 0 1,0 -4,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="1200"
+                    android:valueFrom="0.6"
+                    android:valueTo="0.4"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="1800"
+                    android:valueFrom="
+                    M 27.9, 6.9
+                    a 2,2 0 1,0 4,0
+                    a 2,2 0 1,0 -4,0
+                    "
+                    android:valueTo="
+                    M 31.9, 4.9
+                    a 2.4,2.4 0 1,0 4.8,0
+                    a 2.4,2.4 0 1,0 -4.8,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="1800"
+                    android:valueFrom="0.4"
+                    android:valueTo="0.2"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="2400"
+                    android:valueFrom="
+                    M 31.9, 4.9
+                    a 2.4,2.4 0 1,0 4.8,0
+                    a 2.4,2.4 0 1,0 -4.8,0
+                    "
+                    android:valueTo="
+                    M 40, 4
+                    a 2.4,2.4 0 1,0 4.8,0
+                    a 2.4,2.4 0 1,0 -4.8,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="2400"
+                    android:valueFrom="0.2"
+                    android:valueTo="0.0"
+                    android:valueType="floatType" />
+            </set>
+        </aapt:attr>
+    </target>
+
+    <target android:name="second">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="200"
+                    android:valueFrom="1"
+                    android:valueTo="0.8"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="800"
+                    android:valueFrom="0.8"
+                    android:valueTo="0.6"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="1400"
+                    android:valueFrom="0.6"
+                    android:valueTo="0.4"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="2000"
+                    android:valueFrom="0.4"
+                    android:valueTo="0.2"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="2600"
+                    android:valueFrom="0.2"
+                    android:valueTo="0.0"
+                    android:valueType="floatType" />
+
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="200"
+                    android:valueFrom="
+                    M 25.9, 16
+                    a 0.1,0.1 0 1,0 0.2,0
+                    a 0.1,0.1 0 1,0 -0.2,0
+                    "
+                    android:valueTo="
+                    M 25.9, 12
+                    a 1,1 0 1,0 2,0
+                    a 1,1 0 1,0 -2,0
+                    "
+                    android:valueType="pathType" />
+
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="800"
+                    android:valueFrom="
+                    M 25.9, 12
+                    a 1,1 0 1,0 2,0
+                    a 1,1 0 1,0 -2,0
+                    "
+                    android:valueTo="
+                    M 26.5, 9.1
+                    a 1.5,1.5 0 1,0 3,0
+                    a 1.5,1.5 0 1,0 -3,0
+                    "
+                    android:valueType="pathType" />
+
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="1400"
+                    android:valueFrom="
+                    M 26.5, 9.1
+                    a 1.5,1.5 0 1,0 3,0
+                    a 1.5,1.5 0 1,0 -3,0
+                    "
+                    android:valueTo="
+                    M 27.9, 6.9
+                    a 2,2 0 1,0 4,0
+                    a 2,2 0 1,0 -4,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="2000"
+                    android:valueFrom="
+                    M 27.9, 6.9
+                    a 2,2 0 1,0 4,0
+                    a 2,2 0 1,0 -4,0
+                    "
+                    android:valueTo="
+                    M 31.9, 4.9
+                    a 2.4,2.4 0 1,0 4.8,0
+                    a 2.4,2.4 0 1,0 -4.8,0
+                    "
+                    android:valueType="pathType" />
+
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="2600"
+                    android:valueFrom="
+                    M 31.9, 4.9
+                    a 2.4,2.4 0 1,0 4.8,0
+                    a 2.4,2.4 0 1,0 -4.8,0
+                    "
+                    android:valueTo="
+                    M 40, 4
+                    a 2.4,2.4 0 1,0 4.8,0
+                    a 2.4,2.4 0 1,0 -4.8,0
+                    "
+                    android:valueType="pathType" />
+
+            </set>
+        </aapt:attr>
+    </target>
+
+    <target android:name="third">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="800"
+                    android:valueFrom="
+                    M 25.9, 16
+                    a 0.1,0.1 0 1,0 0.2,0
+                    a 0.1,0.1 0 1,0 -0.2,0
+                    "
+                    android:valueTo="
+                    M 25.9, 12
+                    a 1,1 0 1,0 2,0
+                    a 1,1 0 1,0 -2,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="800"
+                    android:valueFrom="1"
+                    android:valueTo="0.8"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="1400"
+                    android:valueFrom="
+                    M 25.9, 12
+                    a 1,1 0 1,0 2,0
+                    a 1,1 0 1,0 -2,0
+                    "
+                    android:valueTo="
+                    M 26.5, 9.1
+                    a 1.5,1.5 0 1,0 3,0
+                    a 1.5,1.5 0 1,0 -3,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="1400"
+                    android:valueFrom="0.8"
+                    android:valueTo="0.6"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="2000"
+                    android:valueFrom="
+                    M 26.5, 9.1
+                    a 1.5,1.5 0 1,0 3,0
+                    a 1.5,1.5 0 1,0 -3,0
+                    "
+                    android:valueTo="
+                    M 27.9, 6.9
+                    a 2,2 0 1,0 4,0
+                    a 2,2 0 1,0 -4,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="2000"
+                    android:valueFrom="0.6"
+                    android:valueTo="0.4"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="2600"
+                    android:valueFrom="
+                    M 27.9, 6.9
+                    a 2,2 0 1,0 4,0
+                    a 2,2 0 1,0 -4,0
+                    "
+                    android:valueTo="
+                    M 31.9, 4.9
+                    a 2.4,2.4 0 1,0 4.8,0
+                    a 2.4,2.4 0 1,0 -4.8,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="2600"
+                    android:valueFrom="0.4"
+                    android:valueTo="0.2"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="3200"
+                    android:valueFrom="
+                    M 31.9, 4.9
+                    a 2.4,2.4 0 1,0 4.8,0
+                    a 2.4,2.4 0 1,0 -4.8,0
+                    "
+                    android:valueTo="
+                    M 40, 4
+                    a 2.4,2.4 0 1,0 4.8,0
+                    a 2.4,2.4 0 1,0 -4.8,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="3000"
+                    android:valueFrom="0.2"
+                    android:valueTo="0"
+                    android:valueType="floatType" />
+            </set>
+        </aapt:attr>
+    </target>
+
+    <target android:name="fourth">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="1300"
+                    android:valueFrom="1"
+                    android:valueTo="0.8"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="1900"
+                    android:valueFrom="0.8"
+                    android:valueTo="0.6"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="1400"
+                    android:valueFrom="0.6"
+                    android:valueTo="0.4"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="2500"
+                    android:valueFrom="0.4"
+                    android:valueTo="0.2"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="3100"
+                    android:valueFrom="0.2"
+                    android:valueTo="0.0"
+                    android:valueType="floatType" />
+
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="1300"
+                    android:valueFrom="
+                    M 25.9, 16
+                    a 0.1,0.1 0 1,0 0.2,0
+                    a 0.1,0.1 0 1,0 -0.2,0
+                    "
+                    android:valueTo="
+                    M 25.9, 12
+                    a 1,1 0 1,0 2,0
+                    a 1,1 0 1,0 -2,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="1900"
+                    android:valueFrom="
+                    M 25.9, 12
+                    a 1,1 0 1,0 2,0
+                    a 1,1 0 1,0 -2,0
+                    "
+                    android:valueTo="
+                    M 26.5, 9.1
+                    a 1.5,1.5 0 1,0 3,0
+                    a 1.5,1.5 0 1,0 -3,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="2500"
+                    android:valueFrom="
+                    M 26.5, 9.1
+                    a 1.5,1.5 0 1,0 3,0
+                    a 1.5,1.5 0 1,0 -3,0
+                    "
+                    android:valueTo="
+                    M 27.9, 6.9
+                    a 2,2 0 1,0 4,0
+                    a 2,2 0 1,0 -4,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="3100"
+                    android:valueFrom="
+                    M 27.9, 6.9
+                    a 2,2 0 1,0 4,0
+                    a 2,2 0 1,0 -4,0
+                    "
+                    android:valueTo="
+                    M 31.9, 4.9
+                    a 2.4,2.4 0 1,0 4.8,0
+                    a 2.4,2.4 0 1,0 -4.8,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="3700"
+                    android:valueFrom="
+                    M 31.9, 4.9
+                    a 2.4,2.4 0 1,0 4.8,0
+                    a 2.4,2.4 0 1,0 -4.8,0
+                    "
+                    android:valueTo="
+                    M 40, 4
+                    a 2.4,2.4 0 1,0 4.8,0
+                    a 2.4,2.4 0 1,0 -4.8,0
+                    "
+                    android:valueType="pathType" />
+            </set>
+        </aapt:attr>
+    </target>
+
+    <target android:name="fifth">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="1600"
+                    android:valueFrom="1"
+                    android:valueTo="0.8"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="2200"
+                    android:valueFrom="0.8"
+                    android:valueTo="0.6"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="2800"
+                    android:valueFrom="0.6"
+                    android:valueTo="0.4"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="3400"
+                    android:valueFrom="0.4"
+                    android:valueTo="0.2"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="fillAlpha"
+                    android:startOffset="4000"
+                    android:valueFrom="0.2"
+                    android:valueTo="0.0"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="1600"
+                    android:valueFrom="
+                    M 25.9, 16
+                    a 0.1,0.1 0 1,0 0.2,0
+                    a 0.1,0.1 0 1,0 -0.2,0
+                    "
+                    android:valueTo="
+                    M 25.9, 12
+                    a 1,1 0 1,0 2,0
+                    a 1,1 0 1,0 -2,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="2200"
+                    android:valueFrom="
+                    M 25.9, 12
+                    a 1,1 0 1,0 2,0
+                    a 1,1 0 1,0 -2,0
+                    "
+                    android:valueTo="
+                    M 26.5, 9.1
+                    a 1.5,1.5 0 1,0 3,0
+                    a 1.5,1.5 0 1,0 -3,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="2800"
+                    android:valueFrom="
+                    M 26.5, 9.1
+                    a 1.5,1.5 0 1,0 3,0
+                    a 1.5,1.5 0 1,0 -3,0
+                    "
+                    android:valueTo="
+                    M 27.9, 6.9
+                    a 2,2 0 1,0 4,0
+                    a 2,2 0 1,0 -4,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="3400"
+                    android:valueFrom="
+                    M 27.9, 6.9
+                    a 2,2 0 1,0 4,0
+                    a 2,2 0 1,0 -4,0
+                    "
+                    android:valueTo="
+                    M 31.9, 4.9
+                    a 2.4,2.4 0 1,0 4.8,0
+                    a 2.4,2.4 0 1,0 -4.8,0
+                    "
+                    android:valueType="pathType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:propertyName="pathData"
+                    android:startOffset="4000"
+                    android:valueFrom="
+                    M 31.9, 4.9
+                    a 2.4,2.4 0 1,0 4.8,0
+                    a 2.4,2.4 0 1,0 -4.8,0
+                    "
+                    android:valueTo="
+                    M 40, 4
+                    a 2.4,2.4 0 1,0 4.8,0
+                    a 2.4,2.4 0 1,0 -4.8,0
+                    "
+                    android:valueType="pathType" />
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>
