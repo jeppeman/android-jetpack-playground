@@ -15,7 +15,14 @@ Single activity setup with dynamic feature modules
 
 MotionLayout
 ---
-Below are a few silly animations from the project that showcases MotionLayout, click to watch with better quality on YouTube.
+This is a really nice tool, complex animations can be created in a fairly simple and declarative way.
+The editor is also available in the latest canary version of Android Studio, that should help with a
+lot of the pain points right now, such as the slow workflow when declaring KeyFrames. Not sure
+if it is worth investing that much time into this tool given that it doesn't seem to be very compatible
+with Jetpack Compose (which appears to be the future), then again, I'm sure that is something they're
+aware of at Google and are trying to solve given how much time and resources they've seem to have
+poured in to this.
+Below are a few silly animations from the project that showcases MotionLayout.
 
 <a target="_blank" href="https://www.youtube.com/watch?v=wGbnyM_hJSQ"><img src="https://raw.githubusercontent.com/jeppeman/jetpackplayground-media/master/loader.gif" width="224" height="400" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="https://www.youtube.com/watch?v=mcBy2lza8zM"><img src="https://raw.githubusercontent.com/jeppeman/jetpackplayground-media/master/fullscreen.gif" width="224" height="400" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="https://www.youtube.com/watch?v=UZVqhDmo8M4"><img src="https://raw.githubusercontent.com/jeppeman/jetpackplayground-media/master/panel.gif" width="224" height="400" /></a>
 
