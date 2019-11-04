@@ -11,7 +11,11 @@ Some areas of exploration:
 
 Single activity setup with dynamic feature modules
 ---
+With dynamic features, and feature modularisation in general on Android, the most common pattern for top level navigation seems to be firing intents in on one way or another: implicitly, manually declaring the fully qualified name of the activity class, or app links. This makes sense in most cases and allows for nice decoupling, however, I wanted to see if the top level navigation from dynamic feature to dynamic feature could be fragment based, that is, having a single activity application and the UI entry point to each dynamic feature be a fragment. This would allow for a more seamless user experience as we could take full control over the transitions from screen to screen. Below is a gif of how it turned out:
+
 <img src="https://raw.githubusercontent.com/jeppeman/jetpackplayground-media/master/dynamic_install.gif" width="224" height="400" />
+
+When we try to navigate to the Video feature we detect that it is not installed, we therefore install it and immediately after navigate to it by gaining access to it's UI entry point.
 
 MotionLayout
 ---
