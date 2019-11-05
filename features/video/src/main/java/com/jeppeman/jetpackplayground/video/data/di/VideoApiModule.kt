@@ -13,7 +13,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 @Module
-object NetModule {
+object VideoApiModule {
     @JvmStatic
     @Provides
     @VideoScope

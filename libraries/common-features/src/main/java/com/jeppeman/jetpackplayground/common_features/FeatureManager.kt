@@ -2,9 +2,6 @@ package com.jeppeman.jetpackplayground.common_features
 
 import android.content.Context
 import android.content.IntentSender
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
