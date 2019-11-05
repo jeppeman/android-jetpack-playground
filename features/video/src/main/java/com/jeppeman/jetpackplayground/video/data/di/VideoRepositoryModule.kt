@@ -8,7 +8,7 @@ import dagger.Module
 import javax.inject.Singleton
 
 @Module
-abstract class RepositoryModule {
+abstract class VideoRepositoryModule {
     @Binds
     @VideoScope
     abstract fun bindVideoRepository(videoRepositoryImpl: VideoRepositoryImpl): VideoRepository
