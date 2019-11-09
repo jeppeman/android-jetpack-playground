@@ -162,7 +162,7 @@ Then we pass this object to the `FeatureManager#getFeature` method like this, `f
 App links will unfortunately break if they are declared for an activity in the manifest of a dynamic feature module and the feature is not yet installed; the declaration gets merged into the main manifest but the activity class is not present in the base APK, opening a link pointing to that activity will therefore result in a `ClassNotFoundException`. To work around this we can have a single entry point from which we launch app links, and from there do the routing to a feature based on the url. In this project I have a class called <a href="https://github.com/jeppeman/android-jetpack-playground/blob/master/app/src/main/java/com/jeppeman/jetpackplayground/applinks/AppLinkActivity.kt">`AppLinkActivity`</a> where this is handled.
 The result is displayed in the gif below:
 
-<img src="https://raw.githubusercontent.com/jeppeman/jetpackplayground-media/master/dynamic_install.gif" width="224" height="400" />
+<img src="https://raw.githubusercontent.com/jeppeman/jetpackplayground-media/master/app_links.gif" width="224" height="400" />
 
 MotionLayout
 ---
