@@ -17,21 +17,14 @@ object MainModule {
     @IntoMap
     @JvmStatic
     @ViewModelKey(MainViewModelImpl::class)
-    fun provideMainActivityViewModelIntoMap(mainActivityViewModel: MainViewModelImpl): ViewModel =
+    fun provideMainViewModelIntoMap(mainActivityViewModel: MainViewModelImpl): ViewModel =
             mainActivityViewModel
 
     @Provides
     @JvmStatic
-    fun provideMainActivityViewModel(
+    fun provideMainViewModel(
             mainActivity: MainActivity,
             viewModelFactory: ViewModelFactory
     ): MainViewModel =
             ViewModelProviders.of(mainActivity, viewModelFactory)[MainViewModelImpl::class.java]
-
-    @Module
-    interface Contributor {
-        @ContributesAndroidInjector
-        @FragmentScope
-        fun contributeInstallDialogFragment(): InstallDialogFragment
-    }
 }

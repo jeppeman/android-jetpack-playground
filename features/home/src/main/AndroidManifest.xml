@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.jeppeman.jetpackplayground.home">
 
+    <application tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <activity android:name=".presentation.HomeActivity" />
+    </application>
+
     <dist:module
         dist:instant="false"
         dist:title="@string/title_feature_home">

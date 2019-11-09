@@ -1,6 +1,4 @@
-buildscript { 
-    ext.kotlin_version = '1.3.50'
-
+buildscript {
     apply from: 'deps.gradle'
 
     repositories {
@@ -13,7 +11,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
         classpath "com.github.ben-manes:gradle-versions-plugin:$versions.versionsplugin"
         classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:$versions.navigation"
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" }
+    }
 }
 
 ext {
@@ -21,7 +19,7 @@ ext {
     targetSdkVersion = 28
     compileSdkVersion = 28
     buildToolsVersion = "28.0.3"
-    androidVersionCode = 14
+    androidVersionCode = 20
     androidVersionName = "1.0"
     sourceCompatibilityVersion = JavaVersion.VERSION_1_8
     targetCompatibilityVersion = JavaVersion.VERSION_1_8

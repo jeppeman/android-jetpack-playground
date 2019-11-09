@@ -5,7 +5,6 @@ import com.jeppeman.jetpackplayground.video.data.di.VideoApiModule
 import com.jeppeman.jetpackplayground.video.data.di.VideoRepositoryModule
 import com.jeppeman.jetpackplayground.video.platform.VideoFeatureImpl
 import com.jeppeman.jetpackplayground.video.presentation.VideoFragmentComponent
-import com.jeppeman.jetpackplayground.video.test.TestActivity
 import dagger.BindsInstance
 import dagger.Component
 

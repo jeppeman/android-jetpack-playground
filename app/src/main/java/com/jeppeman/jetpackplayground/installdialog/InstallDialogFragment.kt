@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.jeppeman.jetpackplayground.MainViewModel
 import com.jeppeman.jetpackplayground.R
@@ -16,12 +17,20 @@ import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.install_feature_dialog.*
 import javax.inject.Inject
 
+private const val ARG_FEATURE_ID = "com.jeppeman.jetpackplayground.ARG_FEATURE_ID"
+private const val ARG_FEATURE_ACTION_ID = "com.jeppeman.jetpackplayground.ARG_FEATURE_ACTION_ID"
 
-fun createInstallDialogFragment(): InstallDialogFragment = InstallDialogFragment()
+fun createInstallDialogFragment(feature: String): InstallDialogFragment = InstallDialogFragment().apply {
+    arguments = bundleOf(ARG_FEATURE_ID to feature)
+}
+
+fun createInstallDialogFragment(feature: Int): InstallDialogFragment = InstallDialogFragment().apply {
+    arguments = bundleOf(ARG_FEATURE_ACTION_ID to feature)
+}
 
 class InstallDialogFragment : DialogFragment() {
     @Inject
-    lateinit var mainViewModel: MainViewModel
+    lateinit var installDialogViewModel: InstallDialogViewModel
 
     private fun progressTo(to: Int) {
         progressValueText?.animateProgress(loader?.progress ?: 0, to, 300)
@@ -41,7 +50,11 @@ class InstallDialogFragment : DialogFragment() {
     private fun handleInstalledState(state: FeatureManager.InstallState.Installed) {
         progressText?.text = getString(R.string.install_dialog_installed)
         progressTo(100)
-        view?.postDelayed(::dismiss, 500)
+        view?.postDelayed({
+            if (fragmentManager != null) {
+                dismiss()
+            }
+        }, 500)
     }
 
     private fun handleFailedState(state: FeatureManager.InstallState.Failed) {
@@ -75,6 +88,16 @@ class InstallDialogFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.DialogTheme)
+
+        if (savedInstanceState == null) {
+            val featureId = arguments?.getString(ARG_FEATURE_ID)
+            val featureActionId = arguments?.getInt(ARG_FEATURE_ACTION_ID)
+            when {
+                featureId != null -> installDialogViewModel.installFeature(featureId)
+                featureActionId != null -> installDialogViewModel.installFeature(featureActionId)
+                else -> dismiss()
+            }
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -83,7 +106,7 @@ class InstallDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainViewModel.installState.observe(viewLifecycleOwner, ::onInstallStateChanged)
+        installDialogViewModel.installState.observe(viewLifecycleOwner, ::onInstallStateChanged)
 
         dialog?.window?.setWindowAnimations(R.style.DialogAnimation)
         dialog?.setCanceledOnTouchOutside(false)

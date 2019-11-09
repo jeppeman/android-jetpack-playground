@@ -1,8 +1,6 @@
 package com.jeppeman.jetpackplayground.video.presentation
 
 import android.os.Bundle
-import android.util.Log
-import com.google.android.play.core.splitcompat.SplitCompat
 import com.jeppeman.jetpackplayground.common.presentation.BaseFragment
 import com.jeppeman.jetpackplayground.video.R
 import com.jeppeman.jetpackplayground.video.platform.videoComponent

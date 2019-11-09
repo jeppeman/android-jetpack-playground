@@ -7,10 +7,7 @@ import com.jeppeman.jetpackplayground.video.domain.model.Video
 import com.jeppeman.jetpackplayground.video.platform.di.VideoScope
 import javax.inject.Inject
 
-@VideoScope
-class VideoEntityMapper @Inject constructor(
-        @VideoApiBaseUrl private val videoApiBaseUrl: String
-) : EntityMapper<VideoEntity, Video> {
+class VideoEntityMapper(private val videoApiBaseUrl: String) : EntityMapper<VideoEntity, Video> {
     override fun toEntity(from: Video): VideoEntity {
         return VideoEntity(
                 title = from.title,
