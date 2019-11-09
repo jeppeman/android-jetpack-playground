@@ -7,28 +7,37 @@
 
 A small video player pet project with the purpose of exploring cutting edge Android development.
 Some areas of exploration:
-* Dynamic Feature Modules with Fragments as the UI entry point
+* Dynamic Feature Modules and navigation patterns with them
 * MotionLayout
 * Coroutines
 * Jetpack testing, mainly isolated fragment unit tests that run both on device and the JVM with the same source code
 
-Dynamic Feature Modules with Fragments as the UI entry point
+Dynamic Feature Modules and Navigation
 ---
-With dynamic features, and feature modularisation in general on Android, the most common pattern for top level navigation seems to be firing intents in on one way or another: implicitly, manually declaring the fully qualified name of the activity class, or app links. This makes sense in most cases and allows for nice decoupling, however, I wanted to see if the top level navigation from dynamic feature to dynamic feature could be fragment based, that is, having a single activity application and the UI entry point to each dynamic feature be a fragment. This would allow for a more seamless user experience as we could take full control over the transitions from screen to screen. Below is a gif of how it turned out:
+In the project I'm discovering navigation patterns when dynamic feature modules are involved, more specifically, top level navigation, cross-feature navigation and app links (deep links). Below is a gif of how the top level navigation turned out:
 
 <img src="https://raw.githubusercontent.com/jeppeman/jetpackplayground-media/master/dynamic_install.gif" width="224" height="400" />
 
 When we try to navigate to the Video feature we detect that it is not installed, we therefore install it and immediately after navigate to it by gaining access to it's UI entry point. The experience becomes a lot more seamless than it would have been with activities.
 
+This is covered in greater detail in <a href="https://medium.com/@jesperaamann/navigation-with-dynamic-feature-modules-48ee7645488">this article</a>.
+
 ### The setup
 The entry point of each dynamic feature is registered in a common library module as an interface, which looks like this:
 ```kotlin
 interface Feature<T> {
-    fun getEntryPoint(): Fragment
+    fun getMainScreen(): Fragment
+    fun getLaunchIntent(context: Context): Intent
     fun inject(dependencies: T)
+
+    data class Info(
+            val id: String,
+            val name: String,
+            @IdRes val actionId: Int
+    )
 }
 ```
-`getEntryPoint()` will return the `Fragment` that is the UI entrypoint for the feature, and `inject()` will provide the feature with it's necessary dependencies.
+`getMainScreen()` will return the `Fragment` that is the UI entrypoint for the feature, and `inject()` will provide the feature with it's necessary dependencies.
 All dynamic feature module definitions must then be an extension of this interface, the video feature in this project is defined as follows in the common library module:
 ```kotlin
 // In the common library module
@@ -45,9 +54,17 @@ The implementation of this interface will then reside in the actual dynamic feat
 ```kotlin
 // In the actual dynamic feature module
 class VideoFeatureImpl : VideoFeature {
-    override fun getEntryPoint(): Fragment = createVideoFragment()
+    override fun getLaunchIntent(context: Context): Intent {
+        return Intent(context, VideoActivity::class.java)
+    }
+
+    override fun getMainScreen(): Fragment = createVideoFragment()
 
     override fun inject(dependencies: VideoFeature.Dependencies) {
+        if (::videoComponent.isInitialized) {
+            return
+        }
+
         videoComponent = DaggerVideoComponent.factory()
                 .create(dependencies, this)
     }
@@ -141,6 +158,11 @@ object AppModule {
 ```
 Then we pass this object to the `FeatureManager#getFeature` method like this, `featureManager.getFeature<VideoFeature, VideoFeature.Dependencies>(dependencies)`.
 
+### App Links
+App links will unfortunately break if they are declared for an activity in the manifest of a dynamic feature module and the feature is not yet installed; the declaration gets merged into the main manifest but the activity class is not present in the base APK, opening a link pointing to that activity will therefore result in a `ClassNotFoundException`. To work around this we can have a single entry point from which we launch app links, and from there do the routing to a feature based on the url. In this project I have a class called `<a href="https://github.com/jeppeman/android-jetpack-playground/blob/master/app/src/main/java/com/jeppeman/jetpackplayground/applinks/AppLinkActivity.kt">AppLinkActivity</a>` where this is handled.
+The result is displayed in the gif below:
+<img src="https://raw.githubusercontent.com/jeppeman/jetpackplayground-media/master/dynamic_install.gif" width="224" height="400" />
+
 MotionLayout
 ---
 This is a really nice tool, complex animations can be created in a fairly simple and declarative way.
@@ -162,7 +184,7 @@ My ambition was to have fragment unit tests in a shared test folder that would r
 and with Robolectric; since I have some fairly complex UI with animations and orientation changes
 in the project I thought this would be a tall order, but it was actually achievable in the end with
 some tinkering. I needed to create a custom shadow for `MotionLayout`
-(<a href="https://github.com/jeppeman/android-jetpack-playground/blob/master/presentation/src/test/java/com/jeppeman/jetpackplayground/shadows/ShadowMotionLayout.kt">here</a>)
+(<a href="https://github.com/jeppeman/android-jetpack-playground/blob/master/features/video/src/test/java/com/jeppeman/jetpackplayground/video/presentation/shadows/ShadowMotionLayout.kt">here</a>)
 in order to make it work with Robolectric, but apart from that it was mostly smooth sailing.
 Isolating fragment tests has also been quite messy historically, but the new `FragmentScenario` simplifies
 it substantially. Here is an example of a fragment unit test from the project (runs on both JVM and device):
@@ -180,4 +202,9 @@ fun whenPlaying_clickFastForward_shouldDelegateToViewModel() {
 }
 ```
 `launch` is a helper method that calls the new `FragmentScenario.launchInContainer()` under the hood.
- The source can be found <a href="https://github.com/jeppeman/android-jetpack-playground/blob/master/presentation/src/sharedTest/java/com/jeppeman/jetpackplayground/ui/base/BaseFragmentTest.kt">here</a> and <a href="https://github.com/jeppeman/android-jetpack-playground/blob/master/presentation/src/sharedTest/java/com/jeppeman/jetpackplayground/ui/videodetail/VideoDetailFragmentTest.kt">here</a>.
+ The source can be found <a href="https://github.com/jeppeman/android-jetpack-playground/blob/master/features/video/src/sharedTest/java/com/jeppeman/jetpackplayground/video/presentation/base/BaseFragmentTest.kt">here</a> and <a href="https://github.com/jeppeman/android-jetpack-playground/blob/master/features/video/src/sharedTest/java/com/jeppeman/jetpackplayground/video/presentation/detail/VideoDetailFragmentTest.kt">here</a>.
+
+Articles
+---
+* <a href="https://proandroiddev.com/isolated-fragments-unit-tests-that-run-both-instrumented-and-on-the-jvm-with-the-same-source-code-283db2e9be5d">Runtime agnostic and isolated fragment unit tests</a>
+* <a href="https://medium.com/@jesperaamann/navigation-with-dynamic-feature-modules-48ee7645488">Navigation with Dynamic Feature Modules</a>
