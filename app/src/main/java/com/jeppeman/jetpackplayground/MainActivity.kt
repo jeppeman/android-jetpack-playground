@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, AppUiContainer, Bo
         // Instead of replacing we hide the current, add the next and then remove the previous
         // in order to have child fragments be part of the animation
         val topFragment = supportFragmentManager.findFragmentByTag(TAG_TOP_FRAGMENT)
-        val fragment = mainViewModel.getFeature(actionId).getEntryPoint()
+        val fragment = mainViewModel.getFeature(actionId).getMainScreen()
         transaction.add(R.id.fragmentContainer, fragment, TAG_TOP_FRAGMENT)
         if (topFragment != null) {
             transaction.hide(topFragment).commit()
@@ -68,8 +68,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, AppUiContainer, Bo
         }
     }
 
-    private fun launchInstallDialog() {
-        createInstallDialogFragment().show(supportFragmentManager, "install")
+    private fun launchInstallDialog(@IdRes actionId: Int) {
+        createInstallDialogFragment(actionId).show(supportFragmentManager, "install")
     }
 
     private fun featureInstalled(featureInfo: Feature.Info) {
@@ -84,8 +84,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, AppUiContainer, Bo
         val isInstalled = mainViewModel.isFeatureInstalled(item.itemId)
 
         return if (!isInstalled) {
-            launchInstallDialog()
-            mainViewModel.installFeature(item.itemId)
+            launchInstallDialog(item.itemId)
             false
         } else {
             goToFeatureEntryPoint(item.itemId)

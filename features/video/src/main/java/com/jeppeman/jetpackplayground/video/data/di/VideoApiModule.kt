@@ -2,6 +2,7 @@ package com.jeppeman.jetpackplayground.video.data.di
 
 import android.content.Context
 import com.jeppeman.jetpackplayground.video.R
+import com.jeppeman.jetpackplayground.video.data.entity.mapper.VideoEntityMapper
 import com.jeppeman.jetpackplayground.video.data.net.VideoApi
 import com.jeppeman.jetpackplayground.video.platform.di.VideoScope
 import com.squareup.moshi.Moshi
@@ -17,7 +18,7 @@ object VideoApiModule {
     @JvmStatic
     @Provides
     @VideoScope
-    fun provideVideoApiAsync(
+    fun provideVideoApi(
             @VideoApiBaseUrl videoApiBaseUrl: String,
             moshi: Moshi,
             okHttpClient: OkHttpClient
@@ -37,6 +38,13 @@ object VideoApiModule {
     fun provideVideoApiBaseUrl(context: Context): String {
         return context.getString(R.string.video_api_base_url)
     }
+
+    @JvmStatic
+    @Provides
+    @VideoScope
+    fun provideVideoEntityMapper(
+            @VideoApiBaseUrl videoApiBaseUrl: String
+    ): VideoEntityMapper = VideoEntityMapper(videoApiBaseUrl)
 
     @JvmStatic
     @Provides

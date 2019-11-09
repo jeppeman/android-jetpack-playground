@@ -1,7 +1,6 @@
 package com.jeppeman.jetpackplayground.video.presentation
 
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
@@ -13,16 +12,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.filters.MediumTest
 import com.google.common.truth.Truth.assertThat
 import com.jeppeman.jetpackplayground.video.R
 import com.jeppeman.jetpackplayground.video.presentation.detail.VideoDetailFragmentArgs
 import com.jeppeman.jetpackplayground.video.presentation.espresso.isVisibleToUser
-import com.jeppeman.jetpackplayground.video.test.TestActivity
-import kotlinx.android.synthetic.main.activity_test.*
-import kotlinx.android.synthetic.main.fragment_video.*
 import kotlinx.android.synthetic.main.fragment_video_list.*
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.concurrent.CountDownLatch
@@ -34,7 +28,7 @@ class VideoFragmentIntegrationTest {
     @Test
     fun clickVideoElement_shouldNavigateToVideoDetail() {
         val latch = CountDownLatch(2)
-        ActivityScenario.launch(TestActivity::class.java).onActivity { activity ->
+        ActivityScenario.launch(VideoActivity::class.java).onActivity { activity ->
             val destinations = listOf(R.id.videoListFragment, R.id.videoDetailFragment)
             activity.videoList
                     ?.findNavController()
@@ -66,7 +60,7 @@ class VideoFragmentE2ETest {
 
     @Test
     fun clickVideoElement_shouldMoveFromVideoListAndDisplayVideoDetail() {
-        ActivityScenario.launch(TestActivity::class.java)
+        ActivityScenario.launch(VideoActivity::class.java)
 
         onView(withId(R.id.videoList))
                 .check(matches(isVisibleToUser()))

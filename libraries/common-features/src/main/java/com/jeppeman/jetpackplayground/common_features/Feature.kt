@@ -1,6 +1,7 @@
 package com.jeppeman.jetpackplayground.common_features
 
 import android.content.Context
+import android.content.Intent
 import android.os.Handler
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
@@ -8,7 +9,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import okhttp3.OkHttpClient
 import kotlin.reflect.KClass
 
-internal fun <T : Feature<*>> KClass<T>.info(context: Context) = when (this) {
+fun <T : Feature<*>> KClass<T>.info(context: Context) = when (this) {
     HomeFeature::class -> Feature.Info(
             id = "home",
             name = context.getString(R.string.title_feature_home),
@@ -23,7 +24,8 @@ internal fun <T : Feature<*>> KClass<T>.info(context: Context) = when (this) {
 }
 
 interface Feature<T> {
-    fun getEntryPoint(): Fragment
+    fun getMainScreen(): Fragment
+    fun getLaunchIntent(context: Context): Intent
     fun inject(dependencies: T)
 
     data class Info(

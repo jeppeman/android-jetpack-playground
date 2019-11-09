@@ -28,6 +28,8 @@ interface FeatureManager {
     fun <T : Feature<D>, D> getFeature(featureType: KClass<T>, dependencies: D): T?
     fun <T : Feature<*>> installFeature(featureType: KClass<T>, onStateUpdate: (InstallState) -> Unit)
     fun <T : Feature<*>> isFeatureInstalled(featureType: KClass<T>): Boolean
+    fun registerInstallListener(listener: (Feature.Info) -> Unit)
+    fun unregisterInstallListener(listener: (Feature.Info) -> Unit)
 
     sealed class InstallState(val featureInfo: Feature.Info) {
         class Downloading(val progress: Int, featureInfo: Feature.Info) : InstallState(featureInfo)
@@ -44,6 +46,7 @@ internal class FeatureManagerImpl(
 
     private val splitInstallManager: SplitInstallManager = SplitInstallManagerFactory.create(context)
     private val cache = mutableMapOf<KClass<out Feature<*>>, Feature<*>>()
+    private val installListeners = mutableListOf<(Feature.Info) -> Unit>()
 
     private fun SplitInstallSessionState.progress(): Int {
         return ((bytesDownloaded() / totalBytesToDownload().toFloat()) * 100).roundToInt()
@@ -119,6 +122,9 @@ internal class FeatureManagerImpl(
                         }
                         SplitInstallSessionStatus.INSTALLED -> {
                             splitInstallManager.unregisterListener(this)
+                            installListeners.forEach { listener ->
+                                listener(featureType.info(context))
+                            }
                             handleInstalled(featureType, onStateUpdate)
                         }
                         SplitInstallSessionStatus.FAILED -> {
@@ -132,6 +138,14 @@ internal class FeatureManagerImpl(
 
         splitInstallManager.registerListener(installStateUpdateListener)
         splitInstallManager.startInstall(request)
+    }
+
+    override fun registerInstallListener(listener: (Feature.Info) -> Unit) {
+        installListeners.add(listener)
+    }
+
+    override fun unregisterInstallListener(listener: (Feature.Info) -> Unit) {
+        installListeners.remove(listener)
     }
 
     override fun <T : Feature<*>> isFeatureInstalled(featureType: KClass<T>): Boolean {
