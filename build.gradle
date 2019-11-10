@@ -2,11 +2,15 @@ buildscript {
     apply from: 'deps.gradle'
 
     repositories {
+        maven {
+            url "http://storage.googleapis.com/r8-releases/raw/master"
+        }
         jcenter()
         google()
         mavenCentral()
     }
     dependencies {
+        classpath "com.android.tools:r8:$versions.r8"
         classpath "com.android.tools.build:gradle:$versions.androidplugin"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
         classpath "com.github.ben-manes:gradle-versions-plugin:$versions.versionsplugin"
@@ -19,7 +23,7 @@ ext {
     targetSdkVersion = 28
     compileSdkVersion = 28
     buildToolsVersion = "28.0.3"
-    androidVersionCode = 20
+    androidVersionCode = 23
     androidVersionName = "1.0"
     sourceCompatibilityVersion = JavaVersion.VERSION_1_8
     targetCompatibilityVersion = JavaVersion.VERSION_1_8
