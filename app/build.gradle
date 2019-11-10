@@ -53,6 +53,7 @@ deps[project.name] = [
                 deps.timber.timber,
                 deps.test.core,
                 deps.test.fragment,
+                deps.autoservice.annotations,
                 project(':libraries:common-presentation'),
                 project(':libraries:common-domain'),
                 project(':libraries:common-data'),
@@ -60,6 +61,7 @@ deps[project.name] = [
         ],
         kapt: [
                 deps.dagger.compiler,
-                deps.dagger.android_compiler
+                deps.dagger.android_compiler,
+                deps.autoservice.processor
         ]
 ]

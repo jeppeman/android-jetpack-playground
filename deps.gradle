@@ -36,7 +36,8 @@ def versions = [
         retrofit          : '2.6.1',
         timber            : '4.7.1',
         play              : '1.6.3',
-        exoplayer         : '2.10.6'
+        exoplayer         : '2.10.6',
+        autoservice       : '1.0-rc6'
 ]
 
 ext.versions = versions
@@ -171,6 +172,11 @@ deps.play = [
 deps.exoplayer = [
         core: "com.google.android.exoplayer:exoplayer-core:$versions.exoplayer",
         ui  : "com.google.android.exoplayer:exoplayer-ui:$versions.exoplayer"
+]
+
+deps.autoservice = [
+        annotations: "com.google.auto.service:auto-service-annotations:$versions.autoservice",
+        processor: "com.google.auto.service:auto-service:$versions.autoservice"
 ]
 
 ext.deps = deps
