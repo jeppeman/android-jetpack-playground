@@ -53,6 +53,7 @@ interface VideoFeature : Feature<VideoFeature.Dependencies> {
 The implementation of this interface will then reside in the actual dynamic feature module, for the video feature it looks like this:
 ```kotlin
 // In the actual dynamic feature module
+@AutoService(VideoFeature::class)
 class VideoFeatureImpl : VideoFeature {
     override fun getLaunchIntent(context: Context): Intent {
         return Intent(context, VideoActivity::class.java)
@@ -70,12 +71,38 @@ class VideoFeatureImpl : VideoFeature {
     }
 }
 ```
+The feature instances are resolved at runtime with <a href="https://developer.android.com/reference/java/util/ServiceLoader">`ServiceLoader`</a>, hence the use of `@AutoService`.
 
 ### Navigation between Dynamic Feature Modules
 Before navigating to a feature we need to check whether it is installed first, for this I've created a class called `FeatureManager`, which esentially wraps `SplitInstallManager` from the play core library and exposes API:s to interact with features based on their types, it looks like this:
 ```kotlin
+inline fun <reified T : Feature<D>, D> FeatureManager.getFeature(
+        dependencies: D
+): T? {
+    return if (isFeatureInstalled<T>()) {
+        val serviceIterator = ServiceLoader.load(
+                T::class.java,
+                T::class.java.classLoader
+        ).iterator()
+
+        if (serviceIterator.hasNext()) {
+            val feature = serviceIterator.next()
+            feature.apply { inject(dependencies) }
+        } else {
+            null
+        }
+    } else {
+        null
+    }
+}
+
+inline fun <reified T : Feature<*>> FeatureManager.installFeature(
+        noinline onStateUpdate: (FeatureManager.InstallState) -> Unit
+) = installFeature(T::class, onStateUpdate)
+
+inline fun <reified T : Feature<*>> FeatureManager.isFeatureInstalled(): Boolean = isFeatureInstalled(T::class)
+
 interface FeatureManager {
-    fun <T : Feature<D>, D> getFeature(featureType: KClass<T>, dependencies: D): T?
     fun <T : Feature<*>> installFeature(featureType: KClass<T>, onStateUpdate: (InstallState) -> Unit)
     fun <T : Feature<*>> isFeatureInstalled(featureType: KClass<T>): Boolean
 
