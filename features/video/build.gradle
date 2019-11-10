@@ -44,7 +44,8 @@ deps[project.name] = [
         ],
         kapt          : [
                 deps.dagger.compiler,
-                deps.dagger.android_compiler
+                deps.dagger.android_compiler,
+                deps.autoservice.processor
         ],
         kaptAndroidTest: [
                 deps.dagger.compiler,
