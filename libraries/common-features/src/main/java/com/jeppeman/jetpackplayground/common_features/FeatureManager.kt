@@ -17,19 +17,24 @@ fun createFeatureManager(context: Context): FeatureManager = FeatureManagerImpl(
 inline fun <reified T : Feature<D>, D> FeatureManager.getFeature(
         dependencies: D
 ): T? {
-    return if (isFeatureInstalled<T>()) {
-        val serviceIterator = ServiceLoader.load(
-                T::class.java,
-                T::class.java.classLoader
-        ).iterator()
+    // Remove the try/catch to enable r8 optimisation
+    return try {
+        if (isFeatureInstalled<T>()) {
+            val serviceIterator = ServiceLoader.load(
+                    T::class.java,
+                    T::class.java.classLoader
+            ).iterator()
 
-        if (serviceIterator.hasNext()) {
-            val feature = serviceIterator.next()
-            feature.apply { inject(dependencies) }
+            if (serviceIterator.hasNext()) {
+                val feature = serviceIterator.next()
+                feature.apply { inject(dependencies) }
+            } else {
+                null
+            }
         } else {
             null
         }
-    } else {
+    } catch (exception: Exception) {
         null
     }
 }
