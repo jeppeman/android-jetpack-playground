@@ -3,8 +3,16 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+android {
+    buildTypes {
+        release {
+            minifyEnabled true
+        }
+    }
+}
+
 deps[project.name] = [
-        api : [
+        api               : [
                 deps.kotlin.stdlib,
                 deps.play.core,
                 deps.coroutines.core,
@@ -19,7 +27,7 @@ deps[project.name] = [
                 deps.constraintlayout.constraintlayout,
                 deps.core.ktx
         ],
-        kapt: [
+        kapt              : [
                 deps.glide.compiler,
                 deps.dagger.compiler,
                 deps.dagger.android_compiler

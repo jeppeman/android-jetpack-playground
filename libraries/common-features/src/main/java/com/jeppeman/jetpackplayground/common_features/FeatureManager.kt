@@ -16,7 +16,23 @@ fun createFeatureManager(context: Context): FeatureManager = FeatureManagerImpl(
 
 inline fun <reified T : Feature<D>, D> FeatureManager.getFeature(
         dependencies: D
-): T? = getFeature(T::class, dependencies)
+): T? {
+    return if (isFeatureInstalled<T>()) {
+        val serviceIterator = ServiceLoader.load(
+                T::class.java,
+                T::class.java.classLoader
+        ).iterator()
+
+        if (serviceIterator.hasNext()) {
+            val feature = serviceIterator.next()
+            feature.apply { inject(dependencies) }
+        } else {
+            null
+        }
+    } else {
+        null
+    }
+}
 
 inline fun <reified T : Feature<*>> FeatureManager.installFeature(
         noinline onStateUpdate: (FeatureManager.InstallState) -> Unit
@@ -25,7 +41,6 @@ inline fun <reified T : Feature<*>> FeatureManager.installFeature(
 inline fun <reified T : Feature<*>> FeatureManager.isFeatureInstalled(): Boolean = isFeatureInstalled(T::class)
 
 interface FeatureManager {
-    fun <T : Feature<D>, D> getFeature(featureType: KClass<T>, dependencies: D): T?
     fun <T : Feature<*>> installFeature(featureType: KClass<T>, onStateUpdate: (InstallState) -> Unit)
     fun <T : Feature<*>> isFeatureInstalled(featureType: KClass<T>): Boolean
     fun registerInstallListener(listener: (Feature.Info) -> Unit)
@@ -45,7 +60,6 @@ internal class FeatureManagerImpl(
 ) : FeatureManager {
 
     private val splitInstallManager: SplitInstallManager = SplitInstallManagerFactory.create(context)
-    private val cache = mutableMapOf<KClass<out Feature<*>>, Feature<*>>()
     private val installListeners = mutableListOf<(Feature.Info) -> Unit>()
 
     private fun SplitInstallSessionState.progress(): Int {
@@ -150,25 +164,5 @@ internal class FeatureManagerImpl(
 
     override fun <T : Feature<*>> isFeatureInstalled(featureType: KClass<T>): Boolean {
         return splitInstallManager.installedModules.contains(featureType.info(context).id)
-    }
-
-    override fun <T : Feature<D>, D> getFeature(featureType: KClass<T>, dependencies: D): T? {
-        return try {
-            val cachedFeature = cache[featureType]
-            if (cachedFeature != null) {
-                return featureType.java.cast(cachedFeature)
-            }
-
-            val serviceLoader = ServiceLoader.load(featureType.java, featureType.java.classLoader)
-            if (serviceLoader.iterator().hasNext()) {
-                val feature = serviceLoader.iterator().next()
-                feature.inject(dependencies)
-                feature.also { cache[featureType] = it }
-            } else {
-                null
-            }
-        } catch (exception: Exception) {
-            null
-        }
     }
 }

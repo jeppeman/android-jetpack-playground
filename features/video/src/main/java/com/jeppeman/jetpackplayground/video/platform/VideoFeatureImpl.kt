@@ -13,9 +13,7 @@ internal lateinit var videoComponent: VideoComponent
     private set
 
 class VideoFeatureImpl : VideoFeature {
-    override fun getLaunchIntent(context: Context): Intent {
-        return Intent(context, VideoActivity::class.java)
-    }
+    override fun getLaunchIntent(context: Context): Intent = Intent(context, VideoActivity::class.java)
 
     override fun getMainScreen(): Fragment = createVideoFragment()
 
