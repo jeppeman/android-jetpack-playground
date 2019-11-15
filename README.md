@@ -18,13 +18,14 @@ In the project I'm discovering navigation patterns when dynamic feature modules 
 
 <img src="https://raw.githubusercontent.com/jeppeman/jetpackplayground-media/master/dynamic_install.gif" width="224" height="400" />
 
-When we try to navigate to the Video feature we detect that it is not installed, we therefore install it and immediately after navigate to it by gaining access to it's UI entry point. The experience becomes a lot more seamless than it would have been with activities.
+This is a single activity setup where the top level fragment destinations are located in dynamic feature modules.
 
 This is covered in greater detail in <a href="https://medium.com/@jesperaamann/navigation-with-dynamic-feature-modules-48ee7645488">this article</a>.
 
-### The setup
+### Dynamic feature module setup
 The entry point of each dynamic feature is registered in a common library module as an interface, which looks like this:
 ```kotlin
+// In the common library module
 interface Feature<T> {
     fun getMainScreen(): Fragment
     fun getLaunchIntent(context: Context): Intent
@@ -37,7 +38,7 @@ interface Feature<T> {
     )
 }
 ```
-`getMainScreen()` will return the `Fragment` that is the UI entrypoint for the feature, and `inject()` will provide the feature with it's necessary dependencies.
+`getMainScreen()` will return the `Fragment` that is the UI entrypoint for the feature, and `inject()` will provide the feature with its necessary dependencies.
 All dynamic feature module definitions must then be an extension of this interface, the video feature in this project is defined as follows in the common library module:
 ```kotlin
 // In the common library module
@@ -73,8 +74,9 @@ class VideoFeatureImpl : VideoFeature {
 ```
 The feature instances are resolved at runtime with <a href="https://developer.android.com/reference/java/util/ServiceLoader">`ServiceLoader`</a>, hence the use of `@AutoService`.
 
-### Navigation between Dynamic Feature Modules
-Before navigating to a feature we need to check whether it is installed first, for this I've created a class called `FeatureManager`, which esentially wraps `SplitInstallManager` from the play core library and exposes API:s to interact with features based on their types, it looks like this:
+### Creating a feature instance
+A dynamic feature module can not be declared as a dependency from any other module, therefore `VideoFeatureImpl` can not be instantiated through normal means from anywhere outsite of the video dynamic feature module. We can either do it through reflection, or using a <a href="https://developer.android.com/reference/java/util/ServiceLoader">`ServiceLoader`</a>. The latter has the nice benefit of removing reflection from the runtime; newer versions of `R8` (Google's new code shrinker) will try to make a compiler optimization which replaces calls to `ServiceLoader.load(VideoFeature::class.java)` with `Arrays.asList(new VideoFeatureImpl())`, you can find the `R8` source code which does this <a href="https://r8.googlesource.com/r8/+/b027e3c0b123bd4a9397ff210e40293c1381d1a8/src/main/java/com/android/tools/r8/ir/optimize/ServiceLoaderRewriter.java">here</a>.
+Here is what the code to get a feature instance looks like:
 ```kotlin
 inline fun <reified T : Feature<D>, D> FeatureManager.getFeature(
         dependencies: D
@@ -95,40 +97,7 @@ inline fun <reified T : Feature<D>, D> FeatureManager.getFeature(
         null
     }
 }
-
-inline fun <reified T : Feature<*>> FeatureManager.installFeature(
-        noinline onStateUpdate: (FeatureManager.InstallState) -> Unit
-) = installFeature(T::class, onStateUpdate)
-
-inline fun <reified T : Feature<*>> FeatureManager.isFeatureInstalled(): Boolean = isFeatureInstalled(T::class)
-
-interface FeatureManager {
-    fun <T : Feature<*>> installFeature(featureType: KClass<T>, onStateUpdate: (InstallState) -> Unit)
-    fun <T : Feature<*>> isFeatureInstalled(featureType: KClass<T>): Boolean
-
-    sealed class InstallState(val featureInfo: Feature.Info) {
-        class Downloading(val progress: Int, featureInfo: Feature.Info) : InstallState(featureInfo)
-        class Installing(val progress: Int, featureInfo: Feature.Info) : InstallState(featureInfo)
-        class RequiresUserConfirmation(val sender: IntentSender?, featureInfo: Feature.Info) : InstallState(featureInfo)
-        class Failed(val code: Int, featureInfo: Feature.Info) : InstallState(featureInfo)
-        class Installed(featureInfo: Feature.Info) : InstallState(featureInfo)
-    }
-}
 ```
-So if we want to navigate to the Video feature we could do something like the following:
-```kotlin 
-val isVideoInstalled = featureManager.isFeatureInstalled<VideoFeature>()
-if (isVideoInstalled) {
-    val feature = featureManager.getFeature<VideoFeature, VideoFeature.Dependencies>(dependencies)
-    val featureFragment: Fragment = feature.getEntryPoint()
-    addFragment(featureFragment)
-} else {
-    featureManager.installFeature<VideoFeature> { state: FeatureManager.InstallState ->
-        ...
-    }
-}
-```
-A dynamic feature module can not be declared as a dependency from any other module, therefore `VideoFeatureImpl` can not be instantiated through normal means from anywhere outsite of the video dynamic feature module. So how does the `FeatureManager` then create instances of the features? It can do it through either reflection, or using a <a href="https://developer.android.com/reference/java/util/ServiceLoader">`ServiceLoader`</a>. The latter has the nice benefit of removing reflection from the runtime; newer versions of `R8` (Google's new code shrinker) will try to make a compiler optimization which replaces calls to `ServiceLoader.load(VideoFeature::class.java)` with `Arrays.asList(new VideoFeatureImpl())`, you can find the `R8` source code which does this <a href="https://r8.googlesource.com/r8/+/b027e3c0b123bd4a9397ff210e40293c1381d1a8/src/main/java/com/android/tools/r8/ir/optimize/ServiceLoaderRewriter.java">here</a>.
 
 ### Dagger with Dynamic Feature Modules
 Commonly with dagger we declare an `AppComponent` for the application scope, and injection into activities or fragments is done with subcomponents of the `AppComponent`, this is nice because subcomponents get access to all the dependencies provided by it's parent component. However, we are not able to do this given the fact that the gradle dependency graph has to be inverted (the main app module can not depend on the dynamic feature modules); we must therefore use component dependencies instead. Each feature has a top level component which declares a set of dependencies, the `VideoComponent` looks like this:
