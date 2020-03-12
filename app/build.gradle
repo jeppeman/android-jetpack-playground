@@ -2,25 +2,32 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.jeppeman.locallydynamic'
 
 android {
     defaultConfig {
         applicationId rootProject.ext.applicationIdBase
     }
 
-    signingConfigs {
-        release {
-            storeFile file(getProperty("KEYSTORE_PATH"))
-            storePassword getProperty("KEYSTORE_PASSWORD")
-            keyAlias getProperty("KEY_ALIAS")
-            keyPassword getProperty("KEY_PASSWORD")
-        }
-    }
+//    signingConfigs {
+//        release {
+//            storeFile file(getProperty("KEYSTORE_PATH"))
+//            storePassword getProperty("KEYSTORE_PASSWORD")
+//            keyAlias getProperty("KEY_ALIAS")
+//            keyPassword getProperty("KEY_PASSWORD")
+//        }
+//    }
 
     buildTypes {
+        debug {
+            locallyDynamic {
+                enabled = true
+                throttleDownloadBy = 2000
+            }
+        }
         release {
             minifyEnabled true
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

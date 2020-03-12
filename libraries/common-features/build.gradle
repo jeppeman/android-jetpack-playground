@@ -14,7 +14,7 @@ deps[project.name] = [
         implementation: [
                 deps.appcompat.appcompat,
                 deps.kotlin.stdlib,
-                deps.play.core,
+                deps.locallydynamic.debug,
                 deps.okhttp.okhttp,
                 deps.coroutines.core
         ]

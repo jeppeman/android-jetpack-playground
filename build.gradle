@@ -5,16 +5,19 @@ buildscript {
         maven {
             url "http://storage.googleapis.com/r8-releases/raw/master"
         }
+        maven {
+            url "https://plugins.gradle.org/m2"
+        }
         jcenter()
         google()
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools:r8:$versions.r8"
         classpath "com.android.tools.build:gradle:$versions.androidplugin"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
         classpath "com.github.ben-manes:gradle-versions-plugin:$versions.versionsplugin"
         classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:$versions.navigation"
+        classpath "com.jeppeman.locallydynamic.gradle:plugin:$versions.locallydynamic_gradle"
     }
 }
 

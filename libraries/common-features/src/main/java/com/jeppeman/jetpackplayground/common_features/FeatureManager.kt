@@ -3,11 +3,11 @@ package com.jeppeman.jetpackplayground.common_features
 import android.content.Context
 import android.content.IntentSender
 import com.google.android.play.core.splitinstall.SplitInstallManager
-import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.google.android.play.core.splitinstall.SplitInstallSessionState
 import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
+import com.jeppeman.locallydynamic.LocallyDynamicSplitInstallManagerFactory
 import java.util.*
 import kotlin.math.roundToInt
 import kotlin.reflect.KClass
@@ -59,7 +59,7 @@ internal class FeatureManagerImpl(
         private val context: Context
 ) : FeatureManager {
 
-    private val splitInstallManager: SplitInstallManager = SplitInstallManagerFactory.create(context)
+    private val splitInstallManager: SplitInstallManager = LocallyDynamicSplitInstallManagerFactory.create(context)
     private val installListeners = mutableListOf<(Feature.Info) -> Unit>()
 
     private fun SplitInstallSessionState.progress(): Int {
