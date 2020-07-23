@@ -1,6 +1,6 @@
 package com.jeppeman.jetpackplayground
 
-import com.google.android.play.core.splitcompat.SplitCompatApplication
+import com.jeppeman.globallydynamic.globalsplitcompat.GlobalSplitCompatApplication
 import com.jeppeman.jetpackplayground.di.AppComponent
 import com.jeppeman.jetpackplayground.di.DaggerAppComponent
 import dagger.android.DispatchingAndroidInjector
@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 lateinit var appComponent: AppComponent
 
-open class MainApplication : SplitCompatApplication(), HasAndroidInjector {
+open class MainApplication : GlobalSplitCompatApplication(), HasAndroidInjector {
     @Inject
     lateinit var dispatchingActivityInjector: DispatchingAndroidInjector<Any>
 

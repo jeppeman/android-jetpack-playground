@@ -2,9 +2,7 @@ buildscript {
     apply from: 'deps.gradle'
 
     repositories {
-        maven {
-            url "http://storage.googleapis.com/r8-releases/raw/master"
-        }
+        mavenLocal()
         maven {
             url "https://plugins.gradle.org/m2"
         }
@@ -17,17 +15,19 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
         classpath "com.github.ben-manes:gradle-versions-plugin:$versions.versionsplugin"
         classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:$versions.navigation"
-        classpath "com.jeppeman.locallydynamic.gradle:plugin:$versions.locallydynamic_gradle"
+        classpath "com.jeppeman.globallydynamic.gradle:plugin:$versions.globallydynamic_gradle"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:2.2.0"
+        classpath 'com.google.gms:google-services:4.3.3'
     }
 }
 
 ext {
     minSdkVersion = 23
-    targetSdkVersion = 28
-    compileSdkVersion = 28
+    targetSdkVersion = 29
+    compileSdkVersion = 29
     buildToolsVersion = "28.0.3"
-    androidVersionCode = 23
-    androidVersionName = "1.0"
+    androidVersionCode = 29
+    androidVersionName = "1.1"
     sourceCompatibilityVersion = JavaVersion.VERSION_1_8
     targetCompatibilityVersion = JavaVersion.VERSION_1_8
     applicationIdBase = "com.jeppeman.jetpackplayground"
@@ -39,9 +39,11 @@ ext {
 subprojects {
     afterEvaluate { project ->
         repositories {
+            mavenLocal()
             jcenter()
             google()
             mavenCentral()
+            maven { url 'http://developer.huawei.com/repo' }
         }
 
         if (project.hasProperty('android')) {
@@ -67,6 +69,23 @@ subprojects {
 
                 kotlinOptions {
                     jvmTarget = rootProject.ext.jvmTargetVersion
+                }
+
+                flavorDimensions 'packaging'
+
+                productFlavors {
+                    amazon {
+                        dimension 'packaging'
+                    }
+                    galaxy {
+                        dimension 'packaging'
+                    }
+                    gplay {
+                        dimension 'packaging'
+                    }
+                    huawei {
+                        dimension 'packaging'
+                    }
                 }
             }
 

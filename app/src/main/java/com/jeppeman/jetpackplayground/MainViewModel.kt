@@ -5,4 +5,6 @@ import javax.inject.Inject
 
 abstract class MainViewModel : BaseFeatureNavigatorViewModel()
 
-class MainViewModelImpl @Inject constructor() : MainViewModel()
+class MainViewModelImpl @Inject constructor() : MainViewModel() {
+
+}

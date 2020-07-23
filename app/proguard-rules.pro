@@ -45,3 +45,10 @@
 -keepnames @kotlin.Metadata class com.jeppeman.jetpackplayground.video.data.entity.**
 -keep class com.jeppeman.jetpackplayground.video.data.entity.** { *; }
 -keepclassmembers class com.jeppeman.jetpackplayground.video.data.entity.** { *; }
+
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception
+
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**

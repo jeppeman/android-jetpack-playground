@@ -2,12 +2,13 @@ package com.jeppeman.jetpackplayground.common.presentation
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import com.google.android.play.core.splitcompat.SplitCompat
+import com.jeppeman.globallydynamic.globalsplitcompat.GlobalSplitCompat
 import dagger.android.support.AndroidSupportInjection
 
 abstract class BaseFragment<TViewModel : LifecycleAwareCoroutineViewModel> : Fragment() {
@@ -35,7 +36,8 @@ abstract class BaseFragment<TViewModel : LifecycleAwareCoroutineViewModel> : Fra
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        SplitCompat.install(context)
+        GlobalSplitCompat.install(context)
+//        Log.e("Yolo", this::class.java.canonicalName)
         return inflater.inflate(layoutRes, container, false)
     }
 }

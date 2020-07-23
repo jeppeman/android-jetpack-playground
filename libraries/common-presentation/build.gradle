@@ -11,10 +11,19 @@ android {
     }
 }
 
+configurations {
+    gplayDebugImplementation {}
+    galaxyDebugImplementation {}
+    amazonDebugImplementation {}
+
+    gplayReleaseImplementation {}
+    huaweiReleaseImplementation {}
+    galaxyReleaseImplementation {}
+    amazonReleaseImplementation {}
+}
 deps[project.name] = [
-        api               : [
+        api                        : [
                 deps.kotlin.stdlib,
-                deps.play.core,
                 deps.coroutines.core,
                 deps.coroutines.android,
                 deps.dagger.core,
@@ -27,12 +36,12 @@ deps[project.name] = [
                 deps.constraintlayout.constraintlayout,
                 deps.core.ktx
         ],
-        kapt              : [
+        kapt                       : [
                 deps.glide.compiler,
                 deps.dagger.compiler,
                 deps.dagger.android_compiler
         ],
-        testImplementation: [
+        testImplementation         : [
                 deps.test.junit,
                 deps.test.truth,
                 deps.test.runner,
@@ -47,5 +56,26 @@ deps[project.name] = [
                 deps.espresso.contrib,
                 deps.espresso.intents,
                 deps.espresso.idling
+        ],
+        gplayDebugImplementation   : [
+                deps.globallydynamic.selfhosted
+        ],
+        galaxyDebugImplementation  : [
+                deps.globallydynamic.selfhosted
+        ],
+        amazonDebugImplementation  : [
+                deps.globallydynamic.selfhosted
+        ],
+        gplayReleaseImplementation : [
+                deps.globallydynamic.gplay
+        ],
+        huaweiImplementation       : [
+                deps.globallydynamic.huawei
+        ],
+        galaxyReleaseImplementation: [
+                deps.globallydynamic.selfhosted
+        ],
+        amazonReleaseImplementation: [
+                deps.globallydynamic.selfhosted
         ]
 ]

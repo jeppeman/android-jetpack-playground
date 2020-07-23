@@ -1,7 +1,9 @@
 package com.jeppeman.jetpackplayground.video.data.entity
 
+import androidx.annotation.Keep
 import com.squareup.moshi.Json
 
+@Keep
 data class VideoEntity(
         @Json(name = "title")
         val title: String?,

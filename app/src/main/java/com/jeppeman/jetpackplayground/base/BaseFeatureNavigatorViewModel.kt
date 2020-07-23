@@ -23,6 +23,7 @@ abstract class BaseFeatureNavigatorViewModel : ViewModel() {
     private lateinit var videoFeatureDependencies: Lazy<VideoFeature.Dependencies>
 
     val featureInstalled = SingleLiveEvent<Feature.Info>()
+    val missingSplitsInstalled = SingleLiveEvent<Unit>()
     val installState = mutableLiveDataOf<FeatureManager.InstallState>()
 
     @Inject
@@ -37,6 +38,7 @@ abstract class BaseFeatureNavigatorViewModel : ViewModel() {
         this.homeFeatureDependencies = homeFeatureDependencies
         this.videoFeatureDependencies = videoFeatureDependencies
         featureManager.registerInstallListener(featureInstalled::setValue)
+        featureManager.registerMissingSplitsInstalledListener { missingSplitsInstalled.value = Unit }
     }
 
     override fun onCleared() {

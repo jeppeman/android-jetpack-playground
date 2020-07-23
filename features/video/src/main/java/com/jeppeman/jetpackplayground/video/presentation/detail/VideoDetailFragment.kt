@@ -1,6 +1,7 @@
 package com.jeppeman.jetpackplayground.video.presentation.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Surface
 import android.view.View
 import android.widget.SeekBar
@@ -280,6 +281,20 @@ class VideoDetailFragment : BaseFragment<VideoDetailViewModel>() {
         })
 
         videoView?.onSurfaceAvailable { surfaceTexture ->
+            viewModel.videoDetailPlayer.registerProgressListener {
+                if (videoContainer?.currentState != R.id.videoPlaying) {
+                    videoContainer?.transitionToState(R.id.videoPlaying)
+                }
+                if (actionContainer?.currentState != -1 && actionContainer?.currentState != R.id.end) {
+                    actionContainer?.apply {
+                        loadLayoutDescription(R.xml.video_detail_fab_container_scene)
+                        setTransition(R.id.start, R.id.end)
+                        transitionToEnd()
+                    }
+                }
+                backdrop?.alpha = 0f
+                videoFrame?.alpha = 1f
+            }
             viewModel.videoDetailPlayer.attachSurface(Surface(surfaceTexture))
         }
     }

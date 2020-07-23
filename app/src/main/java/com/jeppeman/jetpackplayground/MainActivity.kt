@@ -13,6 +13,7 @@ import com.jeppeman.jetpackplayground.common.presentation.AppUiContainer
 import com.jeppeman.jetpackplayground.common.presentation.extensions.observe
 import com.jeppeman.jetpackplayground.common_features.Feature
 import com.jeppeman.jetpackplayground.installdialog.createInstallDialogFragment
+import com.jeppeman.jetpackplayground.installdialog.createMissingSplitsInstallDialogFragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -25,8 +26,10 @@ private val TAG_TOP_FRAGMENT = "${MainActivity::class.java.name}.TOP_FRAGMENT"
 class MainActivity : AppCompatActivity(), HasAndroidInjector, AppUiContainer, BottomNavigationView.OnNavigationItemSelectedListener {
     @Inject
     lateinit var mainViewModel: MainViewModel
+
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+
     @Inject
     lateinit var handler: Handler
 
@@ -72,8 +75,16 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, AppUiContainer, Bo
         createInstallDialogFragment(actionId).show(supportFragmentManager, "install")
     }
 
+    private fun launchMissingSplitsDialog() {
+        createMissingSplitsInstallDialogFragment().show(supportFragmentManager, "missingSplitsInstall")
+    }
+
     private fun featureInstalled(featureInfo: Feature.Info) {
         bottomNavigation?.selectedItemId = featureInfo.actionId
+    }
+
+    private fun missingSplitsInstalled() {
+        goToFeatureEntryPoint(R.id.actionHome)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -98,10 +109,15 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, AppUiContainer, Bo
         AndroidInjection.inject(this)
 
         if (savedInstanceState == null) {
-            goToFeatureEntryPoint(R.id.actionHome)
+            if (mainViewModel.isFeatureInstalled(R.id.actionHome)) {
+                goToFeatureEntryPoint(R.id.actionHome)
+            } else {
+                launchMissingSplitsDialog()
+            }
         }
 
         mainViewModel.featureInstalled.observe(this, ::featureInstalled)
+        mainViewModel.missingSplitsInstalled.observe(this, ::missingSplitsInstalled)
 
         bottomNavigation?.setOnNavigationItemSelectedListener(this)
     }

@@ -2,12 +2,8 @@ package com.jeppeman.jetpackplayground.common_features
 
 import android.content.Context
 import android.content.IntentSender
-import com.google.android.play.core.splitinstall.SplitInstallManager
-import com.google.android.play.core.splitinstall.SplitInstallRequest
-import com.google.android.play.core.splitinstall.SplitInstallSessionState
-import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
-import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
-import com.jeppeman.locallydynamic.LocallyDynamicSplitInstallManagerFactory
+import android.util.Log
+import com.jeppeman.globallydynamic.globalsplitinstall.*
 import java.util.*
 import kotlin.math.roundToInt
 import kotlin.reflect.KClass
@@ -41,16 +37,19 @@ inline fun <reified T : Feature<*>> FeatureManager.installFeature(
 inline fun <reified T : Feature<*>> FeatureManager.isFeatureInstalled(): Boolean = isFeatureInstalled(T::class)
 
 interface FeatureManager {
+    fun installMissingSplits(onStateUpdate: (GlobalSplitInstallSessionState) -> Unit)
     fun <T : Feature<*>> installFeature(featureType: KClass<T>, onStateUpdate: (InstallState) -> Unit)
     fun <T : Feature<*>> isFeatureInstalled(featureType: KClass<T>): Boolean
     fun registerInstallListener(listener: (Feature.Info) -> Unit)
     fun unregisterInstallListener(listener: (Feature.Info) -> Unit)
+    fun registerMissingSplitsInstalledListener(listener: () -> Unit)
+    fun unregisterMissingSplitsInstalledListener(listener: () -> Unit)
 
     sealed class InstallState(val featureInfo: Feature.Info) {
         class Downloading(val progress: Int, featureInfo: Feature.Info) : InstallState(featureInfo)
         class Installing(val progress: Int, featureInfo: Feature.Info) : InstallState(featureInfo)
         class RequiresUserConfirmation(val sender: IntentSender?, featureInfo: Feature.Info) : InstallState(featureInfo)
-        class Failed(val code: Int, featureInfo: Feature.Info) : InstallState(featureInfo)
+        class Failed(val code: Int, val message: String, featureInfo: Feature.Info) : InstallState(featureInfo)
         class Installed(featureInfo: Feature.Info) : InstallState(featureInfo)
     }
 }
@@ -59,15 +58,16 @@ internal class FeatureManagerImpl(
         private val context: Context
 ) : FeatureManager {
 
-    private val splitInstallManager: SplitInstallManager = LocallyDynamicSplitInstallManagerFactory.create(context)
+    private val splitInstallManager: GlobalSplitInstallManager = GlobalSplitInstallManagerFactory.create(context)
     private val installListeners = mutableListOf<(Feature.Info) -> Unit>()
+    private val missingSplitsInstallListeners = mutableListOf<() -> Unit>()
 
-    private fun SplitInstallSessionState.progress(): Int {
+    private fun GlobalSplitInstallSessionState.progress(): Int {
         return ((bytesDownloaded() / totalBytesToDownload().toFloat()) * 100).roundToInt()
     }
 
     private fun <T : Feature<*>> handleDownloadingState(
-            state: SplitInstallSessionState,
+            state: GlobalSplitInstallSessionState,
             featureType: KClass<T>,
             onStateUpdate: (FeatureManager.InstallState) -> Unit
     ) {
@@ -76,7 +76,7 @@ internal class FeatureManagerImpl(
     }
 
     private fun <T : Feature<*>> handleInstallingState(
-            state: SplitInstallSessionState,
+            state: GlobalSplitInstallSessionState,
             featureType: KClass<T>,
             onStateUpdate: (FeatureManager.InstallState) -> Unit
     ) {
@@ -85,7 +85,7 @@ internal class FeatureManagerImpl(
     }
 
     private fun <T : Feature<*>> handleUserConfirmationRequired(
-            state: SplitInstallSessionState,
+            state: GlobalSplitInstallSessionState,
             featureType: KClass<T>,
             onStateUpdate: (FeatureManager.InstallState) -> Unit
     ) {
@@ -103,47 +103,62 @@ internal class FeatureManagerImpl(
     }
 
     private fun <T : Feature<*>> handleFailed(
-            state: SplitInstallSessionState,
+            @GlobalSplitInstallErrorCode errorCode: Int,
             featureType: KClass<T>,
             onStateUpdate: (FeatureManager.InstallState) -> Unit
     ) {
         onStateUpdate(FeatureManager.InstallState.Failed(
-                code = state.errorCode(),
+                code = errorCode,
+                message = GlobalSplitInstallErrorCodeHelper.getErrorDescription(errorCode),
                 featureInfo = featureType.info(context)
         ))
+    }
+
+    override fun installMissingSplits(onStateUpdate: (GlobalSplitInstallSessionState) -> Unit) {
+        splitInstallManager.registerListener(onStateUpdate)
+        splitInstallManager.installMissingSplits()
+                .addOnCompleteListener {
+                    missingSplitsInstallListeners.forEach { it() }
+                    splitInstallManager.unregisterListener(onStateUpdate)
+                }
     }
 
     override fun <T : Feature<*>> installFeature(
             featureType: KClass<T>,
             onStateUpdate: (FeatureManager.InstallState) -> Unit
     ) {
-        val request = SplitInstallRequest.newBuilder()
+        val request = GlobalSplitInstallRequest.newBuilder()
                 .addModule(featureType.info(context).id)
                 .build()
 
-        val installStateUpdateListener = object : SplitInstallStateUpdatedListener {
-            override fun onStateUpdate(state: SplitInstallSessionState) {
+        val installStateUpdateListener = object : GlobalSplitInstallUpdatedListener {
+            override fun onStateUpdate(state: GlobalSplitInstallSessionState) {
                 state.moduleNames().forEach { _ ->
                     when (state.status()) {
-                        SplitInstallSessionStatus.REQUIRES_USER_CONFIRMATION -> {
+                        GlobalSplitInstallSessionStatus.REQUIRES_USER_CONFIRMATION -> {
+                            Log.d("FeatureManager", "REQUIRES_USER_CONFIRMATION")
                             handleUserConfirmationRequired(state, featureType, onStateUpdate)
                         }
-                        SplitInstallSessionStatus.DOWNLOADING -> {
+                        GlobalSplitInstallSessionStatus.DOWNLOADING -> {
+                            Log.d("FeatureManager", "DOWNLOADING")
                             handleDownloadingState(state, featureType, onStateUpdate)
                         }
-                        SplitInstallSessionStatus.INSTALLING -> {
+                        GlobalSplitInstallSessionStatus.INSTALLING -> {
+                            Log.d("FeatureManager", "INSTALLING")
                             handleInstallingState(state, featureType, onStateUpdate)
                         }
-                        SplitInstallSessionStatus.INSTALLED -> {
+                        GlobalSplitInstallSessionStatus.INSTALLED -> {
+                            Log.d("FeatureManager", "INSTALLED")
                             splitInstallManager.unregisterListener(this)
                             installListeners.forEach { listener ->
                                 listener(featureType.info(context))
                             }
                             handleInstalled(featureType, onStateUpdate)
                         }
-                        SplitInstallSessionStatus.FAILED -> {
+                        GlobalSplitInstallSessionStatus.FAILED -> {
+                            Log.d("FeatureManager", "FAILED")
                             splitInstallManager.unregisterListener(this)
-                            handleFailed(state, featureType, onStateUpdate)
+                            handleFailed(state.errorCode(), featureType, onStateUpdate)
                         }
                     }
                 }
@@ -152,6 +167,10 @@ internal class FeatureManagerImpl(
 
         splitInstallManager.registerListener(installStateUpdateListener)
         splitInstallManager.startInstall(request)
+                .addOnFailureListener { exception ->
+                    handleFailed((exception as? GlobalSplitInstallException)?.errorCode ?: 0,
+                    featureType, onStateUpdate)
+                }
     }
 
     override fun registerInstallListener(listener: (Feature.Info) -> Unit) {
@@ -162,7 +181,19 @@ internal class FeatureManagerImpl(
         installListeners.remove(listener)
     }
 
+    override fun registerMissingSplitsInstalledListener(listener: () -> Unit) {
+        missingSplitsInstallListeners.add(listener)
+    }
+
+    override fun unregisterMissingSplitsInstalledListener(listener: () -> Unit) {
+        missingSplitsInstallListeners.remove(listener)
+    }
+
     override fun <T : Feature<*>> isFeatureInstalled(featureType: KClass<T>): Boolean {
         return splitInstallManager.installedModules.contains(featureType.info(context).id)
     }
+}
+
+fun GlobalSplitInstallSessionState.progress(): Int {
+    return ((bytesDownloaded() / totalBytesToDownload().toFloat()) * 100).roundToInt()
 }

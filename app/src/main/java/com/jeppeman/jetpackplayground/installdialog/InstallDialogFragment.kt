@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
-import com.jeppeman.jetpackplayground.MainViewModel
+import com.jeppeman.globallydynamic.globalsplitinstall.GlobalSplitInstallErrorCodeHelper
+import com.jeppeman.globallydynamic.globalsplitinstall.GlobalSplitInstallSessionState
+import com.jeppeman.globallydynamic.globalsplitinstall.GlobalSplitInstallSessionStatus
 import com.jeppeman.jetpackplayground.R
 import com.jeppeman.jetpackplayground.common.presentation.extensions.animateBetween
 import com.jeppeman.jetpackplayground.common.presentation.extensions.animateProgress
 import com.jeppeman.jetpackplayground.common.presentation.extensions.observe
 import com.jeppeman.jetpackplayground.common_features.FeatureManager
+import com.jeppeman.jetpackplayground.common_features.progress
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.install_feature_dialog.*
 import javax.inject.Inject
@@ -58,7 +61,10 @@ class InstallDialogFragment : DialogFragment() {
     }
 
     private fun handleFailedState(state: FeatureManager.InstallState.Failed) {
-        progressText?.text = getString(R.string.install_dialog_failed, state.code.toString())
+        progressText?.text = getString(
+                R.string.install_dialog_failed,
+                state.message
+        )
     }
 
     private fun handleUserConfirmationRequired(state: FeatureManager.InstallState.RequiresUserConfirmation) {
@@ -107,6 +113,94 @@ class InstallDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         installDialogViewModel.installState.observe(viewLifecycleOwner, ::onInstallStateChanged)
+
+        dialog?.window?.setWindowAnimations(R.style.DialogAnimation)
+        dialog?.setCanceledOnTouchOutside(false)
+    }
+}
+
+fun createMissingSplitsInstallDialogFragment() = MissingSplitsInstallDialogFragment()
+
+class MissingSplitsInstallDialogFragment : DialogFragment() {
+    @Inject
+    lateinit var installDialogViewModel: InstallDialogViewModel
+
+    private fun progressTo(to: Int) {
+        progressValueText?.animateProgress(loader?.progress ?: 0, to, 300)
+        loader?.animateBetween(loader?.progress ?: 0, to, 333)
+    }
+
+    private fun handleDownloadingState(state: GlobalSplitInstallSessionState) {
+        progressText?.text = getString(R.string.install_dialog_step_downloading)
+        progressTo(state.progress())
+    }
+
+    private fun handleInstallingState(state: GlobalSplitInstallSessionState) {
+        progressText?.text = getString(R.string.install_dialog_installing)
+        progressTo(state.progress())
+    }
+
+    private fun handleInstalledState(state: GlobalSplitInstallSessionState) {
+        progressText?.text = getString(R.string.install_dialog_installed)
+        progressTo(100)
+        dismissDelayed()
+    }
+
+    private fun dismissDelayed() {
+        view?.postDelayed({
+            if (fragmentManager != null) {
+                dismiss()
+            }
+        }, 500)
+    }
+
+    private fun handleFailedState(state: GlobalSplitInstallSessionState) {
+        progressText?.text = getString(
+                R.string.install_dialog_failed,
+                GlobalSplitInstallErrorCodeHelper.getErrorDescription(state.errorCode()) ?: ""
+        )
+    }
+
+    private fun handleUserConfirmationRequired(state: GlobalSplitInstallSessionState) {
+        activity?.startIntentSender(state.resolutionIntent().intentSender, null, 0, 0, 0)
+    }
+
+    private fun onInstallStateChanged(state: GlobalSplitInstallSessionState?) {
+        if (state != null) {
+            dialog?.setTitle(getString(R.string.missing_splits_install_dialog_title))
+            installDialogContainer?.transitionToEnd()
+        }
+
+        when (state?.status()) {
+            GlobalSplitInstallSessionStatus.REQUIRES_USER_CONFIRMATION -> handleUserConfirmationRequired(state)
+            GlobalSplitInstallSessionStatus.DOWNLOADING -> handleDownloadingState(state)
+            GlobalSplitInstallSessionStatus.INSTALLING -> handleInstallingState(state)
+            GlobalSplitInstallSessionStatus.INSTALLED -> handleInstalledState(state)
+            GlobalSplitInstallSessionStatus.FAILED -> handleFailedState(state)
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        AndroidSupportInjection.inject(this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.DialogTheme)
+
+        if (savedInstanceState == null) {
+            installDialogViewModel.installMissingSplits()
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.install_feature_dialog, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        installDialogViewModel.missingSplitsInstallState.observe(viewLifecycleOwner, ::onInstallStateChanged)
 
         dialog?.window?.setWindowAnimations(R.style.DialogAnimation)
         dialog?.setCanceledOnTouchOutside(false)
