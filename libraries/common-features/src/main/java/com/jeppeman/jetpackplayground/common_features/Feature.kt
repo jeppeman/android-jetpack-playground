@@ -49,3 +49,7 @@ interface VideoFeature : Feature<VideoFeature.Dependencies> {
         val backgroundDispatcher: CoroutineDispatcher
     }
 }
+
+interface VideoFeatureInjectionProvider {
+    val videoFeature: VideoFeature
+}

@@ -8,6 +8,7 @@ import com.jeppeman.jetpackplayground.video.presentation.orientation.ScreenMode
 import javax.inject.Inject
 
 interface VideoDetailViewModel : LifecycleAwareCoroutineViewModel {
+    var landscape: Boolean
     val video: VideoModel
     val videoDetailPlayer: VideoDetailPlayer
     val screenMode: LiveData<ScreenMode>
@@ -20,6 +21,7 @@ interface VideoDetailViewModel : LifecycleAwareCoroutineViewModel {
     val videoLengthText: LiveData<String>
     val videoProgress: LiveData<Long>
 
+    fun enterFullscreen()
     fun setVideoProgress(progress: Long)
     fun onLoadingAnimationFinished()
     fun onLandscapeTransitionFinished()
@@ -40,6 +42,7 @@ interface VideoDetailViewModel : LifecycleAwareCoroutineViewModel {
         fun onError(context: StateContext, what: Int?) {}
         fun onLoadingAnimationFinished(context: StateContext) {}
         fun onScreenModeChanged(context: StateContext, mode: ScreenMode) {}
+        fun onCreate(context: StateContext) {}
         fun onStop(context: StateContext) {}
         fun onStart(context: StateContext) {}
     }
@@ -54,9 +57,13 @@ interface VideoDetailViewModel : LifecycleAwareCoroutineViewModel {
     interface CompletedState : State
     interface ErrorState : State
 
-    class StateContext @Inject constructor() {
+    class StateContext constructor(initialState: State) {
         private val nonNullState get() = requireNotNull(state.value)
-        val state = mutableLiveDataOf<State>()
+        val state = mutableLiveDataOf(initialState)
+
+        fun onCreate() {
+            nonNullState.onCreate(this)
+        }
 
         fun onStop() {
             nonNullState.onStop(this)

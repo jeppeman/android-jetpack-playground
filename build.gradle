@@ -2,10 +2,6 @@ buildscript {
     apply from: 'deps.gradle'
 
     repositories {
-        mavenLocal()
-        maven {
-            url "https://plugins.gradle.org/m2"
-        }
         jcenter()
         google()
         mavenCentral()
@@ -14,7 +10,7 @@ buildscript {
         classpath "com.android.tools.build:gradle:$versions.androidplugin"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
         classpath "com.github.ben-manes:gradle-versions-plugin:$versions.versionsplugin"
-        classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:$versions.navigation"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.navigation"
         classpath "com.jeppeman.globallydynamic.gradle:plugin:$versions.globallydynamic_gradle"
         classpath "com.google.firebase:firebase-crashlytics-gradle:2.2.0"
         classpath 'com.google.gms:google-services:4.3.3'
@@ -26,7 +22,7 @@ ext {
     targetSdkVersion = 29
     compileSdkVersion = 29
     buildToolsVersion = "28.0.3"
-    androidVersionCode = 29
+    androidVersionCode = 30
     androidVersionName = "1.1"
     sourceCompatibilityVersion = JavaVersion.VERSION_1_8
     targetCompatibilityVersion = JavaVersion.VERSION_1_8
@@ -39,7 +35,6 @@ ext {
 subprojects {
     afterEvaluate { project ->
         repositories {
-            mavenLocal()
             jcenter()
             google()
             mavenCentral()

@@ -2,6 +2,7 @@ package com.jeppeman.jetpackplayground.base
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
+import com.jeppeman.jetpackplayground.MainApplication
 import com.jeppeman.jetpackplayground.R
 import com.jeppeman.jetpackplayground.common.presentation.SingleLiveEvent
 import com.jeppeman.jetpackplayground.common.presentation.extensions.mutableLiveDataOf
@@ -94,9 +95,7 @@ abstract class BaseFeatureNavigatorViewModel : ViewModel() {
                 )
             }
             R.id.actionVideo -> {
-                featureManager.getFeature<VideoFeature, VideoFeature.Dependencies>(
-                        dependencies = videoFeatureDependencies.get()
-                )
+                (context as MainApplication).videoFeature
             }
             else -> null
         } ?: throw IllegalArgumentException("Feature not found for action $actionId")

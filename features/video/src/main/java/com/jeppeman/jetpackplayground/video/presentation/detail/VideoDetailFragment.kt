@@ -1,7 +1,7 @@
 package com.jeppeman.jetpackplayground.video.presentation.detail
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.Surface
 import android.view.View
 import android.widget.SeekBar
@@ -10,11 +10,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.jeppeman.jetpackplayground.common.presentation.AppUiContainer
 import com.jeppeman.jetpackplayground.common.presentation.BaseFragment
 import com.jeppeman.jetpackplayground.common.presentation.animation.SimpleTransitionListener
-import com.jeppeman.jetpackplayground.common.presentation.extensions.observe
-import com.jeppeman.jetpackplayground.common.presentation.extensions.onSurfaceAvailable
-import com.jeppeman.jetpackplayground.common.presentation.extensions.setCollapsingToolbarFont
-import com.jeppeman.jetpackplayground.common.presentation.extensions.setImageUrl
-import com.jeppeman.jetpackplayground.common.presentation.extensions.setVisible
+import com.jeppeman.jetpackplayground.common.presentation.extensions.*
 import com.jeppeman.jetpackplayground.video.R
 import com.jeppeman.jetpackplayground.video.presentation.orientation.ScreenMode
 import com.jeppeman.jetpackplayground.video.presentation.widget.asSoundState
@@ -27,14 +23,15 @@ class VideoDetailFragment : BaseFragment<VideoDetailViewModel>() {
     private var isLoading = false
     private var loadingFinishedPending = false
     override val layoutRes = R.layout.fragment_video_detail
+
     @Inject
     override lateinit var viewModel: VideoDetailViewModel
+
     @Inject
     lateinit var appUiContainer: AppUiContainer
-    private val isLandscape: Boolean by lazy { resources.getBoolean(R.bool.landscape) }
 
     private fun enterFullscreen() {
-        if (isLandscape) {
+        if (context?.resources?.getBoolean(R.bool.landscape) == true) {
             appUiContainer.enterFullscreen()
         }
         appBar?.apply {
@@ -281,20 +278,6 @@ class VideoDetailFragment : BaseFragment<VideoDetailViewModel>() {
         })
 
         videoView?.onSurfaceAvailable { surfaceTexture ->
-            viewModel.videoDetailPlayer.registerProgressListener {
-                if (videoContainer?.currentState != R.id.videoPlaying) {
-                    videoContainer?.transitionToState(R.id.videoPlaying)
-                }
-                if (actionContainer?.currentState != -1 && actionContainer?.currentState != R.id.end) {
-                    actionContainer?.apply {
-                        loadLayoutDescription(R.xml.video_detail_fab_container_scene)
-                        setTransition(R.id.start, R.id.end)
-                        transitionToEnd()
-                    }
-                }
-                backdrop?.alpha = 0f
-                videoFrame?.alpha = 1f
-            }
             viewModel.videoDetailPlayer.attachSurface(Surface(surfaceTexture))
         }
     }
@@ -319,10 +302,16 @@ class VideoDetailFragment : BaseFragment<VideoDetailViewModel>() {
         exitFullscreen()
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        viewModel.landscape = context.resources.getBoolean(R.bool.landscape)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupListeners()
         initiateViews()
+
         val sharedElementTransition = TransitionInflater.from(requireContext())
                 .inflateTransition(R.transition.video_detail_shared_element_transition)
 

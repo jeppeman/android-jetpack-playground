@@ -11,6 +11,7 @@ interface VideoDetailPlayer {
     fun mute()
     fun unmute()
     fun registerProgressListener(onProgressListener: (Long) -> Unit)
+    fun unregisterProgressListener(onProgressListener: (Long) -> Unit)
     fun registerErrorListener(onErrorListener: (Int?) -> Unit)
     fun registerPlaybackReadyListener(onPlaybackReadyListener: () -> Unit)
     fun registerCompletionListener(onCompletedListener: () -> Unit)

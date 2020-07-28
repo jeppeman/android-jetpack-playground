@@ -17,12 +17,11 @@ abstract class BaseFragment<TViewModel : LifecycleAwareCoroutineViewModel> : Fra
     protected abstract val layoutRes: Int
     abstract val viewModel: TViewModel
 
-    protected open fun inject() {
-        try {
-            AndroidSupportInjection.inject(this)
-        } catch (exception: Exception) {
 
-        }
+
+    protected open fun inject() {
+        context!!.stripFireOsAssets()
+        AndroidSupportInjection.inject(this)
     }
 
     override fun onAttach(context: Context) {
@@ -37,7 +36,7 @@ abstract class BaseFragment<TViewModel : LifecycleAwareCoroutineViewModel> : Fra
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         GlobalSplitCompat.install(context)
-//        Log.e("Yolo", this::class.java.canonicalName)
+        context!!.stripFireOsAssets()
         return inflater.inflate(layoutRes, container, false)
     }
 }

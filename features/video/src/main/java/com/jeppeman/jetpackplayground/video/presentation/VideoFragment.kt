@@ -1,9 +1,11 @@
 package com.jeppeman.jetpackplayground.video.presentation
 
 import android.os.Bundle
+import android.util.Log
 import com.jeppeman.jetpackplayground.common.presentation.BaseFragment
+import com.jeppeman.jetpackplayground.common_features.VideoFeatureInjectionProvider
 import com.jeppeman.jetpackplayground.video.R
-import com.jeppeman.jetpackplayground.video.platform.videoComponent
+import com.jeppeman.jetpackplayground.video.platform.VideoFeatureImpl
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -21,7 +23,9 @@ class VideoFragment : BaseFragment<VideoViewModel>(), HasAndroidInjector {
     override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
 
     override fun inject() {
-        videoComponent.videoFragmentComponentFactory
+        ((context?.applicationContext as? VideoFeatureInjectionProvider)?.videoFeature as VideoFeatureImpl)
+                .videoComponent
+                .videoFragmentComponentFactory
                 .create(this)
                 .inject(this)
     }

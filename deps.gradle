@@ -15,7 +15,7 @@ def versions = [
         runner                : '1.2.0',
         uiautomator           : '2.2.0',
         versionsplugin        : '0.25.0',
-        navigation            : '1.0.0',
+        navigation            : '2.3.0',
         material              : '1.1.0',
         recyclerview          : '1.1.0',
         constraintlayout      : '2.0.0-beta4',
@@ -36,8 +36,8 @@ def versions = [
         timber                : '4.7.1',
         exoplayer             : '2.10.6',
         autoservice           : '1.0-rc6',
-        globallydynamic       : '0.1-SNAPSHOT',
-        globallydynamic_gradle: '0.1-SNAPSHOT',
+        globallydynamic       : '0.1-alpha01',
+        globallydynamic_gradle: '0.1-alpha01',
         crashlytics           : '17.1.1',
         analytics             : '17.4.4'
 ]
@@ -63,9 +63,9 @@ deps.constraintlayout = [
 ]
 
 deps.navigation = [
-        fragment: "android.arch.navigation:navigation-fragment-ktx:$versions.navigation",
-        ui      : "android.arch.navigation:navigation-ui-ktx:$versions.navigation",
-        runtime : "android.arch.navigation:navigation-runtime:$versions.navigation"
+        fragment: "androidx.navigation:navigation-fragment-ktx:$versions.navigation",
+        ui      : "androidx.navigation:navigation-ui-ktx:$versions.navigation",
+        runtime : "androidx.navigation:navigation-runtime:$versions.navigation"
 ]
 
 deps.lifecycle = [

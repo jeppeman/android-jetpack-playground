@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.jeppeman.jetpackplayground.common.presentation.AppUiContainer
 import com.jeppeman.jetpackplayground.common.presentation.di.scopes.ChildFragmentScope
 import com.jeppeman.jetpackplayground.common.presentation.di.scopes.FragmentScope
-import com.jeppeman.jetpackplayground.video.R
 import com.jeppeman.jetpackplayground.video.presentation.detail.VideoDetailFragment
 import com.jeppeman.jetpackplayground.video.presentation.detail.VideoDetailModule
 import com.jeppeman.jetpackplayground.video.presentation.list.VideoListFragment
@@ -27,12 +26,6 @@ object VideoFragmentModule {
     @Provides
     fun provideAppUiContainer(videoFragment: VideoFragment): AppUiContainer =
             videoFragment.activity as AppUiContainer
-
-    @JvmStatic
-    @Provides
-    @FragmentScope
-    fun provideVideoFragmentParameter(videoFragment: VideoFragment): VideoParameter =
-            VideoParameter(videoFragment.resources.getBoolean(R.bool.landscape))
 
     @Module
     interface Contributor {
