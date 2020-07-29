@@ -1,0 +1,13 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.jeppeman.jetpackplayground.video_resources"
+4    android:versionCode="30"
+5    android:versionName="1.1" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="23"
+8-->/Users/jesper/dev/android/android-jetpack-playground/libraries/video-resources/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="29" />
+9-->/Users/jesper/dev/android/android-jetpack-playground/libraries/video-resources/src/main/AndroidManifest.xml
+10
+11</manifest>

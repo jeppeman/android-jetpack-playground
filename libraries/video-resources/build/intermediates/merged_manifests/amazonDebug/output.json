@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "applicationId": "com.jeppeman.jetpackplayground.video_resources",
+  "variantType": "LIBRARY",
+  "elements": [
+    {
+      "outputType": {
+        "type": "MERGED_MANIFESTS"
+      },
+      "apkData": {
+        "type": "MAIN",
+        "splits": [],
+        "versionCode": 30,
+        "versionName": "1.1",
+        "outputFile": "video-resources-amazon-debug.aar",
+        "fullName": "amazonDebug",
+        "baseName": "amazon-debug",
+        "dirName": ""
+      },
+      "path": "../../library_manifest/amazonDebug/AndroidManifest.xml",
+      "properties": {
+        "packageId": "com.jeppeman.jetpackplayground.video_resources",
+        "split": ""
+      }
+    }
+  ]
+}

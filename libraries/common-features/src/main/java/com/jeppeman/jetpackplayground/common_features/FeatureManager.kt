@@ -134,6 +134,7 @@ internal class FeatureManagerImpl(
         val installStateUpdateListener = object : GlobalSplitInstallUpdatedListener {
             override fun onStateUpdate(state: GlobalSplitInstallSessionState) {
                 state.moduleNames().forEach { _ ->
+                    Log.d("FeatureManager", "Status ${state.status()}")
                     when (state.status()) {
                         GlobalSplitInstallSessionStatus.REQUIRES_USER_CONFIRMATION -> {
                             Log.d("FeatureManager", "REQUIRES_USER_CONFIRMATION")
@@ -149,11 +150,11 @@ internal class FeatureManagerImpl(
                         }
                         GlobalSplitInstallSessionStatus.INSTALLED -> {
                             Log.d("FeatureManager", "INSTALLED")
-                            splitInstallManager.unregisterListener(this)
-                            installListeners.forEach { listener ->
-                                listener(featureType.info(context))
-                            }
-                            handleInstalled(featureType, onStateUpdate)
+//                            splitInstallManager.unregisterListener(this)
+//                            installListeners.forEach { listener ->
+//                                listener(featureType.info(context))
+//                            }
+//                            handleInstalled(featureType, onStateUpdate)
                         }
                         GlobalSplitInstallSessionStatus.FAILED -> {
                             Log.d("FeatureManager", "FAILED")
@@ -165,11 +166,26 @@ internal class FeatureManagerImpl(
             }
         }
 
+        var sessionId: Int? = null
         splitInstallManager.registerListener(installStateUpdateListener)
         splitInstallManager.startInstall(request)
+                .addOnSuccessListener { result ->
+                    if (sessionId == result) {
+                        Log.d("FeatureManager", "already finished $result")
+                    } else {
+                        sessionId = result
+                        Log.d("FeatureManager", "success for $result")
+                        splitInstallManager.unregisterListener(installStateUpdateListener)
+                        installListeners.forEach { listener ->
+                            listener(featureType.info(context))
+                        }
+                        handleInstalled(featureType, onStateUpdate)
+                    }
+                }
                 .addOnFailureListener { exception ->
                     handleFailed((exception as? GlobalSplitInstallException)?.errorCode ?: 0,
-                    featureType, onStateUpdate)
+                            featureType, onStateUpdate)
+                    splitInstallManager.unregisterListener(installStateUpdateListener)
                 }
     }
 

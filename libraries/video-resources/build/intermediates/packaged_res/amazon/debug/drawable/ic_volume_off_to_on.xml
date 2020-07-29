@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector xmlns:android="http://schemas.android.com/apk/res/android"
+            android:width="32dp"
+            android:height="32dp"
+            android:viewportWidth="32"
+            android:viewportHeight="32">
+
+            <path
+                android:fillColor="#FFFFFFFF"
+                android:pathData="M18.688,4.313c5.375,1.188 9.313,6 9.313,11.688s-3.938,10.5 -9.313,11.688v-2.75c3.875,-1.125 6.625,-4.688 6.625,-8.938s-2.75,-7.813 -6.625,-8.938v-2.75zM22,16c0,2.375 -1.313,4.375 -3.313,5.375v-10.75c2,1 3.313,3 3.313,5.375zM4,12h5.313l6.688,-6.688v21.375l-6.688,-6.688h-5.313v-8z" />
+
+            <path
+                android:name="strike"
+                android:fillColor="#FFFFFFFF"
+                android:pathData="M6,5.5 l1.6,-1.5 21.9,23 -1.6,1.5z" />
+        </vector>
+    </aapt:attr>
+    <target android:name="strike">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="300"
+                    android:propertyName="pathData"
+                    android:valueTo="M6,5.5 l1.6,-1.5 0,0 -1.6,1.5z"
+                    android:valueFrom="M6,5.5 l1.6,-1.5 21.9,23 -1.6,1.5z"
+                    android:valueType="pathType" />
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>
+

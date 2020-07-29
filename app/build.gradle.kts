@@ -31,6 +31,7 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
+            isDebuggable = true
             if (project.hasProperty("KEYSTORE_PATH")) {
                  signingConfig = signingConfigs.getByName("release")
             }

@@ -3,6 +3,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+android {
+    buildTypes {
+        release {
+            debuggable true
+        }
+    }
+}
 deps[project.name] = [
         implementation           : [
                 project(':app')

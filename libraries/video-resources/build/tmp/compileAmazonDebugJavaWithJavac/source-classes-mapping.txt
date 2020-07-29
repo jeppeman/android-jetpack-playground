@@ -1,0 +1,2 @@
+com/jeppeman/jetpackplayground/video_resources/BuildConfig.java
+ com.jeppeman.jetpackplayground.video_resources.BuildConfig

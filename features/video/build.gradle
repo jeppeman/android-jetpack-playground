@@ -24,6 +24,12 @@ android {
         testInstrumentationRunner "com.jeppeman.jetpackplayground.video.MockApplicationTestRunner"
     }
 
+    buildTypes {
+        release {
+            debuggable true
+        }
+    }
+
     sourceSets {
         androidTest {
             java.srcDirs += "src/sharedTest/java"

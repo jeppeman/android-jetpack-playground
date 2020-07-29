@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        app:constraintSetEnd="@+id/end"
+        app:constraintSetStart="@+id/start"
+        app:duration="1000">
+        <KeyFrameSet>
+            <KeyAttribute
+                android:scaleX="0.9"
+                android:scaleY="0.9"
+                app:framePosition="20"
+                app:motionTarget="@+id/landscapeVideoContainer" />
+            <KeyAttribute
+                app:framePosition="30"
+                app:motionTarget="@+id/landscapeVideoContainer">
+                <CustomAttribute
+                    app:attributeName="radius"
+                    app:customDimension="@dimen/video_detail_circle_radius" />
+            </KeyAttribute>
+        </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/landscapeVideoContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleX="1"
+            android:scaleY="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <CustomAttribute
+                app:attributeName="radius"
+                app:customDimension="@dimen/video_detail_circle_radius" />
+        </Constraint>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/landscapeVideoContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleX="1"
+            android:scaleY="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <CustomAttribute
+                app:attributeName="radius"
+                app:customDimension="0dp" />
+        </Constraint>
+    </ConstraintSet>
+
+</MotionScene>

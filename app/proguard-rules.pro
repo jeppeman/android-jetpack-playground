@@ -44,6 +44,8 @@
 
 -keepnames @kotlin.Metadata class com.jeppeman.jetpackplayground.video.data.entity.**
 -keep class com.jeppeman.jetpackplayground.video.data.entity.** { *; }
+-keep class com.jeppeman.jetpackplayground.video.platform.** { *; }
+-keep class com.jeppeman.jetpackplayground.common_features.** { *; }
 -keepclassmembers class com.jeppeman.jetpackplayground.video.data.entity.** { *; }
 
 -keepattributes *Annotation*
