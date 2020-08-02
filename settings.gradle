@@ -1,3 +1,4 @@
+include ':libraries:video-resources'
 include ':app',
         ':features:video',
         ':features:home',

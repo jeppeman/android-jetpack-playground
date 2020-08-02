@@ -42,7 +42,7 @@ android {
     globallyDynamicServers {
         create("studioIntegrated") {
             throttleDownloadBy = 2000
-            applyToBuildVariants("huaweiDebug", "galaxyDebug", "amazonDebug", "gplayDebug")
+            applyToBuildVariants("gplayDebug", "huaweiDebug", "galaxyDebug", "amazonDebug")
         }
         create("prod") {
             serverUrl = "https://globallydynamic.io/api"
@@ -102,6 +102,7 @@ dependencies {
     api(project(":libraries:common-domain"))
     api(project(":libraries:common-data"))
     api(project(":libraries:common-features"))
+    api(project(":libraries:video-resources"))
 
     kapt(dagger["compiler"] ?: error(""))
     kapt(dagger["android_compiler"] ?: error(""))

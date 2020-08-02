@@ -39,6 +39,10 @@ interface HomeFeature : Feature<HomeFeature.Dependencies> {
     interface Dependencies {
         val context: Context
     }
+
+    interface InjectionProvider {
+        val homeFeature: HomeFeature
+    }
 }
 
 interface VideoFeature : Feature<VideoFeature.Dependencies> {
@@ -48,8 +52,8 @@ interface VideoFeature : Feature<VideoFeature.Dependencies> {
         val handler: Handler
         val backgroundDispatcher: CoroutineDispatcher
     }
-}
 
-interface VideoFeatureInjectionProvider {
-    val videoFeature: VideoFeature
+    interface InjectionProvider {
+        val videoFeature: VideoFeature
+    }
 }

@@ -23,4 +23,5 @@ interface VideoDetailPlayer {
     fun reset()
     fun release()
     fun attachSurface(surface: Surface)
+    fun clearSurface()
 }

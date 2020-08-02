@@ -4,15 +4,16 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import com.jeppeman.jetpackplayground.appComponent
+import com.jeppeman.jetpackplayground.MainApplication
 import com.jeppeman.jetpackplayground.common.presentation.AppUiContainer
 import com.jeppeman.jetpackplayground.common.presentation.BaseActivity
 import com.jeppeman.jetpackplayground.common_features.FeatureManager
 import com.jeppeman.jetpackplayground.common_features.VideoFeature
 import com.jeppeman.jetpackplayground.common_features.getFeature
-import com.jeppeman.jetpackplayground.video.R
+import com.jeppeman.jetpackplayground.video_resources.R
 
 class VideoActivity : BaseActivity(), AppUiContainer {
+    private val appComponent get() = (application as MainApplication).appComponent
     private val featureManager: FeatureManager by lazy { appComponent.featureManager }
 
     override fun enterFullscreen() {

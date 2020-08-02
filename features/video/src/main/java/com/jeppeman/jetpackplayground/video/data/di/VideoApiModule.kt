@@ -1,7 +1,7 @@
 package com.jeppeman.jetpackplayground.video.data.di
 
 import android.content.Context
-import com.jeppeman.jetpackplayground.video.R
+import com.jeppeman.jetpackplayground.video_resources.R
 import com.jeppeman.jetpackplayground.video.data.entity.mapper.VideoEntityMapper
 import com.jeppeman.jetpackplayground.video.data.net.VideoApi
 import com.jeppeman.jetpackplayground.video.platform.di.VideoScope

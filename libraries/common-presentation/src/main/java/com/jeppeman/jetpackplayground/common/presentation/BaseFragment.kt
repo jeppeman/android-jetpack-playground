@@ -2,7 +2,6 @@ package com.jeppeman.jetpackplayground.common.presentation
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,10 +16,7 @@ abstract class BaseFragment<TViewModel : LifecycleAwareCoroutineViewModel> : Fra
     protected abstract val layoutRes: Int
     abstract val viewModel: TViewModel
 
-
-
     protected open fun inject() {
-        context!!.stripFireOsAssets()
         AndroidSupportInjection.inject(this)
     }
 
@@ -36,7 +32,6 @@ abstract class BaseFragment<TViewModel : LifecycleAwareCoroutineViewModel> : Fra
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         GlobalSplitCompat.install(context)
-        context!!.stripFireOsAssets()
         return inflater.inflate(layoutRes, container, false)
     }
 }

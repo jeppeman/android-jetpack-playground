@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/videoListFragment">
+    <fragment
+        android:id="@+id/videoListFragment"
+        android:label="VideoListFragment"
+        android:name="com.jeppeman.jetpackplayground.video.presentation.list.VideoListFragment"
+        tools:layout="@layout/fragment_video_list">
+        <action
+            android:id="@+id/action_videoListFragment_to_videoDetailFragment"
+            app:destination="@+id/videoDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/videoDetailFragment"
+        android:name="com.jeppeman.jetpackplayground.video.presentation.detail.VideoDetailFragment"
+        android:label="VideoDetailFragment"
+        tools:layout="@layout/fragment_video_detail">
+        <argument
+            android:name="VideoDetailParameter"
+            app:argType="android.os.Parcelable" />
+    </fragment>
+
+</navigation>

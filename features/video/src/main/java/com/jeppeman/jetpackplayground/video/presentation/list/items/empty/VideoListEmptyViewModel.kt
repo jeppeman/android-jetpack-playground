@@ -1,6 +1,6 @@
 package com.jeppeman.jetpackplayground.video.presentation.list.items.empty
 
-import com.jeppeman.jetpackplayground.video.R
+import com.jeppeman.jetpackplayground.video_resources.R
 import com.jeppeman.jetpackplayground.video.presentation.list.VideoListViewModel
 import com.jeppeman.jetpackplayground.video.presentation.list.items.VideoListItem
 import javax.inject.Inject

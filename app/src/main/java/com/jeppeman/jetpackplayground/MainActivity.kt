@@ -1,11 +1,8 @@
 package com.jeppeman.jetpackplayground
 
 import android.content.pm.ActivityInfo
-import android.content.res.AssetManager
-import android.content.res.Resources
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager

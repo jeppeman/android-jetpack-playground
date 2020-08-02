@@ -8,8 +8,9 @@ import android.view.View
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import com.jeppeman.jetpackplayground.common.presentation.BaseFragment
+import com.jeppeman.jetpackplayground.common_features.HomeFeature
 import com.jeppeman.jetpackplayground.home.R
-import com.jeppeman.jetpackplayground.home.platform.homeComponent
+import com.jeppeman.jetpackplayground.home.platform.HomeFeatureImpl
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
@@ -17,13 +18,16 @@ fun createHomeFragment(): HomeFragment = HomeFragment()
 
 class HomeFragment : BaseFragment<HomeViewModel>() {
     override val layoutRes = R.layout.fragment_home
+
     @Inject
     override lateinit var viewModel: HomeViewModel
 
     override fun inject() {
-        homeComponent.homeFragmentComponentFactory
-                .create(this)
-                .inject(this)
+        ((context?.applicationContext as? HomeFeature.InjectionProvider)?.homeFeature as? HomeFeatureImpl)
+                ?.homeComponent
+                ?.homeFragmentComponentFactory
+                ?.create(this)
+                ?.inject(this)
     }
 
     private fun loopAnimation(imageView: ImageView?, animatedVectorDrawable: AnimatedVectorDrawable?) {

@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
-import com.jeppeman.jetpackplayground.video.R
+import com.jeppeman.jetpackplayground.video_resources.R
 
 class ToggleSoundButton(context: Context, attributeSet: AttributeSet) : AppCompatImageButton(context, attributeSet) {
     private val onToOff: AnimatedVectorDrawable? =

@@ -2,14 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
-android {
-    buildTypes {
-        release {
-            minifyEnabled true
-        }
-    }
-}
-
 configurations {
     gplayDebugApi {}
     galaxyDebugApi {}
@@ -21,9 +13,10 @@ configurations {
     amazonReleaseApi {}
 }
 
+
 deps[project.name] = [
         implementation                 : [
-                deps.appcompat.appcompat,
+                deps.navigation.fragment,
                 deps.kotlin.stdlib,
                 deps.okhttp.okhttp,
                 deps.coroutines.core

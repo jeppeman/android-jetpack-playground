@@ -2,6 +2,7 @@ buildscript {
     apply from: 'deps.gradle'
 
     repositories {
+        mavenLocal()
         jcenter()
         google()
         mavenCentral()
@@ -34,7 +35,9 @@ ext {
 
 subprojects {
     afterEvaluate { project ->
+
         repositories {
+            mavenLocal()
             jcenter()
             google()
             mavenCentral()

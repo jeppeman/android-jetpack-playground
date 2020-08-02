@@ -1,5 +1,6 @@
 package com.jeppeman.jetpackplayground.video.presentation.detail
 
+import android.util.Log
 import com.jeppeman.jetpackplayground.common.presentation.BaseViewModel
 import com.jeppeman.jetpackplayground.common.presentation.extensions.mutableLiveDataOf
 import com.jeppeman.jetpackplayground.video.presentation.model.VideoModel

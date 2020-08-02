@@ -47,7 +47,7 @@ object VideoDetailModule {
     @Provides
     @ChildFragmentScope
     fun provideVideoDetailParameter(videoDetailFragment: VideoDetailFragment): VideoDetailParameter =
-            VideoDetailFragmentArgs.fromBundle(videoDetailFragment.requireArguments()).videoDetailParameter
+            VideoDetailFragmentArgs.fromBundle(videoDetailFragment.requireArguments()).videoDetailParameter as VideoDetailParameter
 
     @JvmStatic
     @Provides

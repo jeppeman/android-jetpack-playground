@@ -1,6 +1,6 @@
 package com.jeppeman.jetpackplayground.video.presentation.list.items.loading
 
-import com.jeppeman.jetpackplayground.video.R
+import com.jeppeman.jetpackplayground.video_resources.R
 import com.jeppeman.jetpackplayground.video.presentation.list.items.VideoListItem
 
 class VideoListLoadingViewModel : VideoListItem {

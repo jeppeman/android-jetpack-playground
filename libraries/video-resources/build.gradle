@@ -1,0 +1,9 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'androidx.navigation.safeargs'
+
+dependencies {
+    implementation deps.navigation.fragment
+    implementation deps.navigation.runtime
+    implementation deps.navigation.ui
+}

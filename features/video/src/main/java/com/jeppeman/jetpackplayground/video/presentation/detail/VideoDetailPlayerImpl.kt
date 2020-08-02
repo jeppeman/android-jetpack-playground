@@ -78,8 +78,8 @@ class VideoDetailPlayerImpl @Inject constructor(
         }
     }
 
-    override fun onPlayerError(error: ExoPlaybackException?) {
-        if (error?.cause is IllegalStateException && isPlaying) {
+    override fun onPlayerError(error: ExoPlaybackException) {
+        if (error.cause is IllegalStateException && isPlaying) {
             val progress = exoPlayer.currentPosition
             videoUrl = videoUrl
             exoPlayer.seekTo(progress)
@@ -153,5 +153,9 @@ class VideoDetailPlayerImpl @Inject constructor(
 
     override fun attachSurface(surface: Surface) {
         exoPlayer.setVideoSurface(surface)
+    }
+
+    override fun clearSurface() {
+        exoPlayer.clearVideoSurface()
     }
 }

@@ -5,7 +5,7 @@ import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
-import com.jeppeman.jetpackplayground.video.R
+import com.jeppeman.jetpackplayground.video_resources.R
 
 class PlayButtonAnimationBehavior(
         private val target: ImageButton,
