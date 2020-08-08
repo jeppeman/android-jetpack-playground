@@ -47,9 +47,9 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loopAnimation(homeIcon, homeIcon?.drawable as? AnimatedVectorDrawable)
-        view.postDelayed({
-            loopAnimation(homeIcon2, homeIcon2?.drawable as? AnimatedVectorDrawable)
-        }, 2300)
+//        loopAnimation(homeIcon, homeIcon?.drawable as? AnimatedVectorDrawable)
+//        view.postDelayed({
+//            loopAnimation(homeIcon2, homeIcon2?.drawable as? AnimatedVectorDrawable)
+//        }, 2300)
     }
 }

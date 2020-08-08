@@ -13,18 +13,18 @@ buildscript {
         classpath "com.github.ben-manes:gradle-versions-plugin:$versions.versionsplugin"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.navigation"
         classpath "com.jeppeman.globallydynamic.gradle:plugin:$versions.globallydynamic_gradle"
-        classpath "com.google.firebase:firebase-crashlytics-gradle:2.2.0"
-        classpath 'com.google.gms:google-services:4.3.3'
+        classpath "com.google.firebase:firebase-crashlytics-gradle:$versions.crashlytics_gradle"
+        classpath "com.google.gms:google-services:$versions.google_services"
+        classpath "com.google.firebase:firebase-appdistribution-gradle:$versions.firebase_app_distribution"
     }
 }
 
 ext {
-    minSdkVersion = 23
-    targetSdkVersion = 29
-    compileSdkVersion = 29
-    buildToolsVersion = "28.0.3"
-    androidVersionCode = 30
-    androidVersionName = "1.1"
+    minSdkVersion = 24
+    targetSdkVersion = 30
+    compileSdkVersion = 30
+    androidVersionCode = 32
+    androidVersionName = "1.3"
     sourceCompatibilityVersion = JavaVersion.VERSION_1_8
     targetCompatibilityVersion = JavaVersion.VERSION_1_8
     applicationIdBase = "com.jeppeman.jetpackplayground"
@@ -83,6 +83,14 @@ subprojects {
                     }
                     huawei {
                         dimension 'packaging'
+                    }
+                    firebase {
+                        dimension 'packaging'
+                        if (project.plugins.hasPlugin("com.google.firebase.appdistribution")) {
+                            firebaseAppDistribution {
+                                apkPath "${buildDir}/outputs/universal_apk/firebaseRelease/universal.apk"
+                            }
+                        }
                     }
                 }
             }

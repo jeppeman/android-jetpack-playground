@@ -90,9 +90,7 @@ abstract class BaseFeatureNavigatorViewModel : ViewModel() {
     fun getFeature(actionId: Int): Feature<*> {
         return when (actionId) {
             R.id.actionHome -> {
-                featureManager.getFeature<HomeFeature, HomeFeature.Dependencies>(
-                        dependencies = homeFeatureDependencies.get()
-                )
+                (context as MainApplication).homeFeature
             }
             R.id.actionVideo -> {
                 (context as MainApplication).videoFeature

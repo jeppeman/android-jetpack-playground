@@ -86,15 +86,15 @@ fun TextView.animateProgress(from: Int, to: Int, duration: Long) {
 
 inline fun TextureView.onSurfaceAvailable(crossinline onAvailable: (SurfaceTexture?) -> Unit) {
     this.surfaceTextureListener = object : TextureView.SurfaceTextureListener {
-        override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture?, width: Int, height: Int) {
+        override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture, width: Int, height: Int) {
         }
 
-        override fun onSurfaceTextureUpdated(surface: SurfaceTexture?) {
+        override fun onSurfaceTextureUpdated(surface: SurfaceTexture) {
         }
 
-        override fun onSurfaceTextureDestroyed(surface: SurfaceTexture?) = true
+        override fun onSurfaceTextureDestroyed(surface: SurfaceTexture) = true
 
-        override fun onSurfaceTextureAvailable(surface: SurfaceTexture?, width: Int, height: Int) {
+        override fun onSurfaceTextureAvailable(surface: SurfaceTexture, width: Int, height: Int) {
             onAvailable(surface)
         }
     }

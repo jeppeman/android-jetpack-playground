@@ -8,6 +8,7 @@ plugins {
     id("com.jeppeman.globallydynamic")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("com.google.firebase.appdistribution")
 }
 
 val applicationIdBase: String by rootProject.extra
@@ -31,7 +32,6 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
-            isDebuggable = true
             if (project.hasProperty("KEYSTORE_PATH")) {
                  signingConfig = signingConfigs.getByName("release")
             }
@@ -48,7 +48,7 @@ android {
             serverUrl = "https://globallydynamic.io/api"
             username = project.property("GLOBALLY_DYNAMIC_USERNAME")?.toString() ?: ""
             password = project.property("GLOBALLY_DYNAMIC_PASSWORD")?.toString() ?: ""
-            applyToBuildVariants("galaxyRelease", "amazonRelease")
+            applyToBuildVariants("firebaseDebug", "firebaseRelease", "galaxyRelease", "amazonRelease")
         }
     }
 

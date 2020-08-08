@@ -6,6 +6,7 @@ import android.os.Handler
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -89,6 +90,9 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, AppUiContainer, Bo
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         if (item.itemId == bottomNavigation?.selectedItemId) {
+            if (isHuawei() && item.itemId == R.id.actionHome) {
+                Toast.makeText(this, "You are already on \"Home\"", Toast.LENGTH_SHORT).show()
+            }
             return false
         }
 

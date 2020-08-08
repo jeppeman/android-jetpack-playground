@@ -12,7 +12,6 @@
             android:id="@+id/dismissButton"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:text="ok"
-            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:textColor="@color/colorAccent"
@@ -25,6 +24,7 @@
             android:layout_gravity="center"
             android:padding="@null"
             android:alpha="0"
+            android:visibility="gone"
             android:indeterminateOnly="false"
             android:progressDrawable="@drawable/install_progress_drawable"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +34,7 @@
             android:id="@+id/indeterminateLoader"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:alpha="1"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,6 +45,7 @@
             app:autoSizeTextType="uniform"
             android:alpha="0"
             android:gravity="center"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/loader"
             app:layout_constraintEnd_toEndOf="@+id/loader"
             app:layout_constraintStart_toStartOf="@+id/loader"
@@ -52,26 +53,25 @@
 
         <Constraint
             android:id="@+id/progressText"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:alpha="0"
+            android:visibility="visible"
+            android:alpha="1"
             android:gravity="center_vertical"
             android:layout_marginStart="25dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/loader"
-            app:layout_constraintTop_toTopOf="@+id/loader"
-            app:layout_constraintBottom_toBottomOf="@+id/loader" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </ConstraintSet>
     <ConstraintSet android:id="@+id/end">
         <Constraint
             android:id="@+id/dismissButton"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:text="ok"
-            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:text="ok"
             android:textColor="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/progressText" />
@@ -81,7 +81,7 @@
             android:layout_height="75dp"
             android:layout_gravity="center"
             android:padding="@null"
-            android:alpha="1"
+            android:visibility="gone"
             android:indeterminateOnly="false"
             android:progressDrawable="@drawable/install_progress_drawable"
             app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +91,7 @@
             android:id="@+id/indeterminateLoader"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:alpha="0"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -102,6 +102,7 @@
             app:autoSizeTextType="uniform"
             android:gravity="center"
             android:alpha="1"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/loader"
             app:layout_constraintEnd_toEndOf="@+id/loader"
             app:layout_constraintStart_toStartOf="@+id/loader"
@@ -109,15 +110,15 @@
 
         <Constraint
             android:id="@+id/progressText"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textSize="18sp"
             android:alpha="1"
+            android:visibility="visible"
             android:gravity="center_vertical"
             android:layout_marginStart="25dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/loader"
-            app:layout_constraintTop_toTopOf="@+id/loader"
-            app:layout_constraintBottom_toBottomOf="@+id/loader" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </ConstraintSet>
 </MotionScene>

@@ -1,5 +1,6 @@
 package com.jeppeman.jetpackplayground
 
+import android.util.Log
 import com.jeppeman.globallydynamic.globalsplitcompat.GlobalSplitCompatApplication
 import com.jeppeman.jetpackplayground.common_features.HomeFeature
 import com.jeppeman.jetpackplayground.common_features.VideoFeature
@@ -28,6 +29,7 @@ open class MainApplication : GlobalSplitCompatApplication(),
 
     override fun onCreate() {
         super.onCreate()
+        Log.d("onCreate", this.toString())
         inject()
     }
 

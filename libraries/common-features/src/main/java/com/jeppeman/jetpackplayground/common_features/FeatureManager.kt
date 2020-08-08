@@ -1,7 +1,7 @@
 package com.jeppeman.jetpackplayground.common_features
 
+import android.app.Activity
 import android.content.Context
-import android.content.IntentSender
 import android.util.Log
 import com.jeppeman.globallydynamic.globalsplitinstall.*
 import java.util.*
@@ -48,9 +48,17 @@ interface FeatureManager {
     sealed class InstallState(val featureInfo: Feature.Info) {
         class Downloading(val progress: Int, featureInfo: Feature.Info) : InstallState(featureInfo)
         class Installing(val progress: Int, featureInfo: Feature.Info) : InstallState(featureInfo)
-        class RequiresUserConfirmation(val sender: IntentSender?, featureInfo: Feature.Info) : InstallState(featureInfo)
         class Failed(val code: Int, val message: String, featureInfo: Feature.Info) : InstallState(featureInfo)
         class Installed(featureInfo: Feature.Info) : InstallState(featureInfo)
+        class Canceled(featureInfo: Feature.Info) : InstallState(featureInfo)
+        class RequiresUserConfirmation(
+                featureInfo: Feature.Info,
+                private val activityStarter: (Activity, Int) -> Boolean
+        ) : InstallState(featureInfo) {
+            fun startConfirmationActivity(activity: Activity, requestCode: Int) {
+                activityStarter(activity, requestCode)
+            }
+        }
     }
 }
 
@@ -90,8 +98,10 @@ internal class FeatureManagerImpl(
             onStateUpdate: (FeatureManager.InstallState) -> Unit
     ) {
         onStateUpdate(FeatureManager.InstallState.RequiresUserConfirmation(
-                sender = state.resolutionIntent()?.intentSender,
-                featureInfo = featureType.info(context)
+                featureInfo = featureType.info(context),
+                activityStarter = { activity, i ->
+                    splitInstallManager.startConfirmationDialogForResult(state, activity, i)
+                }
         ))
     }
 
@@ -110,6 +120,15 @@ internal class FeatureManagerImpl(
         onStateUpdate(FeatureManager.InstallState.Failed(
                 code = errorCode,
                 message = GlobalSplitInstallErrorCodeHelper.getErrorDescription(errorCode),
+                featureInfo = featureType.info(context)
+        ))
+    }
+
+    private fun <T : Feature<*>> handleCanceled(
+            featureType: KClass<T>,
+            onStateUpdate: (FeatureManager.InstallState) -> Unit
+    ) {
+        onStateUpdate(FeatureManager.InstallState.Canceled(
                 featureInfo = featureType.info(context)
         ))
     }
@@ -146,10 +165,12 @@ internal class FeatureManagerImpl(
                 .addModule(featureType.info(context).id)
                 .build()
 
+        var sessionId = 0
+
         val installStateUpdateListener = object : GlobalSplitInstallUpdatedListener {
             override fun onStateUpdate(state: GlobalSplitInstallSessionState) {
-                Log.d("FeatureManager", "Status ${state.status()}")
-                state.moduleNames().forEach { _ ->
+                Log.e("FeatureManager", "My ID: ${sessionId}, Session ID: ${state.sessionId()}, Status ${state.status()}")
+                if (sessionId == state.sessionId()) {
                     when (state.status()) {
                         GlobalSplitInstallSessionStatus.REQUIRES_USER_CONFIRMATION -> {
                             handleUserConfirmationRequired(state, featureType, onStateUpdate)
@@ -167,6 +188,10 @@ internal class FeatureManagerImpl(
                             }
                             handleInstalled(featureType, onStateUpdate)
                         }
+                        GlobalSplitInstallSessionStatus.CANCELED -> {
+                            splitInstallManager.unregisterListener(this)
+                            handleCanceled(featureType, onStateUpdate)
+                        }
                         GlobalSplitInstallSessionStatus.FAILED -> {
                             splitInstallManager.unregisterListener(this)
                             handleFailed(state.errorCode(), featureType, onStateUpdate)
@@ -179,13 +204,14 @@ internal class FeatureManagerImpl(
         splitInstallManager.registerListener(installStateUpdateListener)
         splitInstallManager.startInstall(request)
                 .addOnSuccessListener { result ->
-                    Log.d("FeatureManager", "onSuccess $result")
+                    Log.e("FeatureManager", "onSuccess $result")
+                    sessionId = result
                 }
                 .addOnCompleteListener {
-                    Log.d("FeatureManager", "onComplete")
+                    Log.e("FeatureManager", "onComplete")
                 }
                 .addOnFailureListener { exception ->
-                    Log.d("FeatureManager", "onFailure")
+                    Log.e("FeatureManager", "onFailure")
                     handleFailed((exception as? GlobalSplitInstallException)?.errorCode ?: 0,
                             featureType, onStateUpdate)
                     splitInstallManager.unregisterListener(installStateUpdateListener)

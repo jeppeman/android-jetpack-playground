@@ -6,6 +6,8 @@ configurations {
     gplayDebugApi {}
     galaxyDebugApi {}
     amazonDebugApi {}
+    huaweiApi {}
+    firebaseApi {}
 
     gplayReleaseApi {}
     huaweiReleaseApi {}
@@ -13,33 +15,19 @@ configurations {
     amazonReleaseApi {}
 }
 
+dependencies {
+    implementation deps.navigation.fragment
+    implementation deps.kotlin.stdlib
+    implementation deps.okhttp.okhttp
+    implementation deps.coroutines.core
 
-deps[project.name] = [
-        implementation                 : [
-                deps.navigation.fragment,
-                deps.kotlin.stdlib,
-                deps.okhttp.okhttp,
-                deps.coroutines.core
-        ],
-        gplayDebugApi            : [
-                deps.globallydynamic.selfhosted
-        ],
-        galaxyDebugApi            : [
-                deps.globallydynamic.selfhosted
-        ],
-        amazonDebugApi            : [
-                deps.globallydynamic.selfhosted
-        ],
-        gplayReleaseApi     : [
-                deps.globallydynamic.gplay
-        ],
-        huaweiApi    : [
-                deps.globallydynamic.huawei
-        ],
-        galaxyReleaseApi: [
-                deps.globallydynamic.selfhosted
-        ],
-        amazonReleaseApi: [
-                deps.globallydynamic.selfhosted
-        ]
-]
+    gplayDebugApi deps.globallydynamic.selfhosted
+    galaxyDebugApi deps.globallydynamic.selfhosted
+    amazonDebugApi deps.globallydynamic.selfhosted
+    gplayReleaseApi deps.globallydynamic.gplay
+    huaweiApi deps.globallydynamic.huawei
+    galaxyReleaseApi deps.globallydynamic.selfhosted
+    amazonReleaseApi deps.globallydynamic.selfhosted
+    firebaseApi deps.globallydynamic.selfhosted
+}
+
