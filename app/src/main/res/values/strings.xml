@@ -6,5 +6,6 @@
     <string name="install_dialog_installing">Installing…</string>
     <string name="install_dialog_failed">Failed to install: %s</string>
     <string name="install_dialog_installed">Installed successfully</string>
-    <string name="home_text">This application showcases how you can dynamically download modules on, navigate to video to download a module with a video player</string>
+    <string name="home_text">This application showcases how you can dynamically download modules, press the download button below to begin installing the Video module</string>
+    <string name="home_text_installed">The video feature has been successfully installed, navigate to it by using the bottom navigation menu</string>
 </resources>

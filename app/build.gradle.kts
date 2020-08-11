@@ -46,8 +46,10 @@ android {
         }
         create("prod") {
             serverUrl = "https://globallydynamic.io/api"
-            username = project.property("GLOBALLY_DYNAMIC_USERNAME")?.toString() ?: ""
-            password = project.property("GLOBALLY_DYNAMIC_PASSWORD")?.toString() ?: ""
+            if (project.hasProperty("GLOBALLY_DYNAMIC_USERNAME")) {
+                username = project.property("GLOBALLY_DYNAMIC_USERNAME")?.toString() ?: ""
+                password = project.property("GLOBALLY_DYNAMIC_PASSWORD")?.toString() ?: ""
+            }
             applyToBuildVariants("firebaseDebug", "firebaseRelease", "galaxyRelease", "amazonRelease")
         }
     }

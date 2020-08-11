@@ -23,8 +23,8 @@ ext {
     minSdkVersion = 24
     targetSdkVersion = 30
     compileSdkVersion = 30
-    androidVersionCode = 32
-    androidVersionName = "1.3"
+    androidVersionCode = 33
+    androidVersionName = "1.4"
     sourceCompatibilityVersion = JavaVersion.VERSION_1_8
     targetCompatibilityVersion = JavaVersion.VERSION_1_8
     applicationIdBase = "com.jeppeman.jetpackplayground"

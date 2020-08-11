@@ -37,6 +37,7 @@ inline fun <reified T : Feature<*>> FeatureManager.installFeature(
 inline fun <reified T : Feature<*>> FeatureManager.isFeatureInstalled(): Boolean = isFeatureInstalled(T::class)
 
 interface FeatureManager {
+    fun startConfirmationDialogForResult(activity: Activity, state: GlobalSplitInstallSessionState, requestCode: Int)
     fun installMissingSplits(onStateUpdate: (GlobalSplitInstallSessionState) -> Unit)
     fun <T : Feature<*>> installFeature(featureType: KClass<T>, onStateUpdate: (InstallState) -> Unit)
     fun <T : Feature<*>> isFeatureInstalled(featureType: KClass<T>): Boolean
@@ -236,6 +237,10 @@ internal class FeatureManagerImpl(
 
     override fun <T : Feature<*>> isFeatureInstalled(featureType: KClass<T>): Boolean {
         return splitInstallManager.installedModules.contains(featureType.info(context).id)
+    }
+
+    override fun startConfirmationDialogForResult(activity: Activity, state: GlobalSplitInstallSessionState, requestCode: Int) {
+        splitInstallManager.startConfirmationDialogForResult(state, activity, requestCode)
     }
 }
 

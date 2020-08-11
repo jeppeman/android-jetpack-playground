@@ -38,6 +38,7 @@ interface Feature<T> {
 interface HomeFeature : Feature<HomeFeature.Dependencies> {
     interface Dependencies {
         val context: Context
+        val featureManager: FeatureManager
     }
 
     interface InjectionProvider {

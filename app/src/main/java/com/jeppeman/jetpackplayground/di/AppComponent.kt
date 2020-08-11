@@ -22,7 +22,6 @@ interface AppComponent : HomeFeature.Dependencies, VideoFeature.Dependencies {
     override val context: Context
     val homeFeatureDependencies: HomeFeature.Dependencies
     val videoFeatureDependencies: VideoFeature.Dependencies
-    val featureManager: FeatureManager
 
     fun inject(application: MainApplication)
 

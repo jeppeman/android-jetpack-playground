@@ -1,14 +1,12 @@
 package com.jeppeman.jetpackplayground.installdialog
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.core.view.setPadding
 import androidx.fragment.app.DialogFragment
 import com.jeppeman.globallydynamic.globalsplitinstall.GlobalSplitInstallErrorCode
 import com.jeppeman.globallydynamic.globalsplitinstall.GlobalSplitInstallErrorCodeHelper
@@ -18,7 +16,6 @@ import com.jeppeman.jetpackplayground.R
 import com.jeppeman.jetpackplayground.common.presentation.extensions.animateBetween
 import com.jeppeman.jetpackplayground.common.presentation.extensions.animateProgress
 import com.jeppeman.jetpackplayground.common.presentation.extensions.observe
-import com.jeppeman.jetpackplayground.common.presentation.extensions.setVisible
 import com.jeppeman.jetpackplayground.common_features.FeatureManager
 import com.jeppeman.jetpackplayground.common_features.progress
 import com.jeppeman.jetpackplayground.isHuawei
@@ -28,6 +25,8 @@ import javax.inject.Inject
 
 private const val ARG_FEATURE_ID = "com.jeppeman.jetpackplayground.ARG_FEATURE_ID"
 private const val ARG_FEATURE_ACTION_ID = "com.jeppeman.jetpackplayground.ARG_FEATURE_ACTION_ID"
+
+const val INSTALL_REQUEST_CODE = 123
 
 fun createInstallDialogFragment(feature: String): InstallDialogFragment = InstallDialogFragment().apply {
     arguments = bundleOf(ARG_FEATURE_ID to feature)
@@ -40,6 +39,8 @@ fun createInstallDialogFragment(feature: Int): InstallDialogFragment = InstallDi
 class InstallDialogFragment : DialogFragment() {
     @Inject
     lateinit var installDialogViewModel: InstallDialogViewModel
+
+    val dismissListeners = mutableListOf<() -> Unit>()
 
     private fun progressTo(to: Int) {
         progressValueText?.animateProgress(loader?.progress ?: 0, to, 300)
@@ -78,7 +79,7 @@ class InstallDialogFragment : DialogFragment() {
     }
 
     private fun handleUserConfirmationRequired(state: FeatureManager.InstallState.RequiresUserConfirmation) {
-        activity?.let { state.startConfirmationActivity(it, 2) }
+        activity?.let { state.startConfirmationActivity(it, INSTALL_REQUEST_CODE) }
     }
 
     private fun onInstallStateChanged(state: FeatureManager.InstallState?) {
@@ -113,6 +114,11 @@ class InstallDialogFragment : DialogFragment() {
             is FeatureManager.InstallState.Failed -> handleFailedState(state)
             is FeatureManager.InstallState.Canceled -> dismissDelayed()
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        dismissListeners.forEach { it() }
     }
 
     override fun onAttach(context: Context) {
@@ -150,9 +156,13 @@ class InstallDialogFragment : DialogFragment() {
 
 fun createMissingSplitsInstallDialogFragment() = MissingSplitsInstallDialogFragment()
 
+const val MISSING_SPLITS_INSTALL_REQUEST_CODE = 1234
+
 class MissingSplitsInstallDialogFragment : DialogFragment() {
     @Inject
     lateinit var installDialogViewModel: InstallDialogViewModel
+    @Inject
+    lateinit var featureManager: FeatureManager
 
     private fun progressTo(to: Int) {
         progressValueText?.animateProgress(loader?.progress ?: 0, to, 300)
@@ -191,7 +201,7 @@ class MissingSplitsInstallDialogFragment : DialogFragment() {
     }
 
     private fun handleUserConfirmationRequired(state: GlobalSplitInstallSessionState) {
-        activity?.startIntentSender(state.resolutionIntent().intentSender, null, 0, 0, 0)
+        featureManager.startConfirmationDialogForResult(activity!!, state, MISSING_SPLITS_INSTALL_REQUEST_CODE)
     }
 
     private fun onInstallStateChanged(state: GlobalSplitInstallSessionState?) {

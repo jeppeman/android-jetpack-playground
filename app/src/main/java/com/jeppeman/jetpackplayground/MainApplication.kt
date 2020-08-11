@@ -29,8 +29,9 @@ open class MainApplication : GlobalSplitCompatApplication(),
 
     override fun onCreate() {
         super.onCreate()
-        Log.d("onCreate", this.toString())
         inject()
+
+        Log.v("YOLO", "YOLO 2")
     }
 
     override val homeFeature: HomeFeature get() = appComponent.featureManager

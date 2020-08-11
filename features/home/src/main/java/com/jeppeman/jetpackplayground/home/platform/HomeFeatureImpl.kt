@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.Fragment
 import com.google.auto.service.AutoService
+import com.jeppeman.jetpackplayground.common_features.FeatureManager
 import com.jeppeman.jetpackplayground.common_features.HomeFeature
 import com.jeppeman.jetpackplayground.home.platform.di.DaggerHomeComponent
 import com.jeppeman.jetpackplayground.home.platform.di.HomeComponent

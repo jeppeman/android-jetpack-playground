@@ -5,6 +5,8 @@
 
     <application tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity android:name=".presentation.HomeActivity" />
+        <activity android:name=".presentation.download.DownloadActivity"
+            android:theme="@style/Theme.Transparent" />
     </application>
 
     <dist:module
