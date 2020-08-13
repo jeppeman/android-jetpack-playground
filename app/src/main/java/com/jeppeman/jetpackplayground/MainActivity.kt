@@ -135,8 +135,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, AppUiContainer, Bo
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Log.v("YOLO", "YOLO 1")
-
         if (savedInstanceState == null) {
             if (!mainViewModel.isFeatureInstalled(R.id.actionVideo)) {
                 bottomNavigation.menu.removeItem(R.id.actionVideo)
@@ -157,7 +155,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, AppUiContainer, Bo
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.v("YOLO", "YOLO " + requestCode +  " " + data?.extras?.keySet())
         if (requestCode == MISSING_SPLITS_INSTALL_REQUEST_CODE
                 && data?.hasExtra(GlobalSplitInstallConfirmResult.EXTRA_RESULT) == true) {
             val confirmResult = data.getIntExtra(

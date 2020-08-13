@@ -1,6 +1,5 @@
 package com.jeppeman.jetpackplayground
 
-import android.util.Log
 import com.jeppeman.globallydynamic.globalsplitcompat.GlobalSplitCompatApplication
 import com.jeppeman.jetpackplayground.common_features.HomeFeature
 import com.jeppeman.jetpackplayground.common_features.VideoFeature
@@ -30,8 +29,6 @@ open class MainApplication : GlobalSplitCompatApplication(),
     override fun onCreate() {
         super.onCreate()
         inject()
-
-        Log.v("YOLO", "YOLO 2")
     }
 
     override val homeFeature: HomeFeature get() = appComponent.featureManager
