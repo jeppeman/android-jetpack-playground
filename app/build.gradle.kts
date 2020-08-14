@@ -6,8 +6,8 @@ plugins {
     id("kotlin-android-extensions")
     id("kotlin-kapt")
     id("com.jeppeman.globallydynamic")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+//    id("com.google.gms.google-services")
+//    id("com.google.firebase.crashlytics")
     id("com.google.firebase.appdistribution")
 }
 
@@ -45,7 +45,7 @@ android {
             applyToBuildVariants("gplayDebug", "huaweiDebug", "galaxyDebug", "amazonDebug")
         }
         create("prod") {
-            serverUrl = "https://globallydynamic.io/api"
+            serverUrl = "https://globallydynamic.io/api/"
             if (project.hasProperty("GLOBALLY_DYNAMIC_USERNAME")) {
                 username = project.property("GLOBALLY_DYNAMIC_USERNAME")?.toString() ?: ""
                 password = project.property("GLOBALLY_DYNAMIC_PASSWORD")?.toString() ?: ""
