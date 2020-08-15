@@ -86,6 +86,7 @@ subprojects {
                         if (project.plugins.hasPlugin("com.google.firebase.appdistribution")) {
                             firebaseAppDistribution {
                                 apkPath "${buildDir}/outputs/universal_apk/firebaseRelease/universal.apk"
+                                groups = "All"
                             }
                         }
                     }
