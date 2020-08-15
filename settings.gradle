@@ -1,8 +1,8 @@
-include ':libraries:video-resources'
 include ':app',
         ':features:video',
         ':features:home',
         ':libraries:common-presentation',
         ':libraries:common-domain',
         ':libraries:common-data',
-        ':libraries:common-features'
+        ':libraries:common-features',
+        ':libraries:video-resources'
