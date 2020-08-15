@@ -5,6 +5,7 @@
 <a href='https://appgallery7.huawei.com/#/app/C102509249'><img height="50" width="50" alt='Get it on Huawei App Gallery' src='assets/huawei-app-gallery.png'/></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href='https://play.google.com/store/apps/details?id=com.jeppeman.jetpackplayground&gl=SE&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img height="50" width="50" alt='Get it on Amazon App Store' src='assets/amazon-app-store.png'/></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href='http://apps.samsung.com/appquery/appDetail.as?appId=com.jeppeman.jetpackplayground'><img height="50" width="50" alt='Get it on Samsung Galaxy Store' src='assets/samsung-galaxy-store.png'/></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href='https://appdistribution.firebase.dev/i/4687a997751fbc85'><img height="50" width="50" alt='Get it Firebase App Distribution' src='assets/firebase-app-distribution.png'/></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 # android-jetpack-playground
 
@@ -21,6 +22,7 @@ The app is published on the following platforms:
 * [Huawei App Gallery](https://appgallery7.huawei.com/#/app/C102509249)
 * [Amazon App Store](http://apps.samsung.com/appquery/appDetail.as?appId=com.jeppeman.jetpackplayground)
 * [Samsung Galaxy Store](http://apps.samsung.com/appquery/appDetail.as?appId=com.jeppeman.jetpackplayground)
+* [Firebase App Distribution](https://appdistribution.firebase.dev/i/4687a997751fbc85)
 
 It leverages dynamic feature modules on all of them, [GloballyDynamic](https://github.com/jeppeman/GloballyDynamic) is what enables this. 
 
