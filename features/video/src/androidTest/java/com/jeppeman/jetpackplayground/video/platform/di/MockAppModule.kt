@@ -68,9 +68,10 @@ object MockAppModule {
     @Provides
     @JvmStatic
     @Singleton
-    fun provideHomeFeatureDependencies(context: Context): HomeFeature.Dependencies =
+    fun provideHomeFeatureDependencies(context: Context, featureManager: FeatureManager): HomeFeature.Dependencies =
             object : HomeFeature.Dependencies {
                 override val context: Context = context
+                override val featureManager: FeatureManager = featureManager
             }
 
     @Provides
