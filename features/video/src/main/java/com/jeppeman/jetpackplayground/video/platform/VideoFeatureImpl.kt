@@ -10,20 +10,15 @@ import com.jeppeman.jetpackplayground.video.platform.di.VideoComponent
 import com.jeppeman.jetpackplayground.video.presentation.VideoActivity
 import com.jeppeman.jetpackplayground.video.presentation.createVideoFragment
 
-internal lateinit var videoComponent: VideoComponent
-    private set
-
 @AutoService(VideoFeature::class)
 class VideoFeatureImpl : VideoFeature {
+    lateinit var videoComponent: VideoComponent
+
     override fun getLaunchIntent(context: Context): Intent = Intent(context, VideoActivity::class.java)
 
     override fun getMainScreen(): Fragment = createVideoFragment()
 
     override fun inject(dependencies: VideoFeature.Dependencies) {
-        if (::videoComponent.isInitialized) {
-            return
-        }
-
         videoComponent = DaggerVideoComponent.factory()
                 .create(dependencies, this)
     }

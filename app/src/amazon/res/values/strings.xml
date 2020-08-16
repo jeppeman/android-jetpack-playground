@@ -1,0 +1,9 @@
+<resources>
+    <string name="install_dialog_title">Feature: %s</string>
+    <string name="missing_splits_install_dialog_title">Missing splits</string>
+    <string name="install_dialog_step_downloading">Downloading…</string>
+    <string name="install_dialog_installing">Installing…</string>
+    <string name="install_dialog_failed">Failed to install: %s</string>
+    <string name="install_dialog_installed">Installed successfully</string>
+    <string name="home_text">This application showcases how you can dynamically download modules on Amazon App Store, press the button below to start installing the Video module</string>
+</resources>

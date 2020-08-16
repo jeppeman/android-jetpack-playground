@@ -19,7 +19,7 @@
         tools:layout="@layout/fragment_video_detail">
         <argument
             android:name="VideoDetailParameter"
-            app:argType="com.jeppeman.jetpackplayground.video.presentation.detail.VideoDetailParameter" />
+            app:argType="android.os.Parcelable" />
     </fragment>
 
 </navigation>

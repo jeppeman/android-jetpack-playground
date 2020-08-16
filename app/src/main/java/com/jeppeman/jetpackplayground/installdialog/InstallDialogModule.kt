@@ -28,3 +28,24 @@ object InstallDialogModule {
             viewModelFactory
     )[InstallDialogViewModelImpl::class.java]
 }
+
+@Module
+object MissingSplitsInstallDialogModule {
+    @Provides
+    @JvmStatic
+    @IntoMap
+    @ViewModelKey(InstallDialogViewModelImpl::class)
+    fun provideIntoViewModelFactory(
+            installDialogViewModelImpl: InstallDialogViewModelImpl
+    ): ViewModel = installDialogViewModelImpl
+
+    @Provides
+    @JvmStatic
+    fun provideInstallDialogViewModelForMissingSplits(
+            installDialogFragment: MissingSplitsInstallDialogFragment,
+            viewModelFactory: ViewModelFactory
+    ): InstallDialogViewModel = ViewModelProviders.of(
+            installDialogFragment,
+            viewModelFactory
+    )[InstallDialogViewModelImpl::class.java]
+}

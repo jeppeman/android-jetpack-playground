@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jeppeman.jetpackplayground.common.presentation.di.scopes.ChildFragmentScope
 import com.jeppeman.jetpackplayground.common.presentation.di.scopes.FragmentScope
-import com.jeppeman.jetpackplayground.video.R
+import com.jeppeman.jetpackplayground.video_resources.R
 import com.jeppeman.jetpackplayground.video.presentation.list.items.VideoListItem
 import com.jeppeman.jetpackplayground.video.presentation.list.items.VideoListViewHolder
 import com.jeppeman.jetpackplayground.video.presentation.list.items.empty.VideoListEmptyViewHolder

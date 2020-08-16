@@ -2,20 +2,32 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
-android {
-    buildTypes {
-        release {
-            minifyEnabled true
-        }
-    }
+configurations {
+    gplayDebugApi {}
+    galaxyDebugApi {}
+    amazonDebugApi {}
+    huaweiApi {}
+    firebaseApi {}
+
+    gplayReleaseApi {}
+    huaweiReleaseApi {}
+    galaxyReleaseApi {}
+    amazonReleaseApi {}
 }
 
-deps[project.name] = [
-        implementation: [
-                deps.appcompat.appcompat,
-                deps.kotlin.stdlib,
-                deps.locallydynamic.debug,
-                deps.okhttp.okhttp,
-                deps.coroutines.core
-        ]
-]
+dependencies {
+    implementation deps.navigation.fragment
+    implementation deps.kotlin.stdlib
+    implementation deps.okhttp.okhttp
+    implementation deps.coroutines.core
+
+    gplayDebugApi deps.globallydynamic.selfhosted
+    galaxyDebugApi deps.globallydynamic.selfhosted
+    amazonDebugApi deps.globallydynamic.selfhosted
+    gplayReleaseApi deps.globallydynamic.gplay
+    huaweiApi deps.globallydynamic.huawei
+    galaxyReleaseApi deps.globallydynamic.selfhosted
+    amazonReleaseApi deps.globallydynamic.selfhosted
+    firebaseApi deps.globallydynamic.selfhosted
+}
+

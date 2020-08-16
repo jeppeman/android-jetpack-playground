@@ -10,7 +10,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.StyleRes
 import androidx.core.animation.doOnEnd
-import com.jeppeman.jetpackplayground.video.R
+import com.jeppeman.jetpackplayground.video_resources.R
 import kotlin.math.cos
 import kotlin.math.roundToInt
 import kotlin.math.sin

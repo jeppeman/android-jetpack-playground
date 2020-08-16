@@ -20,7 +20,7 @@ class StateContextTest {
 
     @Before
     fun setUp() {
-        stateContextImpl = VideoDetailViewModel.StateContext()
+        stateContextImpl = VideoDetailViewModel.StateContext(mockState)
         stateContextImpl.state.value = mockState
     }
 

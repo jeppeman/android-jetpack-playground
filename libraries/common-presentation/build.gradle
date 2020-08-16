@@ -11,41 +11,65 @@ android {
     }
 }
 
-deps[project.name] = [
-        api               : [
-                deps.kotlin.stdlib,
-                deps.play.core,
-                deps.coroutines.core,
-                deps.coroutines.android,
-                deps.dagger.core,
-                deps.dagger.android,
-                deps.dagger.support,
-                deps.lifecycle.livedata,
-                deps.lifecycle.viewmodel,
-                deps.material.material,
-                deps.glide.core,
-                deps.constraintlayout.constraintlayout,
-                deps.core.ktx
-        ],
-        kapt              : [
-                deps.glide.compiler,
-                deps.dagger.compiler,
-                deps.dagger.android_compiler
-        ],
-        testImplementation: [
-                deps.test.junit,
-                deps.test.truth,
-                deps.test.runner,
-                deps.test.rules,
-                deps.test.navigation,
-                deps.test.arch,
-                deps.robolectric.robolectric,
-                deps.coroutines.test,
-                deps.mockito.core,
-                deps.mockito.kotlin,
-                deps.espresso.core,
-                deps.espresso.contrib,
-                deps.espresso.intents,
-                deps.espresso.idling
-        ]
-]
+configurations {
+    gplayDebugImplementation {}
+    galaxyDebugImplementation {}
+    amazonDebugImplementation {}
+    huaweiImplementation {}
+    firebaseImplementation {}
+
+    gplayReleaseImplementation {}
+    huaweiReleaseImplementation {}
+    galaxyReleaseImplementation {}
+    amazonReleaseImplementation {}
+}
+
+dependencies {
+    api deps.kotlin.stdlib
+    api deps.coroutines.core
+    api deps.coroutines.android
+    api deps.dagger.core
+    api deps.dagger.android
+    api deps.dagger.support
+    api deps.lifecycle.livedata
+    api deps.lifecycle.viewmodel
+    api deps.material.material
+    api deps.glide.core
+    api deps.constraintlayout.constraintlayout
+    api deps.core.ktx
+
+    kapt deps.glide.compiler
+    kapt deps.dagger.compiler
+    kapt deps.dagger.android_compiler
+
+    testImplementation deps.test.junit
+    testImplementation deps.test.truth
+    testImplementation deps.test.runner
+    testImplementation deps.test.rules
+    testImplementation deps.test.navigation
+    testImplementation deps.test.arch
+    testImplementation deps.robolectric.robolectric
+    testImplementation deps.coroutines.test
+    testImplementation deps.mockito.core
+    testImplementation deps.mockito.kotlin
+    testImplementation deps.espresso.core
+    testImplementation deps.espresso.contrib
+    testImplementation deps.espresso.intents
+    testImplementation deps.espresso.idling
+
+    gplayDebugImplementation deps.globallydynamic.selfhosted
+
+    galaxyDebugImplementation deps.globallydynamic.selfhosted
+
+    firebaseImplementation deps.globallydynamic.selfhosted
+
+    amazonDebugImplementation deps.globallydynamic.selfhosted
+
+    gplayReleaseImplementation deps.globallydynamic.gplay
+
+    huaweiImplementation deps.globallydynamic.huawei
+
+    galaxyReleaseImplementation deps.globallydynamic.selfhosted
+
+    amazonReleaseImplementation deps.globallydynamic.selfhosted
+}

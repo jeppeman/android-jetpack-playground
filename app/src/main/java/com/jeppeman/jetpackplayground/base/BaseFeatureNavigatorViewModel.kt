@@ -2,6 +2,7 @@ package com.jeppeman.jetpackplayground.base
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
+import com.jeppeman.jetpackplayground.MainApplication
 import com.jeppeman.jetpackplayground.R
 import com.jeppeman.jetpackplayground.common.presentation.SingleLiveEvent
 import com.jeppeman.jetpackplayground.common.presentation.extensions.mutableLiveDataOf
@@ -23,6 +24,7 @@ abstract class BaseFeatureNavigatorViewModel : ViewModel() {
     private lateinit var videoFeatureDependencies: Lazy<VideoFeature.Dependencies>
 
     val featureInstalled = SingleLiveEvent<Feature.Info>()
+    val missingSplitsInstalled = SingleLiveEvent<Unit>()
     val installState = mutableLiveDataOf<FeatureManager.InstallState>()
 
     @Inject
@@ -37,6 +39,7 @@ abstract class BaseFeatureNavigatorViewModel : ViewModel() {
         this.homeFeatureDependencies = homeFeatureDependencies
         this.videoFeatureDependencies = videoFeatureDependencies
         featureManager.registerInstallListener(featureInstalled::setValue)
+        featureManager.registerMissingSplitsInstalledListener { missingSplitsInstalled.value = Unit }
     }
 
     override fun onCleared() {
@@ -87,14 +90,10 @@ abstract class BaseFeatureNavigatorViewModel : ViewModel() {
     fun getFeature(actionId: Int): Feature<*> {
         return when (actionId) {
             R.id.actionHome -> {
-                featureManager.getFeature<HomeFeature, HomeFeature.Dependencies>(
-                        dependencies = homeFeatureDependencies.get()
-                )
+                (context as MainApplication).homeFeature
             }
             R.id.actionVideo -> {
-                featureManager.getFeature<VideoFeature, VideoFeature.Dependencies>(
-                        dependencies = videoFeatureDependencies.get()
-                )
+                (context as MainApplication).videoFeature
             }
             else -> null
         } ?: throw IllegalArgumentException("Feature not found for action $actionId")

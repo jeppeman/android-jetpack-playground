@@ -1,18 +1,23 @@
 package com.jeppeman.jetpackplayground
 
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.jeppeman.globallydynamic.globalsplitinstall.GlobalSplitInstallConfirmResult
 import com.jeppeman.jetpackplayground.common.presentation.AppUiContainer
 import com.jeppeman.jetpackplayground.common.presentation.extensions.observe
 import com.jeppeman.jetpackplayground.common_features.Feature
+import com.jeppeman.jetpackplayground.installdialog.MISSING_SPLITS_INSTALL_REQUEST_CODE
 import com.jeppeman.jetpackplayground.installdialog.createInstallDialogFragment
+import com.jeppeman.jetpackplayground.installdialog.createMissingSplitsInstallDialogFragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -25,8 +30,10 @@ private val TAG_TOP_FRAGMENT = "${MainActivity::class.java.name}.TOP_FRAGMENT"
 class MainActivity : AppCompatActivity(), HasAndroidInjector, AppUiContainer, BottomNavigationView.OnNavigationItemSelectedListener {
     @Inject
     lateinit var mainViewModel: MainViewModel
+
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+
     @Inject
     lateinit var handler: Handler
 
@@ -68,16 +75,46 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, AppUiContainer, Bo
         }
     }
 
+    private fun dismissInstallDialog() {
+        supportFragmentManager.findFragmentByTag("install")?.let {
+            supportFragmentManager.beginTransaction()
+                    .remove(it)
+                    .commit()
+        }
+    }
+
+    private fun dismissInstallMissingSplitsDialog() {
+        supportFragmentManager.findFragmentByTag("missingSplitsInstall")?.let {
+            supportFragmentManager.beginTransaction()
+                    .remove(it)
+                    .commit()
+        }
+    }
+
     private fun launchInstallDialog(@IdRes actionId: Int) {
         createInstallDialogFragment(actionId).show(supportFragmentManager, "install")
     }
 
+    private fun launchMissingSplitsDialog() {
+        createMissingSplitsInstallDialogFragment().show(supportFragmentManager, "missingSplitsInstall")
+    }
+
     private fun featureInstalled(featureInfo: Feature.Info) {
+        bottomNavigation?.menu?.removeItem(R.id.actionVideo)
+        bottomNavigation?.menu?.removeItem(R.id.actionHome)
+        bottomNavigation?.inflateMenu(R.menu.navigation_full)
         bottomNavigation?.selectedItemId = featureInfo.actionId
+    }
+
+    private fun missingSplitsInstalled() {
+        bottomNavigation?.menu?.removeItem(R.id.actionHome)
+        bottomNavigation?.inflateMenu(R.menu.navigation_only_home)
+        goToFeatureEntryPoint(R.id.actionHome)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         if (item.itemId == bottomNavigation?.selectedItemId) {
+            Toast.makeText(this, "You are already on \"${item.title}\"", Toast.LENGTH_SHORT).show()
             return false
         }
 
@@ -93,16 +130,40 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, AppUiContainer, Bo
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        AndroidInjection.inject(this)
 
         if (savedInstanceState == null) {
-            goToFeatureEntryPoint(R.id.actionHome)
+            if (!mainViewModel.isFeatureInstalled(R.id.actionVideo)) {
+                bottomNavigation.menu.removeItem(R.id.actionVideo)
+            }
+            if (mainViewModel.isFeatureInstalled(R.id.actionHome)) {
+                goToFeatureEntryPoint(R.id.actionHome)
+            } else {
+                bottomNavigation.menu.removeItem(R.id.actionHome)
+                launchMissingSplitsDialog()
+            }
         }
 
         mainViewModel.featureInstalled.observe(this, ::featureInstalled)
+        mainViewModel.missingSplitsInstalled.observe(this, ::missingSplitsInstalled)
 
         bottomNavigation?.setOnNavigationItemSelectedListener(this)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == MISSING_SPLITS_INSTALL_REQUEST_CODE
+                && data?.hasExtra(GlobalSplitInstallConfirmResult.EXTRA_RESULT) == true) {
+            val confirmResult = data.getIntExtra(
+                    GlobalSplitInstallConfirmResult.EXTRA_RESULT,
+                    GlobalSplitInstallConfirmResult.RESULT_DENIED
+            )
+            dismissInstallMissingSplitsDialog()
+            if (confirmResult == GlobalSplitInstallConfirmResult.RESULT_CONFIRMED) {
+                launchMissingSplitsDialog()
+            }
+        }
     }
 }

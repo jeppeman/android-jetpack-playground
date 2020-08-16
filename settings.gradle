@@ -4,4 +4,5 @@ include ':app',
         ':libraries:common-presentation',
         ':libraries:common-domain',
         ':libraries:common-data',
-        ':libraries:common-features'
+        ':libraries:common-features',
+        ':libraries:video-resources'

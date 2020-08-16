@@ -2,12 +2,6 @@ buildscript {
     apply from: 'deps.gradle'
 
     repositories {
-        maven {
-            url "http://storage.googleapis.com/r8-releases/raw/master"
-        }
-        maven {
-            url "https://plugins.gradle.org/m2"
-        }
         jcenter()
         google()
         mavenCentral()
@@ -16,18 +10,20 @@ buildscript {
         classpath "com.android.tools.build:gradle:$versions.androidplugin"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
         classpath "com.github.ben-manes:gradle-versions-plugin:$versions.versionsplugin"
-        classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:$versions.navigation"
-        classpath "com.jeppeman.locallydynamic.gradle:plugin:$versions.locallydynamic_gradle"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.navigation"
+        classpath "com.jeppeman.globallydynamic.gradle:plugin:$versions.globallydynamic_gradle"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:$versions.crashlytics_gradle"
+        classpath "com.google.gms:google-services:$versions.google_services"
+        classpath "com.google.firebase:firebase-appdistribution-gradle:$versions.firebase_app_distribution"
     }
 }
 
 ext {
-    minSdkVersion = 23
-    targetSdkVersion = 28
-    compileSdkVersion = 28
-    buildToolsVersion = "28.0.3"
-    androidVersionCode = 23
-    androidVersionName = "1.0"
+    minSdkVersion = 24
+    targetSdkVersion = 30
+    compileSdkVersion = 30
+    androidVersionCode = 33
+    androidVersionName = "1.4"
     sourceCompatibilityVersion = JavaVersion.VERSION_1_8
     targetCompatibilityVersion = JavaVersion.VERSION_1_8
     applicationIdBase = "com.jeppeman.jetpackplayground"
@@ -42,6 +38,7 @@ subprojects {
             jcenter()
             google()
             mavenCentral()
+            maven { url 'http://developer.huawei.com/repo' }
         }
 
         if (project.hasProperty('android')) {
@@ -67,6 +64,32 @@ subprojects {
 
                 kotlinOptions {
                     jvmTarget = rootProject.ext.jvmTargetVersion
+                }
+
+                flavorDimensions 'packaging'
+
+                productFlavors {
+                    amazon {
+                        dimension 'packaging'
+                    }
+                    galaxy {
+                        dimension 'packaging'
+                    }
+                    gplay {
+                        dimension 'packaging'
+                    }
+                    huawei {
+                        dimension 'packaging'
+                    }
+                    firebase {
+                        dimension 'packaging'
+                        if (project.plugins.hasPlugin("com.google.firebase.appdistribution")) {
+                            firebaseAppDistribution {
+                                apkPath "${buildDir}/outputs/universal_apk/firebaseRelease/universal.apk"
+                                groups = "All"
+                            }
+                        }
+                    }
                 }
             }
 

@@ -1,7 +1,7 @@
 package com.jeppeman.jetpackplayground.video.presentation.list.items.item
 
 import com.jeppeman.jetpackplayground.video.presentation.model.VideoModel
-import com.jeppeman.jetpackplayground.video.R
+import com.jeppeman.jetpackplayground.video_resources.R
 import com.jeppeman.jetpackplayground.video.presentation.list.VideoListViewModel
 import com.jeppeman.jetpackplayground.video.presentation.list.items.VideoListItem
 

@@ -44,4 +44,15 @@
 
 -keepnames @kotlin.Metadata class com.jeppeman.jetpackplayground.video.data.entity.**
 -keep class com.jeppeman.jetpackplayground.video.data.entity.** { *; }
+-keep class com.jeppeman.jetpackplayground.video.platform.** { *; }
+-keep class com.jeppeman.jetpackplayground.home.platform.** { *; }
+-keep class com.jeppeman.jetpackplayground.common_features.** { *; }
 -keepclassmembers class com.jeppeman.jetpackplayground.video.data.entity.** { *; }
+
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception
+
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**
+-keep class androidx.navigation.fragment.** { *; }

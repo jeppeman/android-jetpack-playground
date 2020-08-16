@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import com.google.android.play.core.splitcompat.SplitCompat
+import com.jeppeman.globallydynamic.globalsplitcompat.GlobalSplitCompat
 import dagger.android.support.AndroidSupportInjection
 
 abstract class BaseFragment<TViewModel : LifecycleAwareCoroutineViewModel> : Fragment() {
@@ -17,11 +17,7 @@ abstract class BaseFragment<TViewModel : LifecycleAwareCoroutineViewModel> : Fra
     abstract val viewModel: TViewModel
 
     protected open fun inject() {
-        try {
-            AndroidSupportInjection.inject(this)
-        } catch (exception: Exception) {
-
-        }
+        AndroidSupportInjection.inject(this)
     }
 
     override fun onAttach(context: Context) {
@@ -35,7 +31,7 @@ abstract class BaseFragment<TViewModel : LifecycleAwareCoroutineViewModel> : Fra
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        SplitCompat.install(context)
+        GlobalSplitCompat.install(context)
         return inflater.inflate(layoutRes, container, false)
     }
 }

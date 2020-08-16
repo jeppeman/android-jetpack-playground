@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">JetpackPlayground</string>
     <string name="install_dialog_title">Feature: %s</string>
+    <string name="missing_splits_install_dialog_title">Missing splits</string>
     <string name="install_dialog_step_downloading">Downloading…</string>
     <string name="install_dialog_installing">Installing…</string>
-    <string name="install_dialog_failed">Failed to install, error: %s</string>
+    <string name="install_dialog_failed">Failed to install: %s</string>
     <string name="install_dialog_installed">Installed successfully</string>
+    <string name="home_text">This application showcases how you can dynamically download modules, press the download button below to begin installing the Video module</string>
+    <string name="home_text_installed">The video feature has been successfully installed, navigate to it by using the bottom navigation menu</string>
 </resources>

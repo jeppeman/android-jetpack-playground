@@ -1,44 +1,46 @@
 def versions = [
-        kotlin               : '1.3.70',
-        coroutines           : '1.3.4',
-        appcompat            : '1.1.0',
-        annotations          : '1.1.0',
-        androidplugin        : '3.6.1',
-        okhttp               : '4.2.1',
-        lifecycle            : '2.2.0',
-        mockito              : '3.1.0',
-        mockitokotlin        : '2.2.0',
-        robolectric          : '4.3.1',
-        junit                : '1.1.1',
-        truth                : '1.1.0',
-        espresso             : '3.2.0',
-        runner               : '1.2.0',
-        uiautomator          : '2.2.0',
-        versionsplugin       : '0.25.0',
-        navigation           : '1.0.0',
-        material             : '1.1.0',
-        recyclerview         : '1.1.0',
-        constraintlayout     : '2.0.0-beta4',
-        glide                : '4.10.0',
-        dagger               : '2.26',
-        core                 : '1.2.0',
-        moshi                : '1.8.0',
-        fragment             : '1.2.0',
-        fragment_ktx         : '1.2.2',
-        fragment_testing     : '1.2.2',
-        test_core            : '1.2.0',
-        test_runner          : '1.2.0',
-        test_rules           : '1.2.0',
-        navigation_testing   : '1.0.0-alpha08',
-        arch_core_testing    : '2.1.0',
-        javax_inject         : '1',
-        retrofit             : '2.6.1',
-        timber               : '4.7.1',
-        play                 : '1.6.5',
-        exoplayer            : '2.10.6',
-        autoservice          : '1.0-rc6',
-        locallydynamic       : '0.3',
-        locallydynamic_gradle: '0.2'
+        kotlin                   : '1.3.72',
+        coroutines               : '1.3.4',
+        appcompat                : '1.1.0',
+        annotations              : '1.1.0',
+        androidplugin            : '4.0.1',
+        okhttp                   : '4.2.1',
+        lifecycle                : '2.2.0',
+        mockito                  : '3.1.0',
+        mockitokotlin            : '2.2.0',
+        robolectric              : '4.3.1',
+        junit                    : '1.1.1',
+        truth                    : '1.1.0',
+        espresso                 : '3.2.0',
+        runner                   : '1.2.0',
+        uiautomator              : '2.2.0',
+        versionsplugin           : '0.25.0',
+        navigation               : '2.3.0',
+        material                 : '1.1.0',
+        recyclerview             : '1.1.0',
+        constraintlayout         : '2.0.0-beta4',
+        glide                    : '4.10.0',
+        dagger                   : '2.28.3',
+        core                     : '1.2.0',
+        moshi                    : '1.8.0',
+        fragment_testing         : '1.2.2',
+        test_core                : '1.2.0',
+        test_runner              : '1.2.0',
+        test_rules               : '1.2.0',
+        navigation_testing       : '1.0.0-alpha08',
+        arch_core_testing        : '2.1.0',
+        javax_inject             : '1',
+        retrofit                 : '2.6.1',
+        timber                   : '4.7.1',
+        exoplayer                : '2.11.7',
+        autoservice              : '1.0-rc6',
+        globallydynamic          : '1.0.0',
+        globallydynamic_gradle   : '1.0.0',
+        crashlytics_gradle       : '2.2.0',
+        crashlytics              : '17.1.1',
+        analytics                : '17.4.4',
+        firebase_app_distribution: '2.0.0',
+        google_services          : '4.3.3',
 ]
 
 ext.versions = versions
@@ -62,9 +64,9 @@ deps.constraintlayout = [
 ]
 
 deps.navigation = [
-        fragment: "android.arch.navigation:navigation-fragment-ktx:$versions.navigation",
-        ui      : "android.arch.navigation:navigation-ui-ktx:$versions.navigation",
-        runtime : "android.arch.navigation:navigation-runtime:$versions.navigation"
+        fragment: "androidx.navigation:navigation-fragment-ktx:$versions.navigation",
+        ui      : "androidx.navigation:navigation-ui-ktx:$versions.navigation",
+        runtime : "androidx.navigation:navigation-runtime:$versions.navigation"
 ]
 
 deps.lifecycle = [
@@ -139,10 +141,6 @@ deps.moshi = [
         moshi: "com.squareup.moshi:moshi-kotlin:$versions.moshi"
 ]
 
-deps.fragment = [
-        fragment: "androidx.fragment:fragment:$versions.fragment",
-        ktx     : "androidx.fragment:fragment-ktx:$versions.fragment_ktx"
-]
 
 deps.timber = [
         timber: "com.jakewharton.timber:timber:$versions.timber",
@@ -166,10 +164,6 @@ deps.javax = [
         inject: "javax.inject:javax.inject:$versions.javax_inject"
 ]
 
-deps.play = [
-        core: "com.google.android.play:core:$versions.play"
-]
-
 deps.exoplayer = [
         core: "com.google.android.exoplayer:exoplayer-core:$versions.exoplayer",
         ui  : "com.google.android.exoplayer:exoplayer-ui:$versions.exoplayer"
@@ -180,9 +174,17 @@ deps.autoservice = [
         processor  : "com.google.auto.service:auto-service:$versions.autoservice"
 ]
 
-deps.locallydynamic = [
-        debug: "com.jeppeman.locallydynamic:locallydynamic-debug:$versions.locallydynamic",
-        release: "com.jeppeman.locallydynamic:locallydynamic:$versions.locallydynamic"
+deps.globallydynamic = [
+        all       : "com.jeppeman.globallydynamic.android:all:$versions.globallydynamic",
+        core      : "com.jeppeman.globallydynamic.android:core:$versions.globallydynamic",
+        gplay     : "com.jeppeman.globallydynamic.android:gplay:$versions.globallydynamic",
+        huawei    : "com.jeppeman.globallydynamic.android:huawei:$versions.globallydynamic",
+        selfhosted: "com.jeppeman.globallydynamic.android:selfhosted:$versions.globallydynamic",
+]
+
+deps.firebase = [
+        crashlytics: "com.google.firebase:firebase-crashlytics:$versions.crashlytics",
+        analytics  : "com.google.firebase:firebase-analytics:$versions.analytics",
 ]
 
 ext.deps = deps

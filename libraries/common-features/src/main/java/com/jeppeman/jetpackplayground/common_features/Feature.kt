@@ -38,6 +38,11 @@ interface Feature<T> {
 interface HomeFeature : Feature<HomeFeature.Dependencies> {
     interface Dependencies {
         val context: Context
+        val featureManager: FeatureManager
+    }
+
+    interface InjectionProvider {
+        val homeFeature: HomeFeature
     }
 }
 
@@ -47,5 +52,9 @@ interface VideoFeature : Feature<VideoFeature.Dependencies> {
         val context: Context
         val handler: Handler
         val backgroundDispatcher: CoroutineDispatcher
+    }
+
+    interface InjectionProvider {
+        val videoFeature: VideoFeature
     }
 }

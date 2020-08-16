@@ -1,24 +1,13 @@
 package com.jeppeman.jetpackplayground.video.presentation.detail
 
 import android.os.Handler
-import android.util.Log
 import android.view.Surface
 import androidx.core.net.toUri
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlaybackException
-import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.Timeline
-import com.google.android.exoplayer2.source.MediaSource
-import com.google.android.exoplayer2.source.MediaSourceEventListener
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
-import com.google.android.exoplayer2.ui.PlayerView
-import com.google.android.exoplayer2.upstream.DataSource
-import com.google.android.exoplayer2.upstream.DataSpec
-import com.google.android.exoplayer2.upstream.TransferListener
-import timber.log.Timber
-import java.io.IOException
 import javax.inject.Inject
 
 /**
@@ -89,8 +78,8 @@ class VideoDetailPlayerImpl @Inject constructor(
         }
     }
 
-    override fun onPlayerError(error: ExoPlaybackException?) {
-        if (error?.cause is IllegalStateException && isPlaying) {
+    override fun onPlayerError(error: ExoPlaybackException) {
+        if (error.cause is IllegalStateException && isPlaying) {
             val progress = exoPlayer.currentPosition
             videoUrl = videoUrl
             exoPlayer.seekTo(progress)
@@ -108,6 +97,10 @@ class VideoDetailPlayerImpl @Inject constructor(
 
     override fun registerProgressListener(onProgressListener: (Long) -> Unit) {
         progressListeners.add(onProgressListener)
+    }
+
+    override fun unregisterProgressListener(onProgressListener: (Long) -> Unit) {
+        progressListeners.remove(onProgressListener)
     }
 
     override fun registerErrorListener(onErrorListener: (Int?) -> Unit) {
@@ -160,5 +153,9 @@ class VideoDetailPlayerImpl @Inject constructor(
 
     override fun attachSurface(surface: Surface) {
         exoPlayer.setVideoSurface(surface)
+    }
+
+    override fun clearSurface() {
+        exoPlayer.clearVideoSurface()
     }
 }

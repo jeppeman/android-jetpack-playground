@@ -1,5 +1,6 @@
 package com.jeppeman.jetpackplayground.video.presentation.detail
 
+import android.util.Log
 import com.jeppeman.jetpackplayground.common.presentation.BaseViewModel
 import com.jeppeman.jetpackplayground.common.presentation.extensions.mutableLiveDataOf
 import com.jeppeman.jetpackplayground.video.presentation.model.VideoModel
@@ -30,25 +31,13 @@ internal fun Long.timeFormat(): String {
 
 class VideoDetailViewModelImpl @Inject constructor(
         videoDetailParameter: VideoDetailParameter,
-        private val isLandscape: () -> Boolean,
-        private val stateContext: VideoDetailViewModel.StateContext,
         override var videoDetailPlayer: VideoDetailPlayer
 ) : BaseViewModel(), VideoDetailViewModel {
 
     private var ignoreProgressUpdatesFromUi = false
     private var currentProgressFromPlayer = 0L
     private var delayJob: Deferred<Unit>? = null
-    private var landscape: Boolean = isLandscape()
-        set(value) {
-            field = value
-            if (field && screenMode.value != ScreenMode.FULLSCREEN) {
-                screenMode.value = ScreenMode.LANDSCAPE
-                stateContext.onScreenModeChanged(ScreenMode.LANDSCAPE)
-            } else if (!field && screenMode.value != ScreenMode.UNDEFINED) {
-                screenMode.value = ScreenMode.UNDEFINED
-                stateContext.onScreenModeChanged(ScreenMode.UNDEFINED)
-            }
-        }
+    private val stateContext = VideoDetailViewModel.StateContext(InitStateImpl())
 
     override val video: VideoModel = videoDetailParameter.videoModel
     override val state get() = stateContext.state
@@ -60,6 +49,17 @@ class VideoDetailViewModelImpl @Inject constructor(
     override val videoLengthText = mutableLiveDataOf("")
     override val videoProgress = mutableLiveDataOf(0L)
     override var screenMode = mutableLiveDataOf(ScreenMode.UNDEFINED)
+    override var landscape: Boolean = false
+        set(value) {
+            field = value
+            if (field && screenMode.value != ScreenMode.FULLSCREEN) {
+                screenMode.value = ScreenMode.LANDSCAPE
+                stateContext.onScreenModeChanged(ScreenMode.LANDSCAPE)
+            } else if (!field && screenMode.value != ScreenMode.UNDEFINED) {
+                screenMode.value = ScreenMode.UNDEFINED
+                stateContext.onScreenModeChanged(ScreenMode.UNDEFINED)
+            }
+        }
 
     override fun onInitialize() {
         resetState()
@@ -73,7 +73,7 @@ class VideoDetailViewModelImpl @Inject constructor(
         }
     }
 
-    internal fun enterFullscreen() {
+    override fun enterFullscreen() {
         screenMode.value = ScreenMode.FULLSCREEN
     }
 
@@ -147,7 +147,7 @@ class VideoDetailViewModelImpl @Inject constructor(
 
     override fun onCreate() {
         super.onCreate()
-        landscape = isLandscape()
+        stateContext.onCreate()
     }
 
     override fun onStop() {
@@ -227,6 +227,10 @@ class VideoDetailViewModelImpl @Inject constructor(
 
         init {
             videoDetailPlayer.pause()
+        }
+
+        override fun onCreate(context: VideoDetailViewModel.StateContext) {
+            context.state.value = PlayingStateImpl(true)
         }
 
         override fun onStart(context: VideoDetailViewModel.StateContext) {
